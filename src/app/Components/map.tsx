@@ -1,57 +1,64 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Custom marker icon
 const createCustomIcon = (name) => {
-  return new L.DivIcon({
+  return L.divIcon({
     className: 'custom-marker',
-    html: `<div class="marker-icon">
-             <img src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png" />
-             <span class="marker-label">${name}</span>
-           </div>`,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [0, -41],
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-    shadowSize: [41, 41],
+    html: `
+      <div class="bg-blue-500 text-white rounded-lg py-1 px-2 font-bold text-sm shadow-lg whitespace-nowrap flex items-center justify-center" style="min-width: 100px; height: 30px;">
+        ${name}
+      </div>
+    `,
+    iconSize: [100, 30],
+    iconAnchor: [50, 15],
+    popupAnchor: [0, -15],
   });
 };
 
 const regions = [
   { name: 'North America', position: [37.09024, -95.712891], description: 'Climate action and diversity are front and center, with regulations pushing for reduced carbon footprints and inclusive workplaces.' },
   { name: 'Europe', position: [51.1657, 10.4515], description: 'Leading in sustainability and governance, stringent regulations like the EU Taxonomy promote environmental alignment and transparent corporate governance.' },
-  { name: 'Asia', position: [34.0479, 100.6197], description: 'Implementing frameworks for economic resilience, such as Japan’s Corporate Governance Code and China’s Green Credit Guidelines.' },
+  { name: 'Asia', position: [34.0479, 100.6197], description: 'Implementing frameworks for economic resilience, such as Japans Corporate Governance Code and Chinas Green Credit Guidelines.' },
   { name: 'Africa', position: [8.7832, 34.5085], description: 'Focusing on social impact and ethical practices, emphasizing resource management and social responsibility.' },
   { name: 'Latin America', position: [-14.235, -51.9253], description: 'Advancing environmental stewardship with regulations protecting biodiversity and promoting sustainable land use.' },
 ];
 
 const InteractiveMap = () => {
   return (
-    <div className="bg-gray-100 py-8 px-4 md:px-8">
+    <section className="bg-gradient-to-b from-gray-100 to-white py-16 px-4 md:px-8">
       <div className="max-w-screen-xl mx-auto">
-        <h2 className="text-2xl font-bold mb-4">Why is ESG relevant for our business?</h2>
-        <p className="text-lg mb-4">
-          Here you can explore different regions and understand why ESG (Environmental, Social, and Governance) factors are important for our business in each area.
+        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-800">
+          ESG Relevance Across Regions
+        </h2>
+        <p className="text-lg mb-8 text-center text-gray-600 max-w-2xl mx-auto">
+          Explore how Environmental, Social, and Governance (ESG) factors impact our business across different regions. Click on the markers to learn more.
         </p>
-        <MapContainer center={[20, 0]} zoom={2} style={{ height: '400px', width: '100%' }}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {regions.map((region, index) => (
-            <Marker key={index} position={region.position} icon={createCustomIcon(region.name)}>
-              <Popup>
-                <div>
-                  <h3 className="font-semibold">{region.name}</h3>
-                  <p>{region.description}</p>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
+        <div className="bg-white rounded-lg shadow-xl p-4 md:p-6">
+          <MapContainer 
+            center={[20, 0]} 
+            zoom={2} 
+            style={{ height: '600px', width: '100%' }}
+            className="rounded-lg shadow-inner"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {regions.map((region, index) => (
+              <Marker key={index} position={region.position} icon={createCustomIcon(region.name)}>
+                <Popup>
+                  <div className="max-w-xs">
+                    <h3 className="font-bold text-lg mb-2 text-blue-600">{region.name}</h3>
+                    <p className="text-gray-700">{region.description}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
