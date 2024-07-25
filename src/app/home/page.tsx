@@ -19,15 +19,41 @@ import Footer from "../Components/footer";
 import Button from "../Components/button";
 import './home.css'
 
+interface Logo {
+  id: number;
+  attributes: {
+    url: string;
+    // Add other attributes if needed
+  };
+}
+
+interface LogoData {
+  title: string;
+  description: string;
+  logos: Logo[];
+}
+
+interface HomeData {
+  title: string;
+  description: string;
+  subdescription: string;
+}
+
+interface WithRubicrData {
+  id: number;
+  attributes: {
+    url: string;
+    // Add other attributes if needed
+  };
+}
+
 export default function Demo() {
-  const [data1, setData1] = useState(null);
-  const [data3, setData3] = useState(null);
-  const [data4, setData4] = useState(null);
-  const [logoData, setLogoData] = useState({ title: '', description: '', logos: [] });
+  const [data1, setData1] = useState<HomeData | null>(null);
+  const [data3, setData3] = useState<any>(null); // Replace 'any' with a more specific type if possible
+  const [data4, setData4] = useState<WithRubicrData | null>(null);
+  const [logoData, setLogoData] = useState<LogoData>({ title: '', description: '', logos: [] });
 
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-
 
   useEffect(() => {
     async function fetchData() {
@@ -36,9 +62,8 @@ export default function Demo() {
         const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
         const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
         const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
-      
 
-        if (!response1.ok || !response2.ok || !response3.ok) {
+        if (!response1.ok || !response2.ok || !response3.ok || !response4.ok) {
           throw new Error("Network response was not ok");
         }
 
@@ -55,8 +80,7 @@ export default function Demo() {
         });
         setData3(responseData3.data.attributes); 
         setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
-       console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
-        
+        console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -86,7 +110,7 @@ export default function Demo() {
         
         {/* Content */}
         <div className="relative z-10 w-full flex-grow flex flex-col">
-          <Navbar className="py-2  " />
+          <Navbar className="py-2" />
           {data1 && (
             <section className="flex-grow flex items-center">
               <div className="max-w-screen-xl mx-auto px-4 text-center md:text-left text-white py-10">

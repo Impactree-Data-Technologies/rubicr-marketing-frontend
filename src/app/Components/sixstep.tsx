@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Step = ({ number, title, description, isActive, onHover, onLeave, isHovered }) => (
+interface StepData {
+  number: number;
+  title: string;
+  description: string;
+  isActive: boolean;
+}
+
+interface StepProps extends StepData {
+  onHover: () => void;
+  onLeave: () => void;
+  isHovered: boolean;
+}
+
+const Step: React.FC<StepProps> = ({ number, title, description, isActive, onHover, onLeave, isHovered }) => (
   <div className="flex flex-col items-center relative group">
     <div
       className={`flex items-center justify-center w-12 h-12 rounded-full mb-2 relative ${isActive || isHovered ? 'bg-green-500' : 'bg-gray-300'}`}
@@ -20,8 +33,10 @@ const Step = ({ number, title, description, isActive, onHover, onLeave, isHovere
   </div>
 );
 
-const SixStep = () => {
-  const steps = [
+const SixStep: React.FC = () => {
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
+  const steps: StepData[] = [
     { number: 1, title: 'Evaluate ESG Preparedness', description: 'Detailed info about ESG Preparedness.', isActive: false },
     { number: 2, title: 'Identify the need to invest in ESG', description: 'Detailed info about the need to invest in ESG.', isActive: false },
     { number: 3, title: 'What are the ESG Risks / Opportunities', description: 'Detailed info about ESG Risks / Opportunities.', isActive: false },
@@ -41,10 +56,10 @@ const SixStep = () => {
             <React.Fragment key={step.number}>
               <div className="relative flex flex-col items-center w-full md:w-auto">
                 <Step
-                  number={step.number}
-                  title={step.title}
-                  description={step.description}
-                  isActive={step.isActive}
+                  {...step}
+                  onHover={() => setHoveredStep(step.number)}
+                  onLeave={() => setHoveredStep(null)}
+                  isHovered={hoveredStep === step.number}
                 />
               </div>
               {index < steps.length - 1 && (
