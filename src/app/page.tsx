@@ -1,119 +1,166 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import Nav from "./Components/nav";
+import Link from "next/link";
+import Navbar from "../app/Components/navbar";
+import CompanyLogo from "../app/Components/companylogo";
+import WhyRubicr from "../app/Components/whyrubicr";
+import WhyUs from "../app/Components/whyus";
+import Impact from "../app/Components/impact";
+import Doit from "../app/Components/doit";
+import Usecase from "../app/Components/usecase";
+import SixStep from "../app/Components/sixstep";
+import InteractiveMap from "../app/Components/map";
+import TeamSection from "../app/Components/teamsection";
+import ImageToggle from "../app/Components/imagetoggle";
+import Feedback from "../app/Components/feedback";
+import Footer from "../app/Components/footer";
+import Button from "../app/Components/button";
+import '../app/home/home.css'
 
-export default function Home() {
+export default function Demo() {
+  const [data1, setData1] = useState(null);
+  const [data3, setData3] = useState(null);
+  const [data4, setData4] = useState(null);
+  const [logoData, setLogoData] = useState({ title: '', description: '', logos: [] });
+
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response1 = await fetch(`${BASE_URL}/api/home?populate=*`);
+        const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
+        const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
+        const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
+
+        if (!response1.ok || !response2.ok || !response3.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const responseData1 = await response1.json();
+        const responseData2 = await response2.json();
+        const responseData3 = await response3.json();
+        const responseData4 = await response4.json();
+
+        setData1(responseData1.data.attributes);
+        setLogoData({  
+          title: responseData2.data.attributes.Logo.logo_title,
+          description: responseData2.data.attributes.Logo.logo_description,
+          logos: responseData2.data.attributes.Logo.logo.data
+        });
+        setData3(responseData3.data.attributes); 
+        setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
+       console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
+        
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
-
-    <div>
-    <Nav></Nav>
-
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="font-arial">
+      <div className="relative min-h-screen flex flex-col overflow-hidden">
+        {/* Main background image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/bg_image1.png')" }}
+        />
+        
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/50 to-purple-500/50" />
+        
+        {/* Decorative elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-10 transform -skew-y-6"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-10 transform skew-y-6"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 w-full flex-grow flex flex-col">
+          <Navbar className="py-2  " />
+          {data1 && (
+            <section className="flex-grow flex items-center">
+              <div className="max-w-screen-xl mx-auto px-4 text-center md:text-left text-white py-10">
+                <h1 className="text-5xl md:text-6xl font-bold mb-8 animate-fade-in-down">
+                  {data1.title}
+                </h1>
+                <h3 className="text-xl md:text-2xl font-semibold mb-4 animate-fade-in-up">
+                  {data1.description}
+                </h3>
+                <p className="text-lg md:text-xl mb-8 animate-fade-in-up">
+                  {data1.subdescription}
+                </p>
+                <Button label="Contact Us" background="#FFCD1B" color="black" />
+              </div>
+            </section>
+          )}
         </div>
       </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+      {logoData.logos.length > 0 && (
+        <CompanyLogo 
+          title={logoData.title} 
+          description={logoData.description} 
+          logos={logoData.logos} 
         />
-      </div>
+      )}
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+      <section className="bg-gray-100 py-20">
+        <WhyUs />
+      </section>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+      <section className="py-20">
+        <InteractiveMap />
+      </section>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+      <section className="bg-gray-100 py-20">
+        <WhyRubicr />
+      </section>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-</div>
+      <section className="py-20">
+        <Impact />
+      </section>
+
+      <section className="bg-gray-100 py-20">
+        <Doit />
+      </section>
+
+      <section className="py-20">
+        <Usecase />
+      </section>
+
+      <section className="bg-gray-100 py-20">
+        <SixStep />
+      </section>
+
+      <section className="py-20">
+        <ImageToggle />
+      </section>
+
+      <section className="bg-gray-100 py-20">
+        <TeamSection />
+      </section>
+
+      <section className="py-20">
+        <Feedback />
+      </section>
+
+      <section className="bg-[#f6e2cb] py-20 mx-8 md:mx-20 rounded-3xl mb-20">
+        <div className="max-w-screen-xl mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Get Started Today</h2>
+          <hr className="border-t-2 border-[#64271F] w-1/4 mb-6" />
+          <p className="text-lg md:text-2xl mb-8">Ready to transform your ESG Performance?</p>
+          <Button label="Contact Us" background="#FFCD1B" color="black" />
+        </div>
+      </section>
+
+      <Footer />
+    </div>
   );
 }

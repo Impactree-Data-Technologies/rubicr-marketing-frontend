@@ -22,14 +22,21 @@ import './home.css'
 export default function Demo() {
   const [data1, setData1] = useState(null);
   const [data3, setData3] = useState(null);
+  const [data4, setData4] = useState(null);
   const [logoData, setLogoData] = useState({ title: '', description: '', logos: [] });
+
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response1 = await fetch("http://localhost:1337/api/home?populate=*");
-        const response2 = await fetch("http://localhost:1337/api/home?populate=Logo.logo");
-        const response3 = await fetch("http://localhost:1337/api/home?populate[0]=whyrubicr.card.heading");
+        const response1 = await fetch(`${BASE_URL}/api/home?populate=*`);
+        const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
+        const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
+        const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
+      
 
         if (!response1.ok || !response2.ok || !response3.ok) {
           throw new Error("Network response was not ok");
@@ -38,6 +45,7 @@ export default function Demo() {
         const responseData1 = await response1.json();
         const responseData2 = await response2.json();
         const responseData3 = await response3.json();
+        const responseData4 = await response4.json();
 
         setData1(responseData1.data.attributes);
         setLogoData({  
@@ -45,7 +53,11 @@ export default function Demo() {
           description: responseData2.data.attributes.Logo.logo_description,
           logos: responseData2.data.attributes.Logo.logo.data
         });
-        setData3(responseData3.data.attributes);
+        setData3(responseData3.data.attributes); 
+        setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
+       console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
+        
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
