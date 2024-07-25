@@ -162,37 +162,39 @@ export default function Navbar() {
             {/* Submenu for all sections */}
             {activeDropdown && menuItems[activeDropdown] && (
                 <div
-                    className="fixed top-16 left-0 right-0 bottom-0 z-40 w-full overflow-y-auto bg-white shadow-lg"
+                    className="fixed top-16 left-0 right-0 z-40 w-full overflow-y-auto bg-transparent"
                     onMouseLeave={() => setActiveDropdown(null)}
                 >
                     <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {activeDropdown === 'Modules' ? (
-                                menuItems[activeDropdown].map((column, colIndex) => (
-                                    <div key={colIndex} className="space-y-4">
-                                        <h3 className="font-bold text-yellow-400 text-lg">{column.title}</h3>
-                                        {column.items.map((subItem, subIndex) => (
-                                            <Link key={subIndex} href={subItem.link} className="flex items-start space-x-3 group">
-                                                <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{subItem.icon}</span>
-                                                <div>
-                                                    <h4 className="text-gray-700 font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200">{subItem.name}</h4>
-                                                    <p className="text-xs text-gray-500 mt-1">{subItem.description}</p>
-                                                </div>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                ))
-                            ) : (
-                                menuItems[activeDropdown].map((item, index) => (
-                                    <Link key={index} href={item.link} className="flex items-start space-x-3 group">
-                                        <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{item.icon}</span>
-                                        <div>
-                                            <h4 className="text-gray-700 font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200">{item.name}</h4>
-                                            <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                        <div className="bg-white shadow-lg rounded-lg p-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {activeDropdown === 'Modules' ? (
+                                    menuItems[activeDropdown].map((column, colIndex) => (
+                                        <div key={colIndex} className="space-y-4">
+                                            <h3 className="font-bold text-yellow-400 text-lg">{column.title}</h3>
+                                            {column.items.map((subItem, subIndex) => (
+                                                <Link key={subIndex} href={subItem.link} className="flex items-start space-x-3 group">
+                                                    <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{subItem.icon}</span>
+                                                    <div>
+                                                        <h4 className="text-gray-700 font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200">{subItem.name}</h4>
+                                                        <p className="text-xs text-gray-500 mt-1">{subItem.description}</p>
+                                                    </div>
+                                                </Link>
+                                            ))}
                                         </div>
-                                    </Link>
-                                ))
-                            )}
+                                    ))
+                                ) : (
+                                    menuItems[activeDropdown].map((item, index) => (
+                                        <Link key={index} href={item.link} className="flex items-start space-x-3 group">
+                                            <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{item.icon}</span>
+                                            <div>
+                                                <h4 className="text-gray-700 font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200">{item.name}</h4>
+                                                <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                                            </div>
+                                        </Link>
+                                    ))
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
