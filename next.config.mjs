@@ -8,9 +8,8 @@ const nextConfig = {
 
     },
 
-    basePath: '/rubicr-marketing-frontend',
-
-    assetPrefix: '/rubicr-marketing-frontend',
+    basePath: process.env.NODE_ENV === 'production' ? '/rubicr-marketing-frontend' : '',
+    assetPrefix: process.env.NODE_ENV === 'production' ? '/rubicr-marketing-frontend' : '',
 
     trailingSlash: true,
 };

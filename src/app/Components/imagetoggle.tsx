@@ -51,8 +51,8 @@ const ImageToggle: React.FC = () => {
     if (!data) return null;
 
     const imageUrl = showRubric
-      ? `${BASE_URL}${data.with_rubicr.data.attributes.url}`
-      : `${BASE_URL}${data.without_rubicr.data.attributes.url}`;
+      ? `${data.with_rubicr.data.attributes.url}`
+      : `${data.without_rubicr.data.attributes.url}`;
 
     return (
       <Image 

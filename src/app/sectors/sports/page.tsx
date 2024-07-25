@@ -40,32 +40,34 @@ const sportsEsgSolutions = [
     { 
         title: 'Carbon Footprint Measurement', 
         description: 'Accurately measure and report the carbon footprint of sporting events, from travel to energy consumption.',
-        image: '/expense.jpg'
+        image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/expense.jpg`
+        
     },
     { 
         title: 'Sustainable Venue Management', 
         description: 'Implement green technologies in sports venues to reduce energy use, water consumption, and waste.',
-        image: '/carbon.png' 
+        image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/carbon.png`
+        
     },
     { 
         title: 'Eco-Friendly Team Operations', 
         description: 'Optimize team travel, training facilities, and daily operations to minimize environmental impact.',
-        image: '/carbon.png' 
+        image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/carbon.png`
     },
     { 
         title: 'Fan Engagement for Sustainability', 
         description: 'Develop programs to involve fans in sustainability efforts, turning your fanbase into a force for environmental good.',
-        image: '/carbon.png' 
+        image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/carbon.png`
     },
     {
         title: 'Sustainable Merchandising', 
         description: 'Create and promote eco-friendly team merchandise using sustainable materials and ethical manufacturing processes.',
-        image: '/carbon.png'
+        image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/carbon.png`
     },
     {
         title: 'ESG Reporting for Sports', 
         description: 'Comprehensive ESG reporting tailored for sports entities to track, measure, and communicate your environmental and social impact.',
-        image: '/carbon.png'
+        image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/carbon.png`
     }
 ];
 

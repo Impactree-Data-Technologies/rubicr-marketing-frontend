@@ -84,7 +84,7 @@ function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
             return (
               <div key={index} className="flex justify-center items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 <Image
-                  src={`${BASE_URL}${logo.url}`}
+                  src={`${logo.url}`}
                   alt={logo.name}
                   width={150}
                   height={75}
@@ -155,7 +155,7 @@ export default function Demo() {
         {typeof window !== 'undefined' && (
   <div
     className="absolute inset-0 bg-cover bg-center"
-    // style={{ backgroundImage: "url('/bg_image1.png')" }}
+    style={{ backgroundImage: "url('${process.env.NEXT_PUBLIC_BASE_PATH}/bg_image1.png')" }}
   />
 )}
         

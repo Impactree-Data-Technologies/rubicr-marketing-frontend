@@ -79,7 +79,7 @@ function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
             return (
               <div key={index} className="flex justify-center items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 <Image
-                  src={`${BASE_URL}${logo.url}`}
+                  src={`${logo.url}`}
                   alt={logo.name}
                   width={150}
                   height={75}
@@ -115,7 +115,7 @@ export default function Demo() {
         const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
         const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
         const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
-
+        console.log(BASE_URL);
         if (!response1.ok || !response2.ok || !response3.ok || !response4.ok) {
           throw new Error("Network response was not ok");
         }
@@ -139,7 +139,7 @@ export default function Demo() {
         setData3(responseData3.data.attributes);
         setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
         console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
-
+     
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -155,7 +155,7 @@ export default function Demo() {
         {/* Main background image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          // style={{ backgroundImage: "url('${process.env.NEXT_PUBLIC_BASE_PATH}/bg_image1.png')" }}
+           style={{ backgroundImage: "url('${process.env.NEXT_PUBLIC_BASE_PATH}/bg_image1.png')" }}
           
         />
         
