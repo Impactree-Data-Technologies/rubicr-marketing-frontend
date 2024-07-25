@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface FeedbackAttributes {
   quote: string;
   name: string;
@@ -24,7 +26,7 @@ export default function Feedback() {
   useEffect(() => {
     const fetchFeedbackData = async () => {
       try {
-        const response = await axios.get<{ data: FeedbackData[] }>('http://localhost:1337/api/feedbacks'); // Replace with your API endpoint
+        const response = await axios.get<{ data: FeedbackData[] }>(`${BASE_URL}/api/feedbacks`); // Replace with your API endpoint
         const fetchedData = response.data.data.map(item => item.attributes);
         setFeedbackData(fetchedData);
       } catch (error) {
