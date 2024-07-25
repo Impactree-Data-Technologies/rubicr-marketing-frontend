@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-const createCustomIcon = (name) => {
+const createCustomIcon = (name: string) => {
   return L.divIcon({
     className: 'custom-marker',
     html: `
@@ -17,7 +17,13 @@ const createCustomIcon = (name) => {
   });
 };
 
-const regions = [
+interface Region {
+  name: string;
+  position: [number, number];
+  description: string;
+}
+
+const regions: Region[] = [
   { name: 'North America', position: [37.09024, -95.712891], description: 'Climate action and diversity are front and center, with regulations pushing for reduced carbon footprints and inclusive workplaces.' },
   { name: 'Europe', position: [51.1657, 10.4515], description: 'Leading in sustainability and governance, stringent regulations like the EU Taxonomy promote environmental alignment and transparent corporate governance.' },
   { name: 'Asia', position: [34.0479, 100.6197], description: 'Implementing frameworks for economic resilience, such as Japans Corporate Governance Code and Chinas Green Credit Guidelines.' },
@@ -25,7 +31,7 @@ const regions = [
   { name: 'Latin America', position: [-14.235, -51.9253], description: 'Advancing environmental stewardship with regulations protecting biodiversity and promoting sustainable land use.' },
 ];
 
-const InteractiveMap = () => {
+const InteractiveMap: React.FC = () => {
   return (
     <section className="bg-gradient-to-b from-gray-100 to-white py-16 px-4 md:px-8">
       <div className="max-w-screen-xl mx-auto">

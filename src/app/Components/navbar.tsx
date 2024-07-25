@@ -65,7 +65,12 @@ const menuItems: MenuItems = {
     ]
 };
 
-export default function Navbar() {
+
+interface NavbarProps {
+    className?: string;
+  }
+  const Navbar: React.FC<NavbarProps> = ({ className }) => {
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isScrolled, setIsScrolled] = useState<boolean>(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -226,3 +231,6 @@ export default function Navbar() {
         </>
     );
 }
+
+
+export default Navbar;

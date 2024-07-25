@@ -19,12 +19,14 @@ import Footer from "../app/Components/footer";
 import Button from "../app/Components/button";
 import '../app/home/home.css'
 
+interface LogoAttributes {
+  url: string;
+  // Add other attributes if needed
+}
+
 interface Logo {
   id: number;
-  attributes: {
-    url: string;
-    // Add other attributes if needed
-  };
+  attributes: LogoAttributes;
 }
 
 interface LogoData {
@@ -46,6 +48,7 @@ interface WithRubicrData {
     // Add other attributes if needed
   };
 }
+
 
 export default function Demo() {
   const [data1, setData1] = useState<HomeData | null>(null);
