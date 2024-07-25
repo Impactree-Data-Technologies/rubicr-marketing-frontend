@@ -99,7 +99,7 @@ interface NavbarProps {
                     <div className="flex items-center justify-between h-16">
                         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                             <Image
-                                src="/Logo.svg"
+                                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Logo.svg`}
                                 alt="Company Logo"
                                 className="h-8 w-auto"
                                 width={120}
