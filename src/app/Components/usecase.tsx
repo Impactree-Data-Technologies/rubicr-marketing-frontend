@@ -4,11 +4,26 @@ import { useState, useEffect } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+interface UseCase {
+  heading: string;
+  description: string;
+  videoSrc: string;
+}
+
+interface Data {
+  heading: string;
+  case_card: {
+    heading: string;
+    description: string;
+    link: string;
+  }[];
+}
+
 export default function Usecase() {
-  const [data, setData] = useState(null);
-  const [useCases, setUseCases] = useState([]);
-  const [activeUseCase, setActiveUseCase] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<Data | null>(null);
+  const [useCases, setUseCases] = useState<UseCase[]>([]);
+  const [activeUseCase, setActiveUseCase] = useState<UseCase | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -18,15 +33,15 @@ export default function Usecase() {
         const responseData = await response.json();
         const useCaseData = responseData.data.attributes.use_case;
         setData(useCaseData);
-       
-        const formattedUseCases = useCaseData.case_card.map(useCase => ({
+
+        const formattedUseCases = useCaseData.case_card.map((useCase: any) => ({
           heading: useCase.heading,
           description: useCase.description,
           videoSrc: useCase.link,
         }));
-        
+
         setUseCases(formattedUseCases);
-        
+
         if (formattedUseCases.length > 0) {
           setActiveUseCase(formattedUseCases[0]);
         }
@@ -39,7 +54,7 @@ export default function Usecase() {
     fetchData();
   }, []);
 
-  const handleSelection = (useCase) => {
+  const handleSelection = (useCase: UseCase) => {
     setActiveUseCase(useCase);
   };
 

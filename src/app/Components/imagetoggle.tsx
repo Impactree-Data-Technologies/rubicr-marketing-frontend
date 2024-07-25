@@ -1,18 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import Image from "next/image";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+interface ImageAttributes {
+  url: string;
+}
 
+interface ImageData {
+  data: {
+    attributes: ImageAttributes;
+  };
+}
 
-const ImageToggle = () => {
-  const [showRubric, setShowRubric] = useState(true);
-  const [data, setData] = useState(null);
+interface ImageToggler {
+  with_rubicr: ImageData;
+  without_rubicr: ImageData;
+}
+
+interface ApiResponse {
+  data: {
+    attributes: {
+      image_toggler: ImageToggler;
+    };
+  };
+}
+
+const ImageToggle: React.FC = () => {
+  const [showRubric, setShowRubric] = useState<boolean>(true);
+  const [data, setData] = useState<ImageToggler | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr&populate[1]=image_toggler.without_rubicr`);
-        const responseData = await response.json();
+        const responseData: ApiResponse = await response.json();
         setData(responseData.data.attributes.image_toggler);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -21,7 +43,7 @@ const ImageToggle = () => {
     fetchData();
   }, []);
 
-  const handleSelection = (isRubric) => {
+  const handleSelection = (isRubric: boolean) => {
     setShowRubric(isRubric);
   };
 
@@ -33,8 +55,10 @@ const ImageToggle = () => {
       : `${BASE_URL}${data.without_rubicr.data.attributes.url}`;
 
     return (
-      <img 
+      <Image 
         src={imageUrl} 
+        width={800}
+        height={800}
         alt={showRubric ? "Image with Rubicr" : "Image without Rubicr"} 
         className="max-w-full h-auto rounded-lg shadow-lg transform transition duration-500 hover:scale-105" 
       />

@@ -1,14 +1,75 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, MouseEvent } from 'react';
 import Image from "next/image";
 import Link from 'next/link';
 
+interface MenuItem {
+    name: string;
+    icon: string;
+    link: string;
+    description?: string;
+}
+
+interface MenuCategory {
+    title?: string;
+    items: MenuItem[];
+}
+
+interface MenuItems {
+    [key: string]: MenuCategory[] | MenuItem[];
+}
+
+const menuItems: MenuItems = {
+    'Modules': [
+        { title: 'Sustainability Reporting', items: [
+            { name: 'Extensive Standards Database', icon: '📊', link: '/modules/sustainability-reporting/standards-database', description: 'Access a comprehensive database of global sustainability standards.' },
+            { name: 'Task Management', icon: '✅', link: '/task-management', description: 'Efficiently manage and track sustainability-related tasks and projects.' },
+            { name: 'Sustainable Intelligence Rating', icon: '🌟', link: '/modules/sustainability-reporting/intelligence-rating', description: 'Get insights and ratings on your organization\'s sustainability performance.' },
+            { name: 'Performance Benchmarks', icon: '📈', link: '/modules/sustainability-reporting/performance-benchmarks', description: 'Compare your sustainability metrics against industry benchmarks.' },
+        ]},
+        { title: 'Performance Management', items: [
+            { name: 'Supply Chain Tracking', icon: '🔗', link: '/modules/performance-management/supply-chain-tracking', description: 'Monitor and optimize sustainability throughout your supply chain.' },
+            { name: 'Track Key Operational Indicators', icon: '🎯', link: '/modules/performance-management/operational-indicators', description: 'Monitor crucial operational metrics impacting sustainability.' },
+            { name: 'Easy to understand ESG pillars', icon: '🏛️', link: '/modules/performance-management/esg-pillars', description: 'Simplify complex ESG concepts for better understanding and implementation.' },
+            { name: 'Governance Tracker', icon: '📋', link: '/modules/performance-management/governance-tracker', description: 'Track and improve your organization\'s governance practices.' },
+            { name: 'Social Tracker', icon: '👥', link: '/modules/performance-management/social-tracker', description: 'Monitor and enhance your company\'s social impact and initiatives.' },
+        ]},
+        { title: 'Emission Tracking', items: [
+            { name: 'Scope-1 & Scope-2 accounting', icon: '🏭', link: '/modules/emission-tracking/scope-1-2', description: 'Accurately measure and report direct and indirect emissions.' },
+            { name: 'Scope-3 tracking', icon: '🌐', link: '/modules/emission-tracking/scope-3', description: 'Monitor and manage emissions across your entire value chain.' },
+            { name: 'Non GHG Emissions Management', icon: '💨', link: '/modules/emission-tracking/non-ghg', description: 'Track and reduce non-greenhouse gas emissions effectively.' },
+            { name: 'Unit wise tracking', icon: '🏛️ ', link: '/modules/emission-tracking/unit-tracking', description: 'Monitor emissions at individual unit or facility level for detailed insights.' },
+        ]},
+    ],
+    'Use Cases': [
+        { name: 'Sustainability Reporting', icon: '📊', link: '/sustainability-reporting', description: 'Streamline your sustainability reporting process.' },
+        { name: 'Performance Management', icon: '📈', link: '/use-cases/performance-management', description: 'Optimize your sustainability performance.' },
+        { name: 'Emission Tracking', icon: '🌍', link: '/use-cases/emission-tracking', description: 'Accurately track and reduce your emissions.' }
+    ],
+    'Sectors': [
+        { name: 'Automobile', icon: '🚗', link: '/sectors/automobile', description: 'Sustainability solutions for the automotive industry.' },
+        { name: 'Chemicals', icon: '🧪', link: '/sectors/chemicals', description: 'Manage environmental impact in the chemical sector.' },
+        { name: 'ITES', icon: '💻', link: '/sectors/ites', description: 'IT-enabled services sustainability management.' },
+        { name: 'BFSI', icon: '🏦', link: '/sectors/bfsi', description: 'Sustainable practices for banking and finance.' },
+        { name: 'O&M', icon: '🔧', link: '/sectors/om', description: 'Operations and Maintenance sustainability solutions.' },
+        { name: 'Sports', icon: '⚽', link: '/sectors/sports', description: 'Promoting sustainability in sports organizations.' }
+    ],
+    'Resources': [
+        { name: 'Overview', icon: '📚', link: '/resources/overview', description: 'Get an overview of our sustainability resources.' },
+        { name: 'Case Studies', icon: '📝', link: '/resources/case-studies', description: 'Learn from real-world sustainability success stories.' },
+        { name: 'Blog', icon: '✍️', link: '/resources/blog', description: 'Stay updated with our latest sustainability insights.' },
+        { name: 'Community', icon: '👥', link: '/resources/community', description: 'Join our sustainability community.' },
+        { name: 'Documentation', icon: '📄', link: '/resources/documentation', description: 'Access detailed documentation and guides.' },
+        { name: 'Support', icon: '🆘', link: '/resources/support', description: 'Get help with our sustainability solutions.' }
+    ]
+};
+
 export default function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState(null);
-    const [activeMobileDropdown, setActiveMobileDropdown] = useState(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isScrolled, setIsScrolled] = useState<boolean>(false);
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const [activeMobileDropdown, setActiveMobileDropdown] = useState<string | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -18,49 +79,12 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-   const menuItems = {
-        'Modules': [
-            { title: 'Sustainability Reporting', items: [
-                { name: 'Extensive Standards Database', icon: '📊', link: '/modules/sustainability-reporting/standards-database', description: 'Access a comprehensive database of global sustainability standards.' },
-                { name: 'Task Management', icon: '✅', link: '/task-management', description: 'Efficiently manage and track sustainability-related tasks and projects.' },
-                { name: 'Sustainable Intelligence Rating', icon: '🌟', link: '/modules/sustainability-reporting/intelligence-rating', description: 'Get insights and ratings on your organization\'s sustainability performance.' },
-                { name: 'Performance Benchmarks', icon: '📈', link: '/modules/sustainability-reporting/performance-benchmarks', description: 'Compare your sustainability metrics against industry benchmarks.' },
-            ]},
-            { title: 'Performance Management', items: [
-                { name: 'Supply Chain Tracking', icon: '🔗', link: '/modules/performance-management/supply-chain-tracking', description: 'Monitor and optimize sustainability throughout your supply chain.' },
-                { name: 'Track Key Operational Indicators', icon: '🎯', link: '/modules/performance-management/operational-indicators', description: 'Monitor crucial operational metrics impacting sustainability.' },
-                { name: 'Easy to understand ESG pillars', icon: '🏛️', link: '/modules/performance-management/esg-pillars', description: 'Simplify complex ESG concepts for better understanding and implementation.' },
-                { name: 'Governance Tracker', icon: '📋', link: '/modules/performance-management/governance-tracker', description: 'Track and improve your organization\'s governance practices.' },
-                { name: 'Social Tracker', icon: '👥', link: '/modules/performance-management/social-tracker', description: 'Monitor and enhance your company\'s social impact and initiatives.' },
-            ]},
-            { title: 'Emission Tracking', items: [
-                { name: 'Scope-1 & Scope-2 accounting', icon: '🏭', link: '/modules/emission-tracking/scope-1-2', description: 'Accurately measure and report direct and indirect emissions.' },
-                { name: 'Scope-3 tracking', icon: '🌐', link: '/modules/emission-tracking/scope-3', description: 'Monitor and manage emissions across your entire value chain.' },
-                { name: 'Non GHG Emissions Management', icon: '💨', link: '/modules/emission-tracking/non-ghg', description: 'Track and reduce non-greenhouse gas emissions effectively.' },
-                { name: 'Unit wise tracking', icon: '🏛️ ', link: '/modules/emission-tracking/unit-tracking', description: 'Monitor emissions at individual unit or facility level for detailed insights.' },
-            ]},
-        ],
-        'Use Cases': [
-            { name: 'Sustainability Reporting', icon: '📊', link: '/sustainability-reporting', description: 'Streamline your sustainability reporting process.' },
-            { name: 'Performance Management', icon: '📈', link: '/use-cases/performance-management', description: 'Optimize your sustainability performance.' },
-            { name: 'Emission Tracking', icon: '🌍', link: '/use-cases/emission-tracking', description: 'Accurately track and reduce your emissions.' }
-        ],
-        'Sectors': [
-            { name: 'Automobile', icon: '🚗', link: '/sectors/automobile', description: 'Sustainability solutions for the automotive industry.' },
-            { name: 'Chemicals', icon: '🧪', link: '/sectors/chemicals', description: 'Manage environmental impact in the chemical sector.' },
-            { name: 'ITES', icon: '💻', link: '/sectors/ites', description: 'IT-enabled services sustainability management.' },
-            { name: 'BFSI', icon: '🏦', link: '/sectors/bfsi', description: 'Sustainable practices for banking and finance.' },
-            { name: 'O&M', icon: '🔧', link: '/sectors/om', description: 'Operations and Maintenance sustainability solutions.' },
-            { name: 'Sports', icon: '⚽', link: '/sectors/sports', description: 'Promoting sustainability in sports organizations.' }
-        ],
-        'Resources': [
-            { name: 'Overview', icon: '📚', link: '/resources/overview', description: 'Get an overview of our sustainability resources.' },
-            { name: 'Case Studies', icon: '📝', link: '/resources/case-studies', description: 'Learn from real-world sustainability success stories.' },
-            { name: 'Blog', icon: '✍️', link: '/resources/blog', description: 'Stay updated with our latest sustainability insights.' },
-            { name: 'Community', icon: '👥', link: '/resources/community', description: 'Join our sustainability community.' },
-            { name: 'Documentation', icon: '📄', link: '/resources/documentation', description: 'Access detailed documentation and guides.' },
-            { name: 'Support', icon: '🆘', link: '/resources/support', description: 'Get help with our sustainability solutions.' }
-        ]
+    const handleDropdown = (item: string) => {
+        setActiveDropdown(activeDropdown === item ? null : item);
+    };
+
+    const handleMobileDropdown = (item: string) => {
+        setActiveMobileDropdown(activeMobileDropdown === item ? null : item);
     };
 
     return (
@@ -86,7 +110,7 @@ export default function Navbar() {
                                     <span 
                                         className="text-gray-700 hover:text-green-600 text-base font-medium cursor-pointer"
                                         onMouseEnter={() => setActiveDropdown(item)}
-                                        onClick={() => setActiveDropdown(activeDropdown === item ? null : item)}
+                                        onClick={() => handleDropdown(item)}
                                     >
                                         {item}
                                     </span>
@@ -118,7 +142,7 @@ export default function Navbar() {
                         {Object.entries(menuItems).map(([key, value]) => (
                             <div key={key} className="relative">
                                 <button
-                                    onClick={() => setActiveMobileDropdown(activeMobileDropdown === key ? null : key)}
+                                    onClick={() => handleMobileDropdown(key)}
                                     className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-600 hover:bg-gray-50"
                                 >
                                     {key}
@@ -129,7 +153,7 @@ export default function Navbar() {
                                 {activeMobileDropdown === key && (
                                     <div className="pl-4">
                                         {key === 'Modules' ? (
-                                            value.map((module, index) => (
+                                            (value as MenuCategory[]).map((module, index) => (
                                                 <div key={index} className="mt-2">
                                                     <h4 className="font-semibold text-gray-900 px-3 py-2">{module.title}</h4>
                                                     {module.items.map((item, itemIndex) => (
@@ -141,7 +165,7 @@ export default function Navbar() {
                                                 </div>
                                             ))
                                         ) : (
-                                            value.map((item, index) => (
+                                            (value as MenuItem[]).map((item, index) => (
                                                 <Link key={index} href={item.link} className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-green-600 hover:bg-gray-50">
                                                     <span className="mr-3 text-xl">{item.icon}</span>
                                                     {item.name}
@@ -169,7 +193,7 @@ export default function Navbar() {
                         <div className="bg-white shadow-lg rounded-lg p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {activeDropdown === 'Modules' ? (
-                                    menuItems[activeDropdown].map((column, colIndex) => (
+                                    (menuItems[activeDropdown] as MenuCategory[]).map((column, colIndex) => (
                                         <div key={colIndex} className="space-y-4">
                                             <h3 className="font-bold text-yellow-400 text-lg">{column.title}</h3>
                                             {column.items.map((subItem, subIndex) => (
@@ -184,7 +208,7 @@ export default function Navbar() {
                                         </div>
                                     ))
                                 ) : (
-                                    menuItems[activeDropdown].map((item, index) => (
+                                    (menuItems[activeDropdown] as MenuItem[]).map((item, index) => (
                                         <Link key={index} href={item.link} className="flex items-start space-x-3 group">
                                             <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{item.icon}</span>
                                             <div>

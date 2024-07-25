@@ -1,5 +1,13 @@
 import React from 'react';
 
+interface ImpactCardProps {
+  number: string;
+  title: string;
+  description: string;
+  icon :string;
+}
+
+
 export default function Impact() {
   return (
     <div className="py-16 px-6 md:px-12 bg-gradient-to-b from-gray-100 to-white dark:from-gray-900 dark:to-gray-800">
@@ -32,7 +40,11 @@ export default function Impact() {
   );
 }
 
-function ImpactCard({ number, title, description, icon }) {
+
+
+
+
+function ImpactCard({ number, title, description, icon}: ImpactCardProps) {
   return (
     <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700">
       <div className="flex items-center mb-6">

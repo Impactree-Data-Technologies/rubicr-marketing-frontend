@@ -15,7 +15,6 @@ export default function Footer() {
         </div>
 
         {/* Social Icons */}
-       
 
         {/* Links */}
         <ul className="flex flex-col md:flex-row gap-4 md:gap-8 list-none text-white mb-4 md:mb-0 md:order-3">

@@ -1,8 +1,25 @@
 import Image from "next/image";
-const BASE_URL = "http://localhost:1337";
 
-export default function CompanyLogo({ title, description, logos }) {
-  console.log("Received logos:", logos);
+const BASE_URL =  process.env.NEXT_PUBLIC_API_URL;
+
+interface LogoAttributes {
+  url: string;
+  name: string;
+}
+
+interface Logo {
+  attributes: LogoAttributes;
+}
+
+interface CompanyLogoProps {
+  title: string;
+  description: string;
+  logos: Logo[];
+}
+
+export default function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
+  
+
   if (!Array.isArray(logos)) {
     console.error("logos is not an array:", logos);
     return null;

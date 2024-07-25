@@ -1,7 +1,18 @@
 import React from 'react';
 import Image from 'next/image';
 
-const EmployeeCard = ({ name, position, imageUrl }) => {
+
+interface EmployeeCardProps {
+  name: string;
+  position: string;
+  imageUrl: string;
+}
+
+
+
+
+
+  function EmployeeCard  ({ name, position, imageUrl }: EmployeeCardProps) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
       <div className="relative w-full pt-[100%]"> {/* This creates a square aspect ratio */}

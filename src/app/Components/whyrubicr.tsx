@@ -1,4 +1,22 @@
-export default function WhyRubicr() {
+import React from 'react';
+
+interface FeatureCardProps {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon }) => {
+  return (
+    <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
+      <div className="text-5xl mb-6">{icon}</div>
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">{title}</h2>
+      <p className="text-gray-600 dark:text-gray-300">{description}</p>
+    </div>
+  );
+};
+
+const WhyRubicr: React.FC = () => {
   return (
     <div className="py-16 px-4 md:px-8 bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
       <div className="max-w-screen-xl mx-auto">
@@ -27,15 +45,7 @@ export default function WhyRubicr() {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-function FeatureCard({ title, description, icon }) {
-  return (
-    <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
-      <div className="text-5xl mb-6">{icon}</div>
-      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">{title}</h2>
-      <p className="text-gray-600 dark:text-gray-300">{description}</p>
-    </div>
-  )
-}
+export default WhyRubicr;
