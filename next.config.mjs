@@ -3,9 +3,14 @@ const nextConfig = {
 
     images: {
 
-        domains:['localhost']
+        domains:['localhost'],
+        unoptimized : true,
 
-    }
+    },
+
+    basePath: '/rubicr-marketing-frontend',
+
+    assetPrefix: '/rubicr-marketing-frontend',
 };
 
 export default nextConfig;

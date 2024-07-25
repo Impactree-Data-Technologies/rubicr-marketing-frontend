@@ -183,7 +183,7 @@ export default function Demo() {
                 <p className="text-lg md:text-xl mb-8 animate-fade-in-up">
                   {data1.subdescription}
                 </p>
-                <Button label="Contact Us" background="#FFCD1B" color="black" />
+                <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
               </div>
             </section>
           )}

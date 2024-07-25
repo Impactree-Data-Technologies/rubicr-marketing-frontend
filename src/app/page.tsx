@@ -155,7 +155,8 @@ export default function Demo() {
         {/* Main background image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/bg_image1.png')" }}
+          style={{ backgroundImage: "url('${process.env.NEXT_PUBLIC_BASE_PATH}/bg_image1.png')" }}
+          
         />
         
         {/* Overlay gradient */}
