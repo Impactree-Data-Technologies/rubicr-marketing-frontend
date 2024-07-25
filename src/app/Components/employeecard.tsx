@@ -18,10 +18,13 @@ interface EmployeeCardProps {
       <div className="relative w-full pt-[100%]"> {/* This creates a square aspect ratio */}
         <Image
           src={imageUrl}
+         
           alt={name}
           layout="fill"
           objectFit="cover"
           className="rounded-t-lg"
+          unoptimized
+
         />
       </div>
       <div className="p-6 text-center">

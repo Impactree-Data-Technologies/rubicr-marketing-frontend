@@ -6,17 +6,21 @@ const TeamSection = () => {
     {
       name: 'Rajashri Sai',
       position: 'CEO',
-      imageUrl: '/Rajashri.webp',
+      imageUrl: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Rajashri.webp`,
+      
+      
+
+    
     },
     {
       name: 'Vivek Shankaranarayanan',
       position: 'Cofounder',
-      imageUrl: '/Vivek.webp',
+      imageUrl: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Vivek.webp`,
     },
     {
       name: 'Ashlesha Kshirsagar',
       position: 'Director & Head of operations',
-      imageUrl: '/ash.webp',
+      imageUrl: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}//ash.webp`,
     },
     // Add more team members as needed
   ];

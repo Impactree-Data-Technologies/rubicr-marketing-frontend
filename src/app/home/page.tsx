@@ -155,7 +155,7 @@ export default function Demo() {
         {typeof window !== 'undefined' && (
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: "url('/bg_image1.png')" }}
+    // style={{ backgroundImage: "url('/bg_image1.png')" }}
   />
 )}
         

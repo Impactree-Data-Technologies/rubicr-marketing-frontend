@@ -7,10 +7,11 @@ export default function Footer() {
         {/* Logo */}
         <div className="mb-8 md:mb-0 md:order-2">
           <Image
-            src="/white logo.png"
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/white logo.png`}
             alt="Company Logo"
             width={150}
             height={50}
+            unoptimized
           />
         </div>
 

@@ -123,11 +123,13 @@ export default function Sports() {
                         <div className="lg:w-1/2 w-full max-w-md lg:max-w-none">
                             <div className="relative w-full pt-[100%] lg:pt-[75%] rounded-[50px] sm:rounded-[100px] bg-yellow-200 overflow-hidden border-4 border-yellow-400">
                                 <Image
-                                    src="/sports.jpg" 
+                                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sports.jpg`}
                                     alt="Sustainable Sports" 
                                     layout="fill"
                                     objectFit="cover"
                                     className="rounded-[50px] sm:rounded-[100px]"
+                                    unoptimized
+                                    
                                 />
                             </div>
                         </div>
