@@ -104,6 +104,7 @@ interface NavbarProps {
                                 className="h-8 w-auto"
                                 width={120}
                                 height={40}
+                                unoptimized 
                             />
                         </Link>
                         <div className="hidden lg:flex items-center space-x-4">
