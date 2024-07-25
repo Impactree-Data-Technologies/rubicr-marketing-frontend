@@ -2,24 +2,26 @@
 
 import { useState, useEffect } from "react";
 
+import dynamic from 'next/dynamic';
 
 
-import Image from "next/image";
+
 import Link from "next/link";
-import Navbar from "../app/Components/navbar";
+const Navbar = dynamic(() => import("../app/Components/navbar"), { ssr: false });
+const WhyRubicr = dynamic(() => import("../app/Components/whyrubicr"), { ssr: false });
+const WhyUs = dynamic(() => import("../app/Components/whyus"), { ssr: false });
+const Impact = dynamic(() => import("../app/Components/impact"), { ssr: false });
+const Doit = dynamic(() => import("../app/Components/doit"), { ssr: false });
+const Usecase = dynamic(() => import("../app/Components/usecase"), { ssr: false });
+const SixStep = dynamic(() => import("../app/Components/sixstep"), { ssr: false });
+const InteractiveMap = dynamic(() => import("../app/Components/map"), { ssr: false });
+const TeamSection = dynamic(() => import("../app/Components/teamsection"), { ssr: false });
+const ImageToggle = dynamic(() => import("../app/Components/imagetoggle"), { ssr: false });
+const Feedback = dynamic(() => import("../app/Components/feedback"), { ssr: false });
+const Footer = dynamic(() => import("../app/Components/footer"), { ssr: false });
+const Button = dynamic(() => import("../app/Components/button"), { ssr: false });
 
-import WhyRubicr from "../app/Components/whyrubicr";
-import WhyUs from "../app/Components/whyus";
-import Impact from "../app/Components/impact";
-import Doit from "../app/Components/doit";
-import Usecase from "../app/Components/usecase";
-import SixStep from "../app/Components/sixstep";
-import InteractiveMap from "../app/Components/map";
-import TeamSection from "../app/Components/teamsection";
-import ImageToggle from "../app/Components/imagetoggle";
-import Feedback from "../app/Components/feedback";
-import Footer from "../app/Components/footer";
-import Button from "../app/Components/button";
+const Image = dynamic(() => import('next/image'), { ssr: false });
 import '../app/home/home.css'
 
 // Shared interfaces
@@ -103,7 +105,12 @@ export default function Demo() {
 
   useEffect(() => {
     async function fetchData() {
+
+      if (typeof window !== 'undefined') {
+
+        
       try {
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
         const response1 = await fetch(`${BASE_URL}/api/home?populate=*`);
         const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
         const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
@@ -137,6 +144,7 @@ export default function Demo() {
         console.error("Error fetching data:", error);
       }
     }
+  }
 
     fetchData();
   }, []);

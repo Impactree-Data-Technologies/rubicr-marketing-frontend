@@ -1,22 +1,30 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import dynamic from 'next/dynamic';
+
 import Link from "next/link";
-import Navbar from "../Components/navbar";
-import WhyRubicr from "../Components/whyrubicr";
-import WhyUs from "../Components/whyus";
-import Impact from "../Components/impact";
-import Doit from "../Components/doit";
-import Usecase from "../Components/usecase";
-import SixStep from "../Components/sixstep";
-import InteractiveMap from "../Components/map";
-import TeamSection from "../Components/teamsection";
-import ImageToggle from "../Components/imagetoggle";
-import Feedback from "../Components/feedback";
-import Footer from "../Components/footer";
-import Button from "../Components/button";
+const Navbar = dynamic(() => import("../Components/navbar"), { ssr: false });
+const WhyRubicr = dynamic(() => import("../Components/whyrubicr"), { ssr: false });
+const WhyUs = dynamic(() => import("../Components/whyus"), { ssr: false });
+const Impact = dynamic(() => import("../Components/impact"), { ssr: false });
+const Doit = dynamic(() => import("../Components/doit"), { ssr: false });
+const Usecase = dynamic(() => import("../Components/usecase"), { ssr: false });
+const SixStep = dynamic(() => import("../Components/sixstep"), { ssr: false });
+const InteractiveMap = dynamic(() => import("../Components/map"), { ssr: false });
+const TeamSection = dynamic(() => import("../Components/teamsection"), { ssr: false });
+const ImageToggle = dynamic(() => import("../Components/imagetoggle"), { ssr: false });
+const Feedback = dynamic(() => import("../Components/feedback"), { ssr: false });
+const Footer = dynamic(() => import("../Components/footer"), { ssr: false });
+const Button = dynamic(() => import("../Components/button"), { ssr: false });
+
+
 import './home.css'
+
+
+
+const Image = dynamic(() => import('next/image'), { ssr: false });
+
 
 // Shared interfaces
 interface LogoAttributes {
@@ -61,6 +69,9 @@ function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
     console.error("logos is not an array:", logos);
     return null;
   }
+
+
+
 
   return (
     <section className="py-16 bg-gray-50">
@@ -141,10 +152,12 @@ export default function Demo() {
     <div className="font-arial">
       <div className="relative min-h-screen flex flex-col overflow-hidden">
         {/* Main background image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/bg_image1.png')" }}
-        />
+        {typeof window !== 'undefined' && (
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: "url('/bg_image1.png')" }}
+  />
+)}
         
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/50 to-purple-500/50" />
