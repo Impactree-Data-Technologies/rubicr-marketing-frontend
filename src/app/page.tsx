@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+
+
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../app/Components/navbar";
-import CompanyLogo from "../app/Components/companylogo";
+
 import WhyRubicr from "../app/Components/whyrubicr";
 import WhyUs from "../app/Components/whyus";
 import Impact from "../app/Components/impact";
@@ -19,13 +22,13 @@ import Footer from "../app/Components/footer";
 import Button from "../app/Components/button";
 import '../app/home/home.css'
 
+// Shared interfaces
 interface LogoAttributes {
   url: string;
-  // Add other attributes if needed
+  name: string;
 }
 
 interface Logo {
-  id: number;
   attributes: LogoAttributes;
 }
 
@@ -45,14 +48,54 @@ interface WithRubicrData {
   id: number;
   attributes: {
     url: string;
-    // Add other attributes if needed
   };
 }
 
+interface CompanyLogoProps {
+  title: string;
+  description: string;
+  logos: Logo[];
+}
 
+// CompanyLogo Component
+function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  if (!Array.isArray(logos)) {
+    console.error("logos is not an array:", logos);
+    return null;
+  }
+
+  return (
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-3">{title}</h2>
+        <p className="text-xl md:text-2xl text-center text-gray-600 mb-12">{description}</p>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          {logos.map((logoData, index) => {
+            const logo = logoData.attributes;
+            return (
+              <div key={index} className="flex justify-center items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <Image
+                  src={`${BASE_URL}${logo.url}`}
+                  alt={logo.name}
+                  width={150}
+                  height={75}
+                  objectFit="contain"
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Main Demo Component
 export default function Demo() {
   const [data1, setData1] = useState<HomeData | null>(null);
-  const [data3, setData3] = useState<any>(null); // Replace 'any' with a more specific type if possible
+  const [data3, setData3] = useState<any>(null);
   const [data4, setData4] = useState<WithRubicrData | null>(null);
   const [logoData, setLogoData] = useState<LogoData>({ title: '', description: '', logos: [] });
 
@@ -76,12 +119,17 @@ export default function Demo() {
         const responseData4 = await response4.json();
 
         setData1(responseData1.data.attributes);
-        setLogoData({  
+        setLogoData({
           title: responseData2.data.attributes.Logo.logo_title,
           description: responseData2.data.attributes.Logo.logo_description,
-          logos: responseData2.data.attributes.Logo.logo.data
+          logos: responseData2.data.attributes.Logo.logo.data.map((item: any) => ({
+            attributes: {
+              url: item.attributes.url,
+              name: item.attributes.name || 'Logo' // Fallback if name is not provided
+            }
+          }))
         });
-        setData3(responseData3.data.attributes); 
+        setData3(responseData3.data.attributes);
         setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
         console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
 
