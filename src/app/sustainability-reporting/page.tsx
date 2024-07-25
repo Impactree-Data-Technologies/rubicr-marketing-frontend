@@ -45,10 +45,10 @@ export default function UseCase() {
                         <div className="w-full md:w-1/2 mb-8 md:mb-0">
                             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6">Sustainability Reporting</h1>
                             <p className="text-lg md:text-xl text-gray-700 mb-6 md:mb-8">
-                                Be in total control of your ESG reporting needs with RubiCr's Sustainable Intelligence Platform.
+                                Be in total control of your ESG reporting needs with RubiCrs Sustainable Intelligence Platform.
                             </p>
                             <div className="flex justify-center md:justify-start">
-                                <Button background="#FFCD1B" color="black" />
+                            <Button label="Contact Us" background="#FFCD1B" color="black" />
                             </div>
                         </div>
                         <div className="w-full md:w-1/2">

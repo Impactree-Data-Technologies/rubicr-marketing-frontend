@@ -69,7 +69,7 @@ export default function Feedback() {
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <blockquote className="text-lg italic text-gray-700 mb-4 text-center">
-            "{quote}"
+            {quote}
           </blockquote>
           <div className="flex items-center justify-center">
             {image && (
