@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -42,15 +42,18 @@ const InteractiveMap: React.FC = () => {
           Explore how Environmental, Social, and Governance (ESG) factors impact our business across different regions. Click on the markers to learn more.
         </p>
         <div className="bg-white rounded-lg shadow-xl p-4 md:p-6">
-          <MapContainer 
-            center={[20, 0]} 
-            zoom={2} 
+          <MapContainer
+            center={[20, 0]}
+            zoom={2}
             style={{ height: '600px', width: '100%' }}
             className="rounded-lg shadow-inner"
+            scrollWheelZoom={false}
+            zoomControl={false}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            <ZoomControl position="bottomright" />
             {regions.map((region, index) => (
               <Marker key={index} position={region.position} icon={createCustomIcon(region.name)}>
                 <Popup>

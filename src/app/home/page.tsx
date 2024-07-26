@@ -25,6 +25,8 @@ import './home.css'
 
 const Image = dynamic(() => import('next/image'), { ssr: false });
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 // Shared interfaces
 interface LogoAttributes {
@@ -153,9 +155,10 @@ export default function Demo() {
       <div className="relative min-h-screen flex flex-col overflow-hidden">
         {/* Main background image */}
         {typeof window !== 'undefined' && (
+
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: "url('${process.env.NEXT_PUBLIC_BASE_PATH}/bg_image1.png')" }}
+    style={{ backgroundImage: "url(`${BASE_URL}/bg_image1.png`)" }}
   />
 )}
         

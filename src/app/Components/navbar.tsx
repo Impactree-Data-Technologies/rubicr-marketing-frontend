@@ -1,8 +1,9 @@
 "use client"
 
-import React, { useState, useEffect, MouseEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from 'next/link';
+import Button from "../Components/button";
 
 interface MenuItem {
     name: string;
@@ -65,16 +66,16 @@ const menuItems: MenuItems = {
     ]
 };
 
-
 interface NavbarProps {
     className?: string;
-  }
-  const Navbar: React.FC<NavbarProps> = ({ className }) => {
+}
 
+const Navbar: React.FC<NavbarProps> = ({ className }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isScrolled, setIsScrolled] = useState<boolean>(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [activeMobileDropdown, setActiveMobileDropdown] = useState<string | null>(null);
+    const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -86,6 +87,7 @@ interface NavbarProps {
 
     const handleDropdown = (item: string) => {
         setActiveDropdown(activeDropdown === item ? null : item);
+        setActiveNavItem(item);
     };
 
     const handleMobileDropdown = (item: string) => {
@@ -94,36 +96,58 @@ interface NavbarProps {
 
     return (
         <>
-            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
-                <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
+                <div className="w-full">
                     <div className="flex items-center justify-between h-16">
-                        <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                            <Image
-                                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Logo.svg`}
-                                alt="Company Logo"
-                                className="h-8 w-auto"
-                                width={120}
-                                height={40}
-                                unoptimized 
-                            />
-                        </Link>
-                        <div className="hidden lg:flex items-center space-x-4">
-                            <Link href="/home" className="text-gray-700 hover:text-green-600 text-base font-medium">
-                                Home
+                        <div className="flex items-center">
+                            <Link href="/" className="flex-shrink-0">
+                                <Image
+                                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Logo.svg`}
+                                    alt="Company Logo"
+                                    className="h-8 w-auto"
+                                    width={120}
+                                    height={40}
+                                    unoptimized 
+                                />
                             </Link>
-                            {Object.keys(menuItems).map((item, index) => (
-                                <div key={index} className="relative group">
-                                    <span 
-                                        className="text-gray-700 hover:text-green-600 text-base font-medium cursor-pointer"
-                                        onMouseEnter={() => setActiveDropdown(item)}
-                                        onClick={() => handleDropdown(item)}
-                                    >
-                                        {item}
-                                    </span>
-                                </div>
-                            ))}
-                            <Link href="/pricing" className="text-gray-700 hover:text-green-600 text-base font-medium">
-                                Pricing
+                            <div className="hidden lg:flex items-center ml-10 space-x-4 relative">
+                                <Link href="/home" className={`text-gray-700 hover:text-yellow-600 text-base font-medium ${activeNavItem === 'Home' ? 'text-yellow-600' : ''}`} onClick={() => setActiveNavItem('Home')}>
+                                    Home
+                                </Link>
+                                {Object.keys(menuItems).map((item, index) => (
+                                    <div key={index} className="relative group">
+                                        <span 
+                                            className={`text-gray-700 hover:text-yellow-600 text-base font-medium cursor-pointer flex items-center ${activeNavItem === item ? 'text-yellow-600' : ''}`}
+                                            onMouseEnter={() => setActiveDropdown(item)}
+                                            onClick={() => handleDropdown(item)}
+                                        >
+                                            {item}
+                                            {Array.isArray(menuItems[item]) && menuItems[item].length > 0 && (
+                                                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                </svg>
+                                            )}
+                                        </span>
+                                    </div>
+                                ))}
+                                <Link href="/pricing" className={`text-gray-700 hover:text-yellow-600 text-base font-medium ${activeNavItem === 'Pricing' ? 'text-yellow-600' : ''}`} onClick={() => setActiveNavItem('Pricing')}>
+                                    Pricing
+                                </Link>
+                                {/* Underline box */}
+                                {activeNavItem && (
+                                    <div 
+                                        className="absolute bottom-0 h-1 bg-yellow-400 transition-all duration-300 ease-in-out"
+                                        style={{
+                                            left: `${Object.keys(menuItems).indexOf(activeNavItem) * 100}%`,
+                                            width: '100px'  // Adjust this value to match your nav item width
+                                        }}
+                                    ></div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="hidden lg:flex items-center">
+                            <Link href="/schedule-demo" >
+                            <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
                             </Link>
                         </div>
                         <button
@@ -142,14 +166,14 @@ interface NavbarProps {
                 {/* Mobile menu */}
                 <div className={`${isOpen ? 'block' : 'hidden'} lg:hidden bg-white shadow-md overflow-y-auto max-h-[calc(100vh-4rem)]`}>
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <Link href="/home" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-600 hover:bg-gray-50">
+                        <Link href="/home" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-yellow-600 hover:bg-gray-50">
                            Home
                         </Link>
                         {Object.entries(menuItems).map(([key, value]) => (
                             <div key={key} className="relative">
                                 <button
                                     onClick={() => handleMobileDropdown(key)}
-                                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-600 hover:bg-gray-50"
+                                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-yellow-600 hover:bg-gray-50"
                                 >
                                     {key}
                                     <svg className={`w-5 h-5 ml-2 transition-transform duration-200 ${activeMobileDropdown === key ? 'transform rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -182,8 +206,11 @@ interface NavbarProps {
                                 )}
                             </div>
                         ))}
-                        <Link href="/pricing" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-green-600 hover:bg-gray-50">
+                        <Link href="/pricing" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-yellow-600 hover:bg-gray-50">
                             Pricing
+                        </Link>
+                        <Link href="/schedule-demo">
+                        <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
                         </Link>
                     </div>
                 </div>
@@ -195,13 +222,16 @@ interface NavbarProps {
                     className="fixed top-16 left-0 right-0 z-40 w-full overflow-y-auto bg-transparent"
                     onMouseLeave={() => setActiveDropdown(null)}
                 >
-                    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                    <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
                         <div className="bg-white shadow-lg rounded-lg p-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {activeDropdown === 'Modules' ? (
                                     (menuItems[activeDropdown] as MenuCategory[]).map((column, colIndex) => (
                                         <div key={colIndex} className="space-y-4">
                                             <h3 className="font-bold text-yellow-400 text-lg">{column.title}</h3>
+                                           
+                                         
+                                           
                                             {column.items.map((subItem, subIndex) => (
                                                 <Link key={subIndex} href={subItem.link} className="flex items-start space-x-3 group">
                                                     <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{subItem.icon}</span>
@@ -232,6 +262,5 @@ interface NavbarProps {
         </>
     );
 }
-
 
 export default Navbar;

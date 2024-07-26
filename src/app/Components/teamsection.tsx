@@ -1,29 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import EmployeeCard from './employeecard';
 
-const TeamSection = () => {
-  const teamMembers = [
-    {
-      name: 'Rajashri Sai',
-      position: 'CEO',
-      imageUrl: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Rajashri.webp`,
-      
-      
+interface TeamMember {
+  id: number;
+  attributes: {
+    Name: string;
+    Position: string;
+    Image: {
+      data: {
+        attributes: {
+          formats: {
+            thumbnail: {
+              url: string;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
-    
-    },
-    {
-      name: 'Vivek Shankaranarayanan',
-      position: 'Cofounder',
-      imageUrl: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Vivek.webp`,
-    },
-    {
-      name: 'Ashlesha Kshirsagar',
-      position: 'Director & Head of operations',
-      imageUrl: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}//ash.webp`,
-    },
-    // Add more team members as needed
-  ];
+const TeamSection = () => {
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/teams?populate=*`);
+        const data = await response.json();
+        setTeamMembers(data.data);
+      } catch (error) {
+        console.error('Error fetching team members:', error);
+      }
+    };
+
+    fetchTeamMembers();
+  }, []);
 
   return (
     <div className="bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
@@ -33,16 +45,16 @@ const TeamSection = () => {
             Our Consortium of Sustainability Experts
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Our top-tier scientific council is composed of experts in climate science, professors, strategic advisors and industry leaders.
+            Our top-tier council is composed of experts in  professors, strategic advisors and industry leaders.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {teamMembers.map((member, index) => (
+          {teamMembers.map((member) => (
             <EmployeeCard
-              key={index}
-              name={member.name}
-              position={member.position}
-              imageUrl={member.imageUrl}
+              key={member.id}
+              name={member.attributes.Name}
+              position={member.attributes.Position}
+              imageUrl={`${process.env.NEXT_PUBLIC_API_URL}${member.attributes.Image.data.attributes.formats.thumbnail.url}`}
             />
           ))}
         </div>
