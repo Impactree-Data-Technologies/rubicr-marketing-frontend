@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeCard from './employeecard';
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface TeamMember {
   id: number;
   attributes: {
@@ -26,7 +28,7 @@ const TeamSection = () => {
   useEffect(() => {
     const fetchTeamMembers = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/teams?populate=*`);
+        const response = await fetch(`${BASE_URL}/api/teams?populate=*`);
         const data = await response.json();
         setTeamMembers(data.data);
       } catch (error) {
@@ -54,7 +56,7 @@ const TeamSection = () => {
               key={member.id}
               name={member.attributes.Name}
               position={member.attributes.Position}
-              imageUrl={`${process.env.NEXT_PUBLIC_API_URL}${member.attributes.Image.data.attributes.formats.thumbnail.url}`}
+              imageUrl={`${member.attributes.Image.data.attributes.formats.thumbnail.url}`}
             />
           ))}
         </div>
