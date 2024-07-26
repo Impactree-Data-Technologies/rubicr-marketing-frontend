@@ -138,7 +138,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                         </div>
                         <div className="hidden lg:flex items-center">
                           
-                            <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
+                            <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
                          
                         </div>
                         <button
@@ -201,7 +201,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                             Pricing
                         </Link>
                         
-                        <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
+                        <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
                         
                     </div>
                 </div>

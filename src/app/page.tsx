@@ -160,7 +160,9 @@ export default function Demo() {
         />
         
         {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/50 to-purple-500/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-100 to-yellow-200 " />
+
+        
         
         {/* Decorative elements */}
         <div className="absolute inset-0">
@@ -173,7 +175,7 @@ export default function Demo() {
           <Navbar className="py-2" />
           {data1 && (
             <section className="flex-grow flex items-center">
-              <div className="max-w-screen-xl mx-auto px-4 text-center md:text-left text-white py-10">
+              <div className="max-w-screen-xl mx-auto px-4 text-center md:text-left text-black py-10">
                 <h1 className="text-5xl md:text-6xl font-bold mb-8 animate-fade-in-down">
                   {data1.title}
                 </h1>
@@ -183,7 +185,7 @@ export default function Demo() {
                 <p className="text-lg md:text-xl mb-8 animate-fade-in-up">
                   {data1.subdescription}
                 </p>
-                <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
+                <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
               </div>
             </section>
           )}
@@ -198,6 +200,10 @@ export default function Demo() {
         />
       )}
 
+<section className="py-20">
+        <Usecase />
+      </section>
+
       <section className="bg-gray-100 py-20">
         <WhyUs />
       </section>
@@ -210,17 +216,15 @@ export default function Demo() {
         <WhyRubicr />
       </section>
 
-      <section className="py-20">
+      {/* <section className="py-20">
         <Impact />
-      </section>
+      </section> */}
 
-      <section className="bg-gray-100 py-20">
+      {/* <section className="bg-gray-100 py-20">
         <Doit />
-      </section>
+      </section> */}
 
-      <section className="py-20">
-        <Usecase />
-      </section>
+      
 
       <section className="bg-gray-100 py-20">
         <SixStep />
@@ -230,20 +234,20 @@ export default function Demo() {
         <ImageToggle />
       </section>
 
-      <section className="bg-gray-100 py-20">
+      {/* <section className="bg-gray-100 py-20">
         <TeamSection />
-      </section>
+      </section> */}
 
-      <section className="py-20">
+      {/* <section className="py-20">
         <Feedback />
-      </section>
+      </section> */}
 
       <section className="bg-[#f6e2cb] py-20 mx-8 md:mx-20 rounded-3xl mb-20">
         <div className="max-w-screen-xl mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Get Started Today</h2>
           <hr className="border-t-2 border-[#64271F] w-1/4 mb-6" />
           <p className="text-lg md:text-2xl mb-8">Ready to transform your ESG Performance?</p>
-          <Button label="Contact Us" background="#FFCD1B" color="black" />
+          <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
         </div>
       </section>
 
