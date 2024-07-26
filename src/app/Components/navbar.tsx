@@ -137,9 +137,9 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                             </div>
                         </div>
                         <div className="hidden lg:flex items-center">
-                            <Link href="/schedule-demo" >
+                          
                             <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
-                            </Link>
+                         
                         </div>
                         <button
                             type="button"
@@ -200,9 +200,9 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                         <Link href="/pricing" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-yellow-600 hover:bg-gray-50">
                             Pricing
                         </Link>
-                        <Link href="/schedule-demo">
+                        
                         <Button label="Schedule a Demo" background="#FFCD1B" color="black" />
-                        </Link>
+                        
                     </div>
                 </div>
             </nav>
