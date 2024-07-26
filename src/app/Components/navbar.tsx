@@ -133,16 +133,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                 <Link href="/pricing" className={`text-gray-700 hover:text-yellow-600 text-base font-medium ${activeNavItem === 'Pricing' ? 'text-yellow-600' : ''}`} onClick={() => setActiveNavItem('Pricing')}>
                                     Pricing
                                 </Link>
-                                {/* Underline box */}
-                                {activeNavItem && (
-                                    <div 
-                                        className="absolute bottom-0 h-1 bg-yellow-400 transition-all duration-300 ease-in-out"
-                                        style={{
-                                            left: `${Object.keys(menuItems).indexOf(activeNavItem) * 100}%`,
-                                            width: '100px'  // Adjust this value to match your nav item width
-                                        }}
-                                    ></div>
-                                )}
+                               
                             </div>
                         </div>
                         <div className="hidden lg:flex items-center">
