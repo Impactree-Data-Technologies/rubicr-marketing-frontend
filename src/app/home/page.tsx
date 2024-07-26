@@ -25,7 +25,7 @@ import './home.css'
 
 const Image = dynamic(() => import('next/image'), { ssr: false });
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 
 
 // Shared interfaces
@@ -158,7 +158,7 @@ export default function Demo() {
 
   <div
     className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: "url(`${BASE_URL}/bg_image1.png`)" }}
+    // style={{ backgroundImage: "url(`${BASE_URL}/bg_image1.png`)" }}
   />
 )}
         
