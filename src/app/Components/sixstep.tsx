@@ -28,8 +28,7 @@ const Step: React.FC<StepProps> = ({ number, title, description, onHover, onLeav
       )}
     </div>
     <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-4 bg-white text-black text-sm rounded shadow-md z-10 w-72 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none`}>
-      <h3 className="font-semibold">{title}</h3>
-      <p className="mt-1">{description}</p>
+      <p>{description}</p>
     </div>
     <h3 className="text-sm font-medium text-center mt-2">{title}</h3>
   </div>
