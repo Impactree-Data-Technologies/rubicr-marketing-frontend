@@ -27,7 +27,7 @@ const Step: React.FC<StepProps> = ({ number, title, description, onHover, onLeav
         <div className="absolute inset-0 rounded-full bg-green-500 opacity-50"></div>
       )}
     </div>
-    <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 p-4 bg-white text-black text-sm rounded shadow-md z-10 w-72 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none`}>
+    <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 p-4 bg-white text-black text-sm rounded shadow-md z-10 w-72 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${number === 1 ? 'md:left-0 md:translate-x-0' : number === 6 ? 'md:left-auto md:right-0 md:translate-x-0' : ''}`}>
       <p>{description}</p>
     </div>
     <h3 className="text-sm font-medium text-center mt-2">{title}</h3>

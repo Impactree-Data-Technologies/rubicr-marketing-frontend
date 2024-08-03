@@ -66,6 +66,7 @@ const menuItems: MenuItems = {
     ]
 };
 
+
 interface NavbarProps {
     className?: string;
 }
@@ -94,6 +95,11 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
         setActiveMobileDropdown(activeMobileDropdown === item ? null : item);
     };
 
+    const textColor = isScrolled ? 'text-gray-700' : 'text-white';
+    const hoverTextColor = isScrolled ? 'hover:text-yellow-600' : 'hover:text-yellow-300';
+    const activeTextColor = isScrolled ? 'text-yellow-600' : 'text-yellow-300';
+    const logoPath = isScrolled ? '/Logo.svg' : '/white_logo.png';
+
     return (
         <>
             <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
@@ -102,7 +108,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                         <div className="flex items-center">
                             <Link href="/" className="flex-shrink-0">
                                 <Image
-                                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/Logo.svg`}
+                                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${logoPath}`}
                                     alt="Company Logo"
                                     className="h-8 w-auto"
                                     width={120}
@@ -111,13 +117,13 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                 />
                             </Link>
                             <div className="hidden lg:flex items-center ml-10 space-x-4 relative">
-                                <Link href="/home" className={`text-gray-700 hover:text-yellow-600 text-base font-medium ${activeNavItem === 'Home' ? 'text-yellow-600' : ''}`} onClick={() => setActiveNavItem('Home')}>
+                                <Link href="/" className={`${textColor} ${hoverTextColor} text-base font-medium ${activeNavItem === 'Home' ? activeTextColor : ''}`} onClick={() => setActiveNavItem('Home')}>
                                     Home
                                 </Link>
                                 {Object.keys(menuItems).map((item, index) => (
                                     <div key={index} className="relative group">
                                         <span 
-                                            className={`text-gray-700 hover:text-yellow-600 text-base font-medium cursor-pointer flex items-center ${activeNavItem === item ? 'text-yellow-600' : ''}`}
+                                            className={`${textColor} ${hoverTextColor} text-base font-medium cursor-pointer flex items-center ${activeNavItem === item ? activeTextColor : ''}`}
                                             onMouseEnter={() => setActiveDropdown(item)}
                                             onClick={() => handleDropdown(item)}
                                         >
@@ -130,20 +136,17 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                         </span>
                                     </div>
                                 ))}
-                                <Link href="/pricing" className={`text-gray-700 hover:text-yellow-600 text-base font-medium ${activeNavItem === 'Pricing' ? 'text-yellow-600' : ''}`} onClick={() => setActiveNavItem('Pricing')}>
+                                <Link href="/pricing" className={`${textColor} ${hoverTextColor} text-base font-medium ${activeNavItem === 'Pricing' ? activeTextColor : ''}`} onClick={() => setActiveNavItem('Pricing')}>
                                     Pricing
                                 </Link>
-                               
                             </div>
                         </div>
                         <div className="hidden lg:flex items-center">
-                          
                             <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
-                         
                         </div>
                         <button
                             type="button"
-                            className="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
+                            className={`lg:hidden inline-flex items-center justify-center p-2 rounded-md ${textColor} ${hoverTextColor} focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500`}
                             onClick={() => setIsOpen(!isOpen)}
                         >
                             <span className="sr-only">Open main menu</span>
@@ -220,9 +223,6 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                     (menuItems[activeDropdown] as MenuCategory[]).map((column, colIndex) => (
                                         <div key={colIndex} className="space-y-4">
                                             <h3 className="font-bold text-yellow-400 text-lg">{column.title}</h3>
-                                           
-                                         
-                                           
                                             {column.items.map((subItem, subIndex) => (
                                                 <Link key={subIndex} href={subItem.link} className="flex items-start space-x-3 group">
                                                     <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{subItem.icon}</span>

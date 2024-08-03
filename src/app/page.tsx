@@ -1,12 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
 import dynamic from 'next/dynamic';
-
-
-
 import Link from "next/link";
+
 const Navbar = dynamic(() => import("../app/Components/navbar"), { ssr: false });
 const WhyRubicr = dynamic(() => import("../app/Components/whyrubicr"), { ssr: false });
 const WhyUs = dynamic(() => import("../app/Components/whyus"), { ssr: false });
@@ -20,11 +17,13 @@ const ImageToggle = dynamic(() => import("../app/Components/imagetoggle"), { ssr
 const Feedback = dynamic(() => import("../app/Components/feedback"), { ssr: false });
 const Footer = dynamic(() => import("../app/Components/footer"), { ssr: false });
 const Button = dynamic(() => import("../app/Components/button"), { ssr: false });
+const OurReach = dynamic(() => import("../app/Components/ourreach"), { ssr: false });
+const MediaCoverage = dynamic(() => import("../app/Components/MediaCoverage"), { ssr: false });
 
 const Image = dynamic(() => import('next/image'), { ssr: false });
 import '../app/home/home.css'
 
-// Shared interfaces
+// Shared interfaces (keep these as they were)
 interface LogoAttributes {
   url: string;
   name: string;
@@ -59,7 +58,7 @@ interface CompanyLogoProps {
   logos: Logo[];
 }
 
-// CompanyLogo Component
+// CompanyLogo Component (keep this as it was)
 function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -105,77 +104,61 @@ export default function Demo() {
 
   useEffect(() => {
     async function fetchData() {
-
       if (typeof window !== 'undefined') {
+        try {
+          const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+          const response1 = await fetch(`${BASE_URL}/api/home?populate=*`);
+          const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
+          const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
+          const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
+          console.log(BASE_URL);
+          if (!response1.ok || !response2.ok || !response3.ok || !response4.ok) {
+            throw new Error("Network response was not ok");
+          }
 
-        
-      try {
-        const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-        const response1 = await fetch(`${BASE_URL}/api/home?populate=*`);
-        const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
-        const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
-        const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
-        console.log(BASE_URL);
-        if (!response1.ok || !response2.ok || !response3.ok || !response4.ok) {
-          throw new Error("Network response was not ok");
+          const responseData1 = await response1.json();
+          const responseData2 = await response2.json();
+          const responseData3 = await response3.json();
+          const responseData4 = await response4.json();
+
+          setData1(responseData1.data.attributes);
+          setLogoData({
+            title: responseData2.data.attributes.Logo.logo_title,
+            description: responseData2.data.attributes.Logo.logo_description,
+            logos: responseData2.data.attributes.Logo.logo.data.map((item: any) => ({
+              attributes: {
+                url: item.attributes.url,
+                name: item.attributes.name || 'Logo' // Fallback if name is not provided
+              }
+            }))
+          });
+          setData3(responseData3.data.attributes);
+          setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
+          console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-
-        const responseData1 = await response1.json();
-        const responseData2 = await response2.json();
-        const responseData3 = await response3.json();
-        const responseData4 = await response4.json();
-
-        setData1(responseData1.data.attributes);
-        setLogoData({
-          title: responseData2.data.attributes.Logo.logo_title,
-          description: responseData2.data.attributes.Logo.logo_description,
-          logos: responseData2.data.attributes.Logo.logo.data.map((item: any) => ({
-            attributes: {
-              url: item.attributes.url,
-              name: item.attributes.name || 'Logo' // Fallback if name is not provided
-            }
-          }))
-        });
-        setData3(responseData3.data.attributes);
-        setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
-        console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
-     
-      } catch (error) {
-        console.error("Error fetching data:", error);
       }
     }
-  }
 
     fetchData();
   }, []);
 
   return (
     <div className="font-arial">
-      <div className="relative min-h-screen flex flex-col overflow-hidden">
+      <Navbar className="fixed top-0 left-0 right-0 z-50" />
+      <div className="relative min-h-screen flex flex-col overflow-hidden pt-16">
         {/* Main background image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          //  style={{ backgroundImage: "url('${process.env.NEXT_PUBLIC_BASE_PATH}/bg_image1.png')" }}
-          
+          style={{ backgroundImage: "url('/bgimage.webp')" }}
         />
-        
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-100 to-yellow-200 " />
-
-        
-        
-        {/* Decorative elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-10 transform -skew-y-6"></div>
-          <div className="absolute top-0 left-0 w-full h-full bg-white opacity-10 transform skew-y-6"></div>
-        </div>
         
         {/* Content */}
         <div className="relative z-10 w-full flex-grow flex flex-col">
-          <Navbar className="py-2" />
           {data1 && (
             <section className="flex-grow flex items-center">
-              <div className="max-w-screen-xl mx-auto px-4 text-center md:text-left text-black py-10">
+              <div className="max-w-screen-xl mx-auto px-4 text-center md:text-left text-white py-10">
                 <h1 className="text-5xl md:text-6xl font-bold mb-8 animate-fade-in-down">
                   {data1.title}
                 </h1>
@@ -193,56 +176,52 @@ export default function Demo() {
       </div>
 
       {logoData.logos.length > 0 && (
-        <CompanyLogo 
-          title={logoData.title} 
-          description={logoData.description} 
-          logos={logoData.logos} 
-        />
+        <section className="relative z-10">
+          <CompanyLogo 
+            title={logoData.title} 
+            description={logoData.description} 
+            logos={logoData.logos} 
+          />
+        </section>
       )}
 
-<section className="py-20">
-        <Usecase />
-      </section>
-
-      <section className="bg-gray-100 py-20">
+      <section className="relative z-10 bg-gray-100 py-20">
         <WhyUs />
       </section>
 
-      <section className="py-20">
+      <section className="relative z-10 py-20">
         <InteractiveMap />
       </section>
 
-      <section className="bg-gray-100 py-20">
+      <section className="relative z-10 py-20">
+        <Usecase />
+      </section>
+
+      <section className="relative z-10 bg-gray-100 py-20">
         <WhyRubicr />
       </section>
 
-      {/* <section className="py-20">
-        <Impact />
-      </section> */}
-
-      {/* <section className="bg-gray-100 py-20">
-        <Doit />
-      </section> */}
-
-      
-
-      <section className="bg-gray-100 py-20">
+      <section className="relative z-10 bg-gray-100 py-20">
         <SixStep />
       </section>
 
-      <section className="py-20">
+      <section className="relative z-10 py-20">
         <ImageToggle />
       </section>
 
-      {/* <section className="bg-gray-100 py-20">
-        <TeamSection />
-      </section> */}
-
-      {/* <section className="py-20">
+      <section className="relative z-10 py-20">
         <Feedback />
-      </section> */}
+      </section>
 
-      <section className="bg-[#f6e2cb] py-20 mx-8 md:mx-20 rounded-3xl mb-20">
+      <section className="relative z-10 py-20">
+        <OurReach />
+      </section>
+
+      <section className="relative z-10 py-20">
+        <MediaCoverage />
+      </section>
+
+      <section className="relative z-10 bg-[#f6e2cb] py-20 mx-8 md:mx-20 rounded-3xl mb-20">
         <div className="max-w-screen-xl mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Get Started Today</h2>
           <hr className="border-t-2 border-[#64271F] w-1/4 mb-6" />

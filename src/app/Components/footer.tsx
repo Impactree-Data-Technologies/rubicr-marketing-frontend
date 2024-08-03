@@ -1,13 +1,15 @@
 import Image from "next/image";
 
 export default function Footer() {
+
+  
   return (
     <footer className="bg-black py-8 md:py-12 rounded-t-110px relative">
       <div className="flex flex-col md:flex-row items-start justify-between px-8 md:px-20">
         {/* Logo */}
         <div className="mb-8 md:mb-0 md:order-2">
           <Image
-            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/white logo.png`}
+            src={'/white_logo.png'}
             alt="Company Logo"
             width={150}
             height={50}

@@ -29,6 +29,7 @@ const regions: Region[] = [
   { name: 'Asia', position: [34.0479, 100.6197], description: 'Implementing frameworks for economic resilience, such as Japans Corporate Governance Code and Chinas Green Credit Guidelines.' },
   { name: 'Africa', position: [8.7832, 34.5085], description: 'Focusing on social impact and ethical practices, emphasizing resource management and social responsibility.' },
   { name: 'Latin America', position: [-14.235, -51.9253], description: 'Advancing environmental stewardship with regulations protecting biodiversity and promoting sustainable land use.' },
+  
 ];
 
 const InteractiveMap: React.FC = () => {

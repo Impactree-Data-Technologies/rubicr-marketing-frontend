@@ -68,7 +68,7 @@ const ImageToggle: React.FC = () => {
   return (
     <div className="bg-gradient-to-r from-purple-500 to-indigo-500 py-16 px-4 md:px-8 min-h-screen flex items-center justify-center">
       <div className="bg-black rounded-2xl shadow-2xl p-8 max-w-screen-lg w-full">
-        <h2 className="text-4xl font-extrabold mb-6 text-center text-white">Make Your ESG Management Simple</h2>
+        <h2 className="text-4xl font-extrabold mb-6 text-center text-white">How Rubicr Simplifies Your ESG Journey</h2>
         {/* Rubric selection slider */}
         <div className="flex justify-center mb-6">
           <div className="relative flex items-center w-64 h-10 p-1 bg-gray-300 rounded-full">
