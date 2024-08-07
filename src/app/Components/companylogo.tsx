@@ -38,7 +38,7 @@ export default function CompanyLogo({ title, description, logos }: CompanyLogoPr
             return (
               <div key={index} className="flex justify-center items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 <Image
-                  src={``}
+                  src={`${BASE_URL}`}
                   alt={logo.name}
                   width={150}
                   height={75}

@@ -78,7 +78,7 @@ function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
             return (
               <div key={index} className="flex justify-center items-center p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                 <Image
-                  src={`${logo.url}`}
+                  src={`${BASE_URL}${logo.url}`}
                   alt={logo.name}
                   width={150}
                   height={75}

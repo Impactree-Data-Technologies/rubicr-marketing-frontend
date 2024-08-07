@@ -31,3 +31,22 @@
     text-wrap: balance;
   }
 }
+
+/* Position the chat icon at the bottom-right corner */
+.bpw-floating-button {
+  bottom: 20px !important;
+  right: 20px !important;
+}
+
+/* Adjust the chat window position and size */
+.bpw-layout {
+  bottom: 90px !important;
+  right: 20px !important;
+  height: 60vh !important; /* Adjust this value to change the height */
+  max-height: 100px !important; /* Set a maximum height if needed */
+}
+
+/* Ensure the chat window is above other elements */
+#bp-web-widget {
+  z-index: 9999 !important;
+}

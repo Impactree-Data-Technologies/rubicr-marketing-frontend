@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
+
 import Button from "../../Components/button";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
