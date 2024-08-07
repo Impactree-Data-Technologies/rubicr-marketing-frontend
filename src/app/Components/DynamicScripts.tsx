@@ -14,7 +14,7 @@ export default function DynamicScripts() {
           const scriptTag = item.children[0].text;
           const srcMatch = scriptTag.match(/src="([^"]+)"/);
           return srcMatch ? srcMatch[1] : null;
-        }).filter(Boolean);
+        }).filter(Boolean) as string[];
         setScriptSrcs(srcs);
       } catch (error) {
         console.error('Error fetching scripts:', error);
@@ -24,7 +24,10 @@ export default function DynamicScripts() {
   }, []);
 
   const handleScriptLoad = () => {
-    if (scriptSrcs.every(src => (window as any)[src.split('/').pop()?.split('.')[0]])) {
+    if (scriptSrcs.every(src => {
+      const scriptName = src.split('/').pop()?.split('.')[0];
+      return scriptName && (window as any)[scriptName];
+    })) {
       localStorage.setItem('botpressScriptsLoaded', 'true');
       window.dispatchEvent(new Event('botpressScriptsLoaded'));
     }
