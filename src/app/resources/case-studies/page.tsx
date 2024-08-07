@@ -4,14 +4,28 @@ import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
 import Button from "../../Components/button";
 
-const StatItem = ({ number, description }) => (
+interface StatItemProps {
+  number: string;
+  description: string;
+}
+
+const StatItem: React.FC<StatItemProps> = ({ number, description }) => (
   <div className="text-center">
     <h2 className="text-4xl font-bold text-gray-800 mb-2">{number}</h2>
     <p className="text-sm text-gray-600">{description}</p>
   </div>
 );
 
-const CaseStudyCard = ({ image, tag, title, description, tags, buttonText }) => (
+interface CaseStudyCardProps {
+  image: string;
+  tag: string;
+  title: string;
+  description: string;
+  tags: string[];
+  buttonText: string;
+}
+
+const CaseStudyCard: React.FC<CaseStudyCardProps> = ({ image, tag, title, description, tags, buttonText }) => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden">
     <div className="relative h-48">
       <Image src={image} alt={title} layout="fill" objectFit="cover" />
@@ -32,8 +46,17 @@ const CaseStudyCard = ({ image, tag, title, description, tags, buttonText }) => 
   </div>
 );
 
-const CaseStudies = () => {
-  const caseStudies = [
+interface CaseStudy {
+  image: string;
+  tag: string;
+  title: string;
+  description: string;
+  tags: string[];
+  buttonText: string;
+}
+
+const CaseStudies: React.FC = () => {
+  const caseStudies: CaseStudy[] = [
     {
       image: "/merge-it.jpg",
       tag: "Case Study",
