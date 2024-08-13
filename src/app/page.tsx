@@ -168,7 +168,7 @@ export default function Demo() {
                 <p className="text-lg md:text-xl mb-8 animate-fade-in-up">
                   {data1.subdescription}
                 </p>
-                <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
+                <Button label="Begin Your Journey" background="#FFCD1B" color="black" href="/contact-us" />
               </div>
             </section>
           )}
@@ -226,7 +226,7 @@ export default function Demo() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Get Started Today</h2>
           <hr className="border-t-2 border-[#64271F] w-1/4 mb-6" />
           <p className="text-lg md:text-2xl mb-8">Ready to transform your ESG Performance?</p>
-          <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
+          <Button label="Begin Your Journey" background="#FFCD1B" color="black"  href="/contact-us"/>
         </div>
       </section>
 

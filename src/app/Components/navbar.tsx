@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from 'next/link';
 import Button from "../Components/button";
+import { usePathname } from 'next/navigation';
 
 interface MenuItem {
     name: string;
@@ -66,7 +67,6 @@ const menuItems: MenuItems = {
     ]
 };
 
-
 interface NavbarProps {
     className?: string;
 }
@@ -77,14 +77,26 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [activeMobileDropdown, setActiveMobileDropdown] = useState<string | null>(null);
     const [activeNavItem, setActiveNavItem] = useState<string | null>(null);
+    const [isHomePage, setIsHomePage] = useState<boolean>(false);
+
+    
+    const pathname = usePathname();
 
     useEffect(() => {
+        // Check if it's the home page
+        setIsHomePage(pathname === '/');
+
+        // Set up scroll listener
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 0);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [pathname]);
+
+    
+
+  
 
     const handleDropdown = (item: string) => {
         setActiveDropdown(activeDropdown === item ? null : item);
@@ -95,14 +107,15 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
         setActiveMobileDropdown(activeMobileDropdown === item ? null : item);
     };
 
-    const textColor = isScrolled ? 'text-gray-700' : 'text-white';
-    const hoverTextColor = isScrolled ? 'hover:text-yellow-600' : 'hover:text-yellow-300';
-    const activeTextColor = isScrolled ? 'text-yellow-600' : 'text-yellow-300';
-    const logoPath = isScrolled ? '/Logo.svg' : '/white_logo.png';
+    const navbarBgColor = isHomePage ? (isScrolled ? 'bg-white' : 'bg-transparent') : 'bg-black';
+    const textColor = isHomePage ? (isScrolled ? 'text-gray-700' : 'text-white') : 'text-white';
+    const hoverTextColor = isHomePage ? (isScrolled ? 'hover:text-yellow-600' : 'hover:text-yellow-300') : 'hover:text-yellow-300';
+    const activeTextColor = isHomePage ? (isScrolled ? 'text-yellow-600' : 'text-yellow-300') : 'text-yellow-300';
+    const logoPath = isHomePage ? (isScrolled ? '/Logo.svg' : '/white_logo.png') : '/white_logo.png';
 
     return (
         <>
-            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
+            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8 ${navbarBgColor} ${isScrolled ? 'shadow-md' : ''}`}>
                 <div className="w-full">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center">
@@ -142,7 +155,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                             </div>
                         </div>
                         <div className="hidden lg:flex items-center">
-                            <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
+                            <Button label="Begin Your Journey" background="#FFCD1B" color="black" href='/contact-us' />
                         </div>
                         <button
                             type="button"
@@ -158,16 +171,16 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                 </div>
 
                 {/* Mobile menu */}
-                <div className={`${isOpen ? 'block' : 'hidden'} lg:hidden bg-white shadow-md overflow-y-auto max-h-[calc(100vh-4rem)]`}>
+                <div className={`${isOpen ? 'block' : 'hidden'} lg:hidden ${isHomePage ? 'bg-white' : 'bg-black'} shadow-md overflow-y-auto max-h-[calc(100vh-4rem)]`}>
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <Link href="/home" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-yellow-600 hover:bg-gray-50">
+                        <Link href="/home" className={`block px-3 py-2 rounded-md text-base font-medium ${textColor} ${hoverTextColor}`}>
                            Home
                         </Link>
                         {Object.entries(menuItems).map(([key, value]) => (
                             <div key={key} className="relative">
                                 <button
                                     onClick={() => handleMobileDropdown(key)}
-                                    className="w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-yellow-600 hover:bg-gray-50"
+                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium ${textColor} ${hoverTextColor}`}
                                 >
                                     {key}
                                     <svg className={`w-5 h-5 ml-2 transition-transform duration-200 ${activeMobileDropdown === key ? 'transform rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -179,9 +192,9 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                         {key === 'Modules' ? (
                                             (value as MenuCategory[]).map((module, index) => (
                                                 <div key={index} className="mt-2">
-                                                    <h4 className="font-semibold text-gray-900 px-3 py-2">{module.title}</h4>
+                                                    <h4 className={`font-semibold ${textColor} px-3 py-2`}>{module.title}</h4>
                                                     {module.items.map((item, itemIndex) => (
-                                                        <Link key={itemIndex} href={item.link} className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-green-600 hover:bg-gray-50">
+                                                        <Link key={itemIndex} href={item.link} className={`flex items-center px-3 py-2 text-sm ${textColor} ${hoverTextColor}`}>
                                                             <span className="mr-3 text-xl">{item.icon}</span>
                                                             {item.name}
                                                         </Link>
@@ -190,7 +203,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                             ))
                                         ) : (
                                             (value as MenuItem[]).map((item, index) => (
-                                                <Link key={index} href={item.link} className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-green-600 hover:bg-gray-50">
+                                                <Link key={index} href={item.link} className={`flex items-center px-3 py-2 text-sm ${textColor} ${hoverTextColor}`}>
                                                     <span className="mr-3 text-xl">{item.icon}</span>
                                                     {item.name}
                                                 </Link>
@@ -200,24 +213,24 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                 )}
                             </div>
                         ))}
-                        <Link href="/pricing" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-yellow-600 hover:bg-gray-50">
+                        <Link href="/pricing" className={`block px-3 py-2 rounded-md text-base font-medium ${textColor} ${hoverTextColor}`}>
                             Pricing
                         </Link>
                         
-                        <Button label="Begin Your Journey" background="#FFCD1B" color="black" />
+                        <Button label="Begin Your Journey" background="#FFCD1B" color="black"  href='/contact-us' />
                         
                     </div>
                 </div>
             </nav>
 
-            {/* Submenu for all sections */}
+           {/* Submenu for all sections */}
             {activeDropdown && menuItems[activeDropdown] && (
                 <div
                     className="fixed top-16 left-0 right-0 z-40 w-full overflow-y-auto bg-transparent"
                     onMouseLeave={() => setActiveDropdown(null)}
                 >
                     <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
-                        <div className="bg-white shadow-lg rounded-lg p-6">
+                        <div className={`${isHomePage ? 'bg-white' : 'bg-gray-900'} shadow-lg rounded-lg p-6`}>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {activeDropdown === 'Modules' ? (
                                     (menuItems[activeDropdown] as MenuCategory[]).map((column, colIndex) => (
@@ -227,8 +240,8 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                                 <Link key={subIndex} href={subItem.link} className="flex items-start space-x-3 group">
                                                     <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{subItem.icon}</span>
                                                     <div>
-                                                        <h4 className="text-gray-700 font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200">{subItem.name}</h4>
-                                                        <p className="text-xs text-gray-500 mt-1">{subItem.description}</p>
+                                                        <h4 className={`${isHomePage ? 'text-gray-700' : 'text-gray-200'} font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200`}>{subItem.name}</h4>
+                                                        <p className={`text-xs ${isHomePage ? 'text-gray-500' : 'text-gray-400'} mt-1`}>{subItem.description}</p>
                                                     </div>
                                                 </Link>
                                             ))}
@@ -239,8 +252,8 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                         <Link key={index} href={item.link} className="flex items-start space-x-3 group">
                                             <span className="text-2xl flex-shrink-0 bg-yellow-100 p-1 rounded-lg group-hover:bg-yellow-200 transition-colors duration-200 flex items-center justify-center">{item.icon}</span>
                                             <div>
-                                                <h4 className="text-gray-700 font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200">{item.name}</h4>
-                                                <p className="text-xs text-gray-500 mt-1">{item.description}</p>
+                                                <h4 className={`${isHomePage ? 'text-gray-700' : 'text-gray-200'} font-semibold text-sm group-hover:text-yellow-600 transition-colors duration-200`}>{item.name}</h4>
+                                                <p className={`text-xs ${isHomePage ? 'text-gray-500' : 'text-gray-400'} mt-1`}>{item.description}</p>
                                             </div>
                                         </Link>
                                     ))
