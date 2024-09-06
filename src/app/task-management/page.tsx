@@ -23,7 +23,7 @@ const TaskManagement = () => {
           <Navbar />
         </div>
 
-        {/* Hero Content */}
+        {/* Hero Content */} 
         <div className="container mx-auto px-4 h-full flex items-center">
           <div className="flex flex-col md:flex-row items-center">
             <div className="w-full md:w-1/2 mb-8 md:mb-0">
@@ -82,7 +82,7 @@ const TaskManagement = () => {
                 <div key={index} className="bg-white rounded-lg shadow-md p-6">
                   <feature.icon className="text-4xl text-yellow-500 mb-4" />
                   <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-gray-600">{feature.description}</p>
+                  <p className="text-green-600">{feature.description}</p>
                 </div>
               ))}
             </div>
@@ -90,7 +90,7 @@ const TaskManagement = () => {
 
           {/* Benefits Section */}
           <div className="mb-16">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Benefits</h2>
+            <h2 className="text-3xl font-bold text-brown-800 mb-6">Benefits</h2>
             <ul className="list-disc list-inside text-lg text-gray-600 space-y-4">
               <li>Improved data accuracy through our maker-checker validation principle</li>
               <li>Enhanced collaboration among team members</li>
