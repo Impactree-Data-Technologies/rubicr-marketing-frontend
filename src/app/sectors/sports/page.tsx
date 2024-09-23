@@ -41,13 +41,11 @@ const sportsEsgSolutions = [
         title: 'Carbon Footprint Measurement', 
         description: 'Accurately measure and report the carbon footprint of sporting events, from travel to energy consumption.',
         image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/expense.jpg`
-        
     },
     { 
         title: 'Sustainable Venue Management', 
         description: 'Implement green technologies in sports venues to reduce energy use, water consumption, and waste.',
         image: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/carbon.png`
-        
     },
     { 
         title: 'Eco-Friendly Team Operations', 
@@ -109,21 +107,21 @@ export default function Sports() {
         <div className="min-h-screen bg-white">
             <Navbar />
  
-            <header className="bg-white py-16 lg:py-24">
+            <header className="bg-gradient-to-r from-yellow-400 to-yellow-600 py-16 lg:py-24">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row items-center justify-between">
                         <div className="lg:w-1/2 lg:pr-12 mb-12 lg:mb-0">
-                            <h2 className="text-yellow-600 font-semibold mb-2 text-lg sm:text-xl">THE #1 SOLUTION FOR SPORTS ORGANIZATIONS</h2>
-                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-                                Lead <span className="bg-yellow-400 px-2">by example</span>, promote sustainability in sports
+                            <h2 className="text-white font-semibold mb-2 text-lg sm:text-xl">THE #1 SOLUTION FOR SPORTS ORGANIZATIONS</h2>
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-white">
+                                Lead <span className="bg-black text-yellow-400 px-2">by example</span>, promote sustainability in sports
                             </h1>
-                            <p className="text-base sm:text-lg text-gray-600 mb-8">
+                            <p className="text-base sm:text-lg text-white mb-8">
                                 Sports organizations have a unique platform to influence society. Beyond raising awareness, their role is to serve as an example in addressing climate change through sustainable practices.
                             </p>
-                            <Button label="Contact Us" background="#FFCD1B" color="black" />
+                            <Button label="Contact Us" background="#000000" color="white" />
                         </div>
                         <div className="lg:w-1/2 w-full max-w-md lg:max-w-none">
-                            <div className="relative w-full pt-[100%] lg:pt-[75%] rounded-[50px] sm:rounded-[100px] bg-yellow-200 overflow-hidden border-4 border-yellow-400">
+                            <div className="relative w-full pt-[100%] lg:pt-[75%] rounded-[50px] sm:rounded-[100px] bg-white overflow-hidden border-4 border-black shadow-2xl transform hover:scale-105 transition-transform duration-300">
                                 <Image
                                     src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sports.jpg`}
                                     alt="Sustainable Sports" 
@@ -131,7 +129,6 @@ export default function Sports() {
                                     objectFit="cover"
                                     className="rounded-[50px] sm:rounded-[100px]"
                                     unoptimized
-                                    
                                 />
                             </div>
                         </div>
@@ -142,12 +139,12 @@ export default function Sports() {
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8 text-center">
                     We can reduce sports-related<br className="hidden sm:inline" />
-                    emissions by up to <span className="text-yellow-700">50%</span>
+                    emissions by up to <span className="text-yellow-600">50%</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {sportsEsgFeatures.map((feature, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-                            <div className="bg-yellow-700 w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-white">
+                        <div key={index} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                            <div className="bg-yellow-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4 text-white">
                                 {feature.icon}
                             </div>
                             <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
@@ -169,7 +166,7 @@ export default function Sports() {
                                     key={index} 
                                     className={`mb-4 p-4 rounded-lg cursor-pointer transition-all duration-300 ${
                                         index === activeSolutionIndex
-                                        ? 'bg-yellow-600 text-white' 
+                                        ? 'bg-yellow-600 text-white transform scale-105' 
                                         : 'bg-gray-800 text-white hover:bg-gray-700'
                                     }`}
                                     onClick={() => setActiveSolutionIndex(index)}
@@ -184,13 +181,13 @@ export default function Sports() {
                             ))}
                         </div>
                         <div className="w-full lg:w-2/3">
-                            <div className="relative w-full h-0 pb-[75%] lg:pb-[56.25%]">
+                            <div className="relative w-full h-0 pb-[75%] lg:pb-[56.25%] rounded-lg overflow-hidden shadow-2xl">
                                 <Image
                                     src={activeSolution.image}
                                     alt={activeSolution.title}
                                     layout="fill"
                                     objectFit="cover"
-                                    className="rounded-lg"
+                                    className="rounded-lg transform hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
                         </div>
@@ -198,7 +195,6 @@ export default function Sports() {
                 </div>
             </section>
 
-            {/* New Carbon Management Section */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-12 text-center">
                     Carbon management,<br />
@@ -206,7 +202,7 @@ export default function Sports() {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {carbonManagementBenefits.map((benefit, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow-xl p-8">
+                        <div key={index} className="bg-white rounded-lg shadow-xl p-8 transform hover:scale-105 transition-transform duration-300">
                             <div className={`${benefit.color} w-20 h-20 rounded-full flex items-center justify-center mb-6`}>
                                 <span className="text-4xl font-bold text-white">{benefit.number}</span>
                             </div>
@@ -217,12 +213,13 @@ export default function Sports() {
                 </div>
             </section>
 
-            <section className="bg-[#f6e2cb] py-20 mx-8 md:mx-20 rounded-3xl mb-20 mt-20">
-                <div className="max-w-screen-xl mx-auto px-4">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">Get Started Today</h2>
-                    <hr className="border-t-2 border-[#64271F] w-1/4 mb-6" />
-                    <p className="text-lg md:text-2xl mb-8">Ready to transform your ESG Performance?</p>
-                    <Button label="Contact Us" background="#FFCD1B" color="black" />
+              {/* CTA Section */}
+               <section className="bg-gradient-to-r from-yellow-400 to-yellow-600 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
+                <div className="max-w-screen-xl mx-auto px-4 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>
+                    <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
+                    <p className="text-xl md:text-2xl mb-8 text-white">Ready to transform your ESG Performance?</p>
+                    <Button label="Contact Us" background="white" color="black" className="text-lg py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105" />
                 </div>
             </section>
 

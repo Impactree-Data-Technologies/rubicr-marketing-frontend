@@ -1,13 +1,14 @@
-"use client";
+"use client"
+
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface UseCase {
   heading: string;
   description: string;
-  videoSrc: string;
+  videoSrc: string | null;
 }
 
 interface Data {
@@ -15,7 +16,13 @@ interface Data {
   case_card: {
     heading: string;
     description: string;
-    link: string;
+    link: {
+      data: {
+        attributes: {
+          url: string;
+        };
+      };
+    };
   }[];
 }
 
@@ -29,7 +36,7 @@ export default function Usecase() {
     async function fetchData() {
       try {
         setIsLoading(true);
-        const response = await fetch(`${BASE_URL}/api/home?populate[0]=use_case.case_card`);
+        const response = await fetch(`${BASE_URL}/api/home?populate[0]=use_case.case_card.link`);
         const responseData = await response.json();
         const useCaseData = responseData.data.attributes.use_case;
         setData(useCaseData);
@@ -37,7 +44,7 @@ export default function Usecase() {
         const formattedUseCases = useCaseData.case_card.map((useCase: any) => ({
           heading: useCase.heading,
           description: useCase.description,
-          videoSrc: useCase.link,
+          videoSrc: useCase.link.data.attributes.url ? `${BASE_URL}${useCase.link.data.attributes.url}` : null,
         }));
 
         setUseCases(formattedUseCases);
@@ -106,14 +113,17 @@ export default function Usecase() {
           </div>
           <div className="flex justify-center items-center w-full md:w-1/2">
             {activeUseCase.videoSrc ? (
-              <iframe
+              <video
                 key={activeUseCase.videoSrc}
                 className="w-full aspect-video rounded-lg shadow-md"
-                src={activeUseCase.videoSrc}
-                frameBorder="0"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                <source src={activeUseCase.videoSrc} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             ) : (
               <div className="w-full h-64 bg-gray-300 dark:bg-gray-700 rounded-lg shadow-md flex items-center justify-center text-gray-500 dark:text-gray-400">
                 Video not available

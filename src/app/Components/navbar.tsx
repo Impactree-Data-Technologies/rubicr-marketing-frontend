@@ -107,11 +107,11 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
         setActiveMobileDropdown(activeMobileDropdown === item ? null : item);
     };
 
-    const navbarBgColor = isHomePage ? (isScrolled ? 'bg-white' : 'bg-transparent') : 'bg-black';
-    const textColor = isHomePage ? (isScrolled ? 'text-gray-700' : 'text-white') : 'text-white';
+    const navbarBgColor = isHomePage ? (isScrolled ? 'bg-white' : 'bg-transparent') : 'bg-white';
+    const textColor = isHomePage ? (isScrolled ? 'text-black' : 'text-white') : 'text-black';
     const hoverTextColor = isHomePage ? (isScrolled ? 'hover:text-yellow-600' : 'hover:text-yellow-300') : 'hover:text-yellow-300';
     const activeTextColor = isHomePage ? (isScrolled ? 'text-yellow-600' : 'text-yellow-300') : 'text-yellow-300';
-    const logoPath = isHomePage ? (isScrolled ? '/Logo.svg' : '/white_logo.png') : '/white_logo.png';
+    const logoPath = isHomePage ? (isScrolled ? '/Logo.svg' : '/white_logo.png') : '/Logo.svg';
 
     return (
         <>
@@ -138,7 +138,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                         <span 
                                             className={`${textColor} ${hoverTextColor} text-base font-medium cursor-pointer flex items-center ${activeNavItem === item ? activeTextColor : ''}`}
                                             onMouseEnter={() => setActiveDropdown(item)}
-                                            onClick={() => handleDropdown(item)}
+                                            // onClick={() => handleDropdown(item)}
                                         >
                                             {item}
                                             {Array.isArray(menuItems[item]) && menuItems[item].length > 0 && (
@@ -171,16 +171,16 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                 </div>
 
                 {/* Mobile menu */}
-                <div className={`${isOpen ? 'block' : 'hidden'} lg:hidden ${isHomePage ? 'bg-white' : 'bg-black'} shadow-md overflow-y-auto max-h-[calc(100vh-4rem)]`}>
+                <div className={`${isOpen ? 'block' : 'hidden'} lg:hidden ${isHomePage ? 'bg-black' : 'bg-black'} shadow-md overflow-y-auto max-h-[calc(100vh-4rem)]`}>
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        <Link href="/home" className={`block px-3 py-2 rounded-md text-base font-medium ${textColor} ${hoverTextColor}`}>
+                        <Link href="/" className={`block px-3 py-2 rounded-md text-base font-medium text-white ${hoverTextColor}`}>
                            Home
                         </Link>
                         {Object.entries(menuItems).map(([key, value]) => (
                             <div key={key} className="relative">
                                 <button
                                     onClick={() => handleMobileDropdown(key)}
-                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium ${textColor} ${hoverTextColor}`}
+                                    className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium  text-white ${hoverTextColor}`}
                                 >
                                     {key}
                                     <svg className={`w-5 h-5 ml-2 transition-transform duration-200 ${activeMobileDropdown === key ? 'transform rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -192,9 +192,9 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                         {key === 'Modules' ? (
                                             (value as MenuCategory[]).map((module, index) => (
                                                 <div key={index} className="mt-2">
-                                                    <h4 className={`font-semibold ${textColor} px-3 py-2`}>{module.title}</h4>
+                                                    <h4 className={`font-semibold  text-white px-3 py-2`}>{module.title}</h4>
                                                     {module.items.map((item, itemIndex) => (
-                                                        <Link key={itemIndex} href={item.link} className={`flex items-center px-3 py-2 text-sm ${textColor} ${hoverTextColor}`}>
+                                                        <Link key={itemIndex} href={item.link} className={`flex items-center px-3 py-2 text-sm  text-white ${hoverTextColor}`}>
                                                             <span className="mr-3 text-xl">{item.icon}</span>
                                                             {item.name}
                                                         </Link>
@@ -203,7 +203,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                             ))
                                         ) : (
                                             (value as MenuItem[]).map((item, index) => (
-                                                <Link key={index} href={item.link} className={`flex items-center px-3 py-2 text-sm ${textColor} ${hoverTextColor}`}>
+                                                <Link key={index} href={item.link} className={`flex items-center px-3 py-2 text-sm  text-white ${hoverTextColor}`}>
                                                     <span className="mr-3 text-xl">{item.icon}</span>
                                                     {item.name}
                                                 </Link>
@@ -213,7 +213,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                                 )}
                             </div>
                         ))}
-                        <Link href="/pricing" className={`block px-3 py-2 rounded-md text-base font-medium ${textColor} ${hoverTextColor}`}>
+                        <Link href="/pricing" className={`block px-3 py-2 rounded-md text-base font-medium text-white ${hoverTextColor}`}>
                             Pricing
                         </Link>
                         

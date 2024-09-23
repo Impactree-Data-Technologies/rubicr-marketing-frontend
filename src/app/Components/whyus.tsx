@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { cache } from 'react'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -9,7 +9,7 @@ interface UsCard {
   link: string;
 }
 
-interface WhyUs {
+interface WhyUsData {
   id: number;
   heading: string;
   description: string;
@@ -20,27 +20,34 @@ interface ApiResponse {
   data: {
     id: number;
     attributes: {
-      why_us: WhyUs[];
+      why_us: WhyUsData[];
     };
   };
 }
 
-export default function WhyUs() {
-  const [whyUsData, setWhyUsData] = useState<WhyUs | null>(null);
+const getWhyUsData = cache(async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/home?populate=why_us.us_card`, { next: { revalidate: 3600 } });
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const data: ApiResponse = await response.json();
+    if (data.data?.attributes?.why_us?.[0]) {
+      return data.data.attributes.why_us[0];
+    } else {
+      throw new Error('Data structure is not as expected');
+    }
+  } catch (err) {
+    console.error('Error fetching WhyUs data:', err);
+    return null;
+  }
+});
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/api/home?populate=why_us.us_card`)
-      .then(response => response.json())
-      .then((data: ApiResponse) => {
-        if (data.data && data.data.attributes && data.data.attributes.why_us && data.data.attributes.why_us.length > 0) {
-          setWhyUsData(data.data.attributes.why_us[0]);
-        }
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+export default async function WhyUs() {
+  const whyUsData = await getWhyUsData();
 
   if (!whyUsData) {
-    return <div>Loading...</div>; // Or any other loading state
+    return <div className="text-center py-16">No data available</div>;
   }
 
   return (
@@ -63,5 +70,5 @@ export default function WhyUs() {
         </div>
       </div>
     </section>
-  )
+  );
 }

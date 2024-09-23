@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Image from "next/image";
+import { Suspense } from 'react';
+import ImageToggleClient from './ImageToggleClient'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -26,79 +26,29 @@ interface ApiResponse {
   };
 }
 
-const ImageToggle: React.FC = () => {
-  const [showRubric, setShowRubric] = useState<boolean>(true);
-  const [data, setData] = useState<ImageToggler | null>(null);
+async function getImageData(): Promise<ImageToggler> {
+  const response = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr&populate[1]=image_toggler.without_rubicr`, { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  const responseData: ApiResponse = await response.json();
+  return responseData.data.attributes.image_toggler;
+}
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr&populate[1]=image_toggler.without_rubicr`);
-        const responseData: ApiResponse = await response.json();
-        setData(responseData.data.attributes.image_toggler);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  const handleSelection = (isRubric: boolean) => {
-    setShowRubric(isRubric);
-  };
-
-  const renderImage = () => {
-    if (!data) return null;
-
-    const imageUrl = showRubric
-      ? `${BASE_URL}${data.with_rubicr.data.attributes.url}`
-      : `${BASE_URL}${data.without_rubicr.data.attributes.url}`;
-
-    return (
-      <Image 
-        src={imageUrl} 
-        width={800}
-        height={800}
-        alt={showRubric ? "Image with Rubicr" : "Image without Rubicr"} 
-        className="max-w-full h-auto rounded-lg shadow-lg transform transition duration-500 hover:scale-105" 
-      />
-    );
-  };
+export default async function ImageToggleServer() {
+  const data = await getImageData();
 
   return (
     <div className="bg-gradient-to-r from-purple-500 to-indigo-500 py-16 px-4 md:px-8 min-h-screen flex items-center justify-center">
       <div className="bg-black rounded-2xl shadow-2xl p-8 max-w-screen-lg w-full">
         <h2 className="text-4xl font-extrabold mb-6 text-center text-white">How Rubicr Simplifies Your ESG Journey</h2>
-        {/* Rubric selection slider */}
-        <div className="flex justify-center mb-6">
-          <div className="relative flex items-center w-64 h-10 p-1 bg-gray-300 rounded-full">
-            <div
-              className={`absolute top-0 bottom-0 left-0 h-full w-1/2 rounded-full transition-transform duration-300 ${showRubric ? 'bg-yellow-300 transform translate-x-0' : 'bg-yellow-300 transform translate-x-full'}`}
-            ></div>
-            <div className="flex w-full z-10">
-              <span
-                className={`w-1/2 text-center cursor-pointer ${showRubric ? 'text-white' : 'text-gray-700'}`}
-                onClick={() => handleSelection(true)}
-              >
-                With Rubicr
-              </span>
-              <span
-                className={`w-1/2 text-center cursor-pointer ${!showRubric ? 'text-white' : 'text-gray-700'}`}
-                onClick={() => handleSelection(false)}
-              >
-                Without Rubicr
-              </span>
-            </div>
-          </div>
-        </div>
-       
-        {/* Image */}
-        <div className="flex justify-center mb-8">
-          {renderImage()}
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <ImageToggleClient 
+            withRubicrUrl={`${BASE_URL}${data.with_rubicr.data.attributes.url}`}
+            withoutRubicrUrl={`${BASE_URL}${data.without_rubicr.data.attributes.url}`}
+          />
+        </Suspense>
       </div>
     </div>
   );
-};
-
-export default ImageToggle;
+}

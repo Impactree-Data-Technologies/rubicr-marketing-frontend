@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from 'react';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;

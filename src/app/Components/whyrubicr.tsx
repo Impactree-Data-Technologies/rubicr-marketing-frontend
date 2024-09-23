@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
+import { cache } from 'react'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -10,13 +9,39 @@ interface CardData {
   subdescription: string;
 }
 
-interface FeatureCardProps {
-  heading: string;
+interface WhyRubicrData {
+  title: string;
   description: string;
-  subdescription: string;
+  card: CardData[];
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ heading, description, subdescription }) => {
+interface ApiResponse {
+  data: {
+    attributes: {
+      whyrubicr: WhyRubicrData[];
+    };
+  };
+}
+
+const getWhyRubicrData = cache(async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/home?populate=whyrubicr.card`, { next: { revalidate: 3600 } });
+    if (!response.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const data: ApiResponse = await response.json();
+    if (data.data?.attributes?.whyrubicr?.[0]) {
+      return data.data.attributes.whyrubicr[0];
+    } else {
+      throw new Error('Data structure is not as expected');
+    }
+  } catch (err) {
+    console.error('Error fetching WhyRubicr data:', err);
+    return null;
+  }
+});
+
+function FeatureCard({ heading, description, subdescription }: CardData) {
   return (
     <div className="flex flex-col justify-between p-8 bg-white dark:bg-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-600">
       <div className="text-5xl mb-6">{subdescription}</div>
@@ -24,30 +49,13 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ heading, description, subdesc
       <p className="text-gray-600 dark:text-gray-300">{description}</p>
     </div>
   );
-};
-
-interface WhyRubicrData {
-  title: string;
-  description: string;
-  card: CardData[];
 }
 
-const WhyRubicr: React.FC = () => {
-  const [whyRubicrData, setWhyRubicrData] = useState<WhyRubicrData | null>(null);
-
-  useEffect(() => {
-    fetch(`${BASE_URL}/api/home?populate=whyrubicr.card`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.data && data.data.attributes && data.data.attributes.whyrubicr && data.data.attributes.whyrubicr.length > 0) {
-          setWhyRubicrData(data.data.attributes.whyrubicr[0]);
-        }
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+export default async function WhyRubicr() {
+  const whyRubicrData = await getWhyRubicrData();
 
   if (!whyRubicrData) {
-    return <div>Loading...</div>;
+    return <div className="text-center py-16">No data available</div>;
   }
 
   return (
@@ -63,15 +71,11 @@ const WhyRubicr: React.FC = () => {
           {whyRubicrData.card.map((cardData) => (
             <FeatureCard
               key={cardData.id}
-              heading={cardData.heading}
-              description={cardData.description}
-              subdescription={cardData.subdescription}
+              {...cardData}
             />
           ))}
         </div>
       </div>
     </div>
   );
-};
-
-export default WhyRubicr;
+}
