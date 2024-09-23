@@ -98,10 +98,10 @@ async function getData() {
 
   try {
     const [response1, response2, response3, response4] = await Promise.all([
-      fetch(`${BASE_URL}/api/home?populate=*`, { cache: 'no-store' }),
-      fetch(`${BASE_URL}/api/home?populate=Logo.logo`, { cache: 'no-store' }),
-      fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`, { cache: 'no-store' }),
-      fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`, { cache: 'no-store' })
+      fetch(`${BASE_URL}/api/home?populate=*`, { next: { revalidate: 3600 } }),
+      fetch(`${BASE_URL}/api/home?populate=Logo.logo`, { next: { revalidate: 3600 } }),
+      fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`, { next: { revalidate: 3600 } }),
+      fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`, { next: { revalidate: 3600 } })
     ]);
 
     if (!response1.ok || !response2.ok || !response3.ok || !response4.ok) {
