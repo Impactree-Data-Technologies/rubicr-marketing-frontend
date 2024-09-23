@@ -109,7 +109,7 @@ const ESGPricingPage: React.FC = () => {
               ESG Solutions Pricing
             </h2>
             <p className="mt-4 text-xl text-gray-600">
-              Choose the right plan for your organization's ESG needs
+              Choose the right plan for your organizations ESG needs
             </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
