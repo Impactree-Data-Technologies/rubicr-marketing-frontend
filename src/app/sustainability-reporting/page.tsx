@@ -53,7 +53,7 @@ export default function UseCase() {
                             <p className="text-xl lg:text-2xl text-gray-700 mb-8 leading-relaxed">
                                 Be in total control of your ESG reporting needs with RubiCrs Sustainable Intelligence Platform.
                             </p>
-                            <Button label="Contact Us" background="#FFCD1B" color="black" className="text-lg py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105" />
+                            <Button label="Begin Your Journey" background="#FFCD1B" color="white" href="/contact-us" />
                         </div>
                         <div className="w-full lg:w-1/2 relative">
                         <div className="aspect-w-9 aspect-h-16 md:aspect-w-16 md:aspect-h-16 lg:aspect-w-4 lg:aspect-h-5 rounded-2xl overflow-hidden shadow-2xl transform hover:scale-105 transition duration-300">

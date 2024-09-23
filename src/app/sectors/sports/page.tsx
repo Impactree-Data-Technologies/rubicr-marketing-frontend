@@ -219,7 +219,7 @@ export default function Sports() {
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>
                     <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
                     <p className="text-xl md:text-2xl mb-8 text-white">Ready to transform your ESG Performance?</p>
-                    <Button label="Contact Us" background="white" color="black" className="text-lg py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105" />
+                    <Button label="Begin Your Journey" background="#FFCD1B" color="white" href="/contact-us" />
                 </div>
             </section>
 
