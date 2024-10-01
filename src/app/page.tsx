@@ -19,6 +19,7 @@ const Footer = dynamic(() => import("../app/Components/footer"), { ssr: false })
 const Button = dynamic(() => import("../app/Components/button"), { ssr: false });
 const OurReach = dynamic(() => import("../app/Components/ourreach"), { ssr: false });
 const MediaCoverage = dynamic(() => import("../app/Components/MediaCoverage"), { ssr: false });
+const BotpressChat  = dynamic(() => import("../app/Components/BotpressChat"), { ssr: false });
 
 const Image = dynamic(() => import('next/image'), { ssr: false });
 import '../app/home/home.css'
@@ -232,6 +233,9 @@ export default function Demo() {
       </section>
 
       <Footer />
+
+      
+      <BotpressChat />
     </div>
   );
 }
