@@ -11,7 +11,7 @@ const MediaCoverage = () => {
   ];
 
   return (
-    <section className="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20 relative overflow-hidden">
+    <section className="bg-yellow-100 relative overflow-hidden">
       <div className="container mx-auto px-4 relative z-10">
         <h2 className="text-5xl font-extrabold text-center mb-16 text-gray-800 tracking-tight">
           Featured In

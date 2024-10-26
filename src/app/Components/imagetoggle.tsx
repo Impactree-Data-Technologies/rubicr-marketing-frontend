@@ -39,7 +39,7 @@ export default async function ImageToggleServer() {
   const data = await getImageData();
 
   return (
-    <div className="bg-gradient-to-r from-purple-500 to-indigo-500 py-16 px-4 md:px-8 min-h-screen flex items-center justify-center">
+    <div className="bg-yellow-100 py-4 px-4 md:px-8 min-h-screen flex items-center justify-center">
       <div className="bg-black rounded-2xl shadow-2xl p-8 max-w-screen-lg w-full">
         <h2 className="text-4xl font-extrabold mb-6 text-center text-white">How Rubicr Simplifies Your ESG Journey</h2>
         <Suspense fallback={<div>Loading...</div>}>

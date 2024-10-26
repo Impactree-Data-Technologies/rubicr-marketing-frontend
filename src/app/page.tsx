@@ -5,6 +5,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import dynamic from 'next/dynamic';
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Dynamic imports
 const Navbar = dynamic(() => import("../app/Components/navbar"), { ssr: false });
@@ -25,7 +26,7 @@ const MediaCoverage = dynamic(() => import("../app/Components/MediaCoverage"), {
 const BotpressChat = dynamic(() => import("../app/Components/BotpressChat"), { ssr: false });
 const Image = dynamic(() => import('next/image'), { ssr: false });
 
-// Advanced animation variants
+// Animation variants
 const textVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -61,7 +62,7 @@ const scaleUpVariants = {
   }
 };
 
-// Interfaces remain the same
+// Interfaces
 interface LogoAttributes {
   url: string;
   name: string;
@@ -90,13 +91,96 @@ interface WithRubicrData {
   };
 }
 
-interface CompanyLogoProps {
-  title: string;
-  description: string;
-  logos: Logo[];
-}
+// Logo Carousel Component
+const LogoCarousel = ({ logos, BASE_URL }) => {
+  const [position, setPosition] = useState(0);
 
-// Enhanced AnimatedText component for text animations
+  useEffect(() => {
+    const animation = () => {
+      const moveAmount = 2; // Speed of movement (pixels per frame)
+      setPosition((prevPosition) => {
+        // Calculate the width of one complete set of logos
+        const totalWidth = (logos.length * 200); // Assuming each logo container is 200px
+        
+        // If we've moved the full width, reset to start
+        if (Math.abs(prevPosition) >= totalWidth) {
+          return 0;
+        }
+        return prevPosition - moveAmount;
+      });
+    };
+
+    const animationFrame = setInterval(animation, 30); // Adjust for smoother/faster animation
+
+    return () => clearInterval(animationFrame);
+  }, [logos.length]);
+
+  return (
+    <div className="relative w-full overflow-hidden bg-white py-8">
+      {/* Main logo container */}
+      <div 
+        className="flex"
+        style={{
+          transform: `translateX(${position}px)`,
+          transition: 'transform 0.1s linear'
+        }}
+      >
+        {/* Original set of logos */}
+        {logos.map((logoData, index) => (
+          <div
+            key={`original-${index}`}
+            className="flex-shrink-0 mx-8" // Added margin for spacing between logos
+            style={{ width: '200px' }} // Fixed width for each logo container
+          >
+            <Image
+              src={`${BASE_URL}${logoData.attributes.url}`}
+              alt={logoData.attributes.name}
+              width={150}
+              height={75}
+              className="w-auto h-16 object-contain"
+            />
+          </div>
+        ))}
+        
+        {/* Duplicate set for seamless loop */}
+        {logos.map((logoData, index) => (
+          <div
+            key={`duplicate-${index}`}
+            className="flex-shrink-0 mx-8"
+            style={{ width: '200px' }}
+          >
+            <Image
+              src={`${BASE_URL}${logoData.attributes.url}`}
+              alt={logoData.attributes.name}
+              width={150}
+              height={75}
+              className="w-auto h-16 object-contain"
+            />
+          </div>
+        ))}
+        
+        {/* Third set for extra smoothness */}
+        {logos.map((logoData, index) => (
+          <div
+            key={`triplicate-${index}`}
+            className="flex-shrink-0 mx-8"
+            style={{ width: '200px' }}
+          >
+            <Image
+              src={`${BASE_URL}${logoData.attributes.url}`}
+              alt={logoData.attributes.name}
+              width={150}
+              height={75}
+              className="w-auto h-16 object-contain"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// AnimatedText component
 const AnimatedText = ({ children, className = "", delay = 0 }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
@@ -134,9 +218,8 @@ const AnimatedText = ({ children, className = "", delay = 0 }) => {
   );
 };
 
-// Enhanced CompanyLogo component
-function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
-  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// AnimatedSection component
+function AnimatedSection({ children, className = "" }) {
   const controls = useAnimation();
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -149,57 +232,25 @@ function CompanyLogo({ title, description, logos }: CompanyLogoProps) {
     }
   }, [controls, inView]);
 
-  if (!Array.isArray(logos)) {
-    console.error("logos is not an array:", logos);
-    return null;
-  }
-
   return (
     <motion.section
       ref={ref}
       initial="hidden"
       animate={controls}
-      variants={containerVariants}
-      className="py-12 md:py-20 bg-gray-50"
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.8,
+            ease: [0.6, -0.05, 0.01, 0.99]
+          }
+        }
+      }}
+      className={`relative z-10 py-6 sm:py-8 md:py-10 ${className}`}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedText className="mb-3 md:mb-6">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-800">
-            {title}        
-          </h2>
-        </AnimatedText>
-        <AnimatedText className="mb-8 md:mb-12" delay={0.2}>
-          <p className="text-base md:text-lg lg:text-xl text-center text-gray-600 max-w-3xl mx-auto">
-            {description}
-          </p>
-        </AnimatedText>
-        <motion.div
-          variants={containerVariants}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8"
-        >
-          {logos.map((logoData, index) => {
-            const logo = logoData.attributes;
-            return (
-              <motion.div
-                key={index}
-                variants={scaleUpVariants}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex justify-center items-center p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
-              >
-                <Image
-                  src={`${BASE_URL}${logo.url}`}
-                  alt={logo.name}
-                  width={150}
-                  height={75}
-                  objectFit="contain"
-                  className="max-w-full h-auto"
-                />
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </div>
+      {children}
     </motion.section>
   );
 }
@@ -210,9 +261,7 @@ export default function Demo() {
   const [data3, setData3] = useState<any>(null);
   const [data4, setData4] = useState<WithRubicrData | null>(null);
   const [logoData, setLogoData] = useState<LogoData>({ title: '', description: '', logos: [] });
-  const [scrollY, setScrollY] = useState(0);
 
-  // Data fetching useEffect remains the same
   useEffect(() => {
     async function fetchData() {
       if (typeof window !== 'undefined') {
@@ -222,7 +271,7 @@ export default function Demo() {
           const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
           const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
           const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
-          console.log(BASE_URL);
+          
           if (!response1.ok || !response2.ok || !response3.ok || !response4.ok) {
             throw new Error("Network response was not ok");
           }
@@ -245,7 +294,6 @@ export default function Demo() {
           });
           setData3(responseData3.data.attributes);
           setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
-          console.log("url", responseData4.data.attributes.image_toggler.with_rubicr.data.attributes);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -259,17 +307,25 @@ export default function Demo() {
     <div className="font-sans">
       <Navbar className="fixed top-0 left-0 right-0 z-50" />
       
-      {/* Hero Section */}
-      <div className="relative flex items-center justify-center min-h-[calc(100vh-4rem)] md:min-h-[calc(112vh-4rem)]">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/bgimage.webp')" }}
-        />
+      {/* Hero Section with Video Background */}
+      <div className="relative flex items-center justify-center min-h-[calc(100vh-4rem)] md:min-h-[calc(111vh-4rem)]">
+        {/* Video Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute w-full h-full object-cover"
+          >
+            <source src="https://videos.pexels.com/video-files/856572/856572-hd_1920_1080_25fps.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black opacity-50"></div>
+        </div>
         
-        <div className="relative z-10 w-full px-4 py-8 sm:px-6 md:px-8 lg:px-12">
+        <div className="relative z-10 w-full px-4 py-6 sm:px-6 md:px-8 lg:px-10">
           {data1 && (
             <motion.div
               variants={containerVariants}
@@ -277,28 +333,30 @@ export default function Demo() {
               animate="visible"
               className="max-w-7xl mx-auto text-center text-white"
             >
-              <AnimatedText className="mb-4">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  {data1.title}
-                </h1>
-              </AnimatedText>
+              <div className="pt-16 sm:pt-20 md:pt-24 lg:pt-28">
+              <AnimatedText className="mb-6 md:mb-8">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight px-4">
+                    {data1.title}
+                  </h1>
+                </AnimatedText>
               
-              <AnimatedText className="mb-4" delay={0.2}>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold">
-                  {data1.description}
-                </h3>
-              </AnimatedText>
-              
-              <AnimatedText className="mb-6" delay={0.4}>
-                <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto">
-                  {data1.subdescription}
-                </p>
-              </AnimatedText>
+                <AnimatedText className="mb-4 md:mb-6" delay={0.2}>
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold px-4">
+                    {data1.description}
+                  </h3>
+                </AnimatedText>
+                
+                <AnimatedText className="mb-6 md:mb-8" delay={0.4}>
+                  <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto px-4">
+                    {data1.subdescription}
+                  </p>
+                </AnimatedText>
               
               <AnimatedText delay={0.6}>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                   className="px-4"
                 >
                   <Button 
                     label="Begin Your Journey" 
@@ -308,6 +366,7 @@ export default function Demo() {
                   />
                 </motion.div>
               </AnimatedText>
+              </div>
             </motion.div>
           )}
         </div>
@@ -315,15 +374,38 @@ export default function Demo() {
 
       {/* Logo Section */}
       {logoData.logos.length > 0 && (
-        <CompanyLogo 
-          title={logoData.title} 
-          description={logoData.description} 
-          logos={logoData.logos} 
-        />
-      )}
+    <motion.section
+  variants={containerVariants}
+  initial="hidden"
+  animate="visible"
+  className="py-6 md:py-10 bg-white"
+>
+  <div className="container mx-auto">
+    <AnimatedText className="mb-2 md:mb-3">
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-800">
+        {logoData.title}
+      </h2>
+    </AnimatedText>
+    
+    <AnimatedText className="mb-4 md:mb-6" delay={0.2}>
+      <p className="text-base md:text-lg lg:text-xl text-center text-gray-600 max-w-3xl mx-auto">
+        {logoData.description}
+      </p>
+    </AnimatedText>
 
-      {/* Animated Sections */}
-      <AnimatedSection className="bg-gray-100">
+    <div className="w-full overflow-hidden">
+      <LogoCarousel 
+        logos={logoData.logos} 
+        BASE_URL={process.env.NEXT_PUBLIC_API_URL} 
+      />
+    </div>
+  </div>
+</motion.section>
+
+)}
+
+      {/* Rest of the sections */}
+      <AnimatedSection >
         <WhyUs />
       </AnimatedSection>
 
@@ -335,11 +417,11 @@ export default function Demo() {
         <Usecase />
       </AnimatedSection>
 
-      <AnimatedSection className="bg-gray-100">
+      <AnimatedSection >
         <WhyRubicr />
       </AnimatedSection>
 
-      <AnimatedSection className="bg-gray-100">
+      <AnimatedSection >
         <SixStep />
       </AnimatedSection>
 
@@ -359,25 +441,25 @@ export default function Demo() {
         <MediaCoverage />
       </AnimatedSection>
 
-      {/* CTA Section */}
+      {/* CTA Section with reduced spacing */}
       <AnimatedSection>
         <motion.section 
-          className="relative z-10 bg-[#f6e2cb] py-12 sm:py-16 md:py-20 mx-4 sm:mx-8 md:mx-12 lg:mx-20 rounded-3xl mb-20"
+          className="relative z-10 bg-[#f6e2cb] py-8 sm:py-10 md:py-12 mx-4 sm:mx-6 md:mx-8 lg:mx-12 rounded-3xl mb-12" // Reduced padding and margin
           variants={scaleUpVariants}
         >
           <div className="max-w-screen-xl mx-auto px-4">
             <AnimatedText>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"> {/* Reduced margin */}
                 Get Started Today
               </h2>
             </AnimatedText>
             
             <AnimatedText delay={0.2}>
-              <hr className="border-t-2 border-[#64271F] w-1/4 mb-6" />
+              <hr className="border-t-2 border-[#64271F] w-1/4 mb-4" /> {/* Reduced margin */}
             </AnimatedText>
             
             <AnimatedText delay={0.4}>
-              <p className="text-lg sm:text-xl md:text-2xl mb-8">
+              <p className="text-lg sm:text-xl md:text-2xl mb-6"> {/* Reduced margin */}
                 Ready to transform your ESG Performance?
               </p>
             </AnimatedText>
@@ -403,41 +485,4 @@ export default function Demo() {
       <BotpressChat />
     </div>
   );
-}
-
-// Enhanced AnimatedSection component
-function AnimatedSection({ children, className = "" }) {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1
-  });
-
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
-  }, [controls, inView]);
-
-  return (
-    <motion.section
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: 0.8,
-            ease: [0.6, -0.05, 0.01, 0.99]
-          }
-        }
-      }}
-      className={`relative z-10 py-12 sm:py-16 md:py-20 ${className}`}
-    >
-      {children}
-    </motion.section>
-  );
-}
+}  

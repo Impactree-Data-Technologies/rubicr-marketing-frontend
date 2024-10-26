@@ -18,7 +18,7 @@ const OurReach = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+    <section className="py-12 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300">
           Our Global Reach

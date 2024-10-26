@@ -62,12 +62,12 @@ export default function Feedback() {
   const { quote, name, title, image } = feedbackData[currentFeedbackIndex];
 
   return (
-    <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
+    <div className="bg-yellow-100 py-4 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-lg leading-6 font-semibold text-white">Hear from Our</h2>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Successful Clients</h1>
-          <p className="mt-3 text-base text-white">Discover how companies are achieving their ESG goals and driving business value with our solutions.</p>
+          <h2 className="text-lg leading-6 font-semibold text-black">Hear from Our</h2>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-black">Successful Clients</h1>
+          <p className="mt-3 text-base text-black">Discover how companies are achieving their ESG goals and driving business value with our solutions.</p>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <blockquote className="text-lg italic text-gray-700 mb-4 text-center">
@@ -102,7 +102,7 @@ export default function Feedback() {
           >
             {">"}
           </button>
-          <span className="text-white">{`${currentFeedbackIndex + 1}/${feedbackData.length}`}</span>
+          <span className="text-black">{`${currentFeedbackIndex + 1}/${feedbackData.length}`}</span>
         </div>
       </div>
     </div>

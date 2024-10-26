@@ -1,5 +1,6 @@
+'use client'
+import React, { useState, useEffect } from 'react';
 import { cache } from 'react';
-import { ArrowRight, CheckCircle } from 'lucide-react';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -26,37 +27,42 @@ interface ApiResponse {
   };
 }
 
-const Card = ({ children, className = "" }) => (
-  <div className={`bg-white rounded-lg shadow-md overflow-hidden ${className}`}>
-    {children}
+const NavigationDots = ({ total, current, onDotClick }) => (
+  <div className="flex justify-center space-x-2">
+    {[...Array(total)].map((_, index) => (
+      <button
+        key={index}
+        onClick={() => onDotClick(index)}
+        className={`w-2 h-2 rounded-full transition-colors ${
+          index === current ? 'bg-blue-600' : 'bg-gray-300'
+        }`}
+        aria-label={`Go to slide ${index + 1}`}
+      />
+    ))}
   </div>
 );
 
-const CardHeader = ({ children }) => (
-  <div className="p-6 pb-3">
-    {children}
+const NavigationArrows = ({ onPrevClick, onNextClick }) => (
+  <div className="flex space-x-4">
+    <button
+      onClick={onPrevClick}
+      className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
+      aria-label="Previous slide"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M15 18l-6-6 6-6" />
+      </svg>
+    </button>
+    <button
+      onClick={onNextClick}
+      className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
+      aria-label="Next slide"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+    </button>
   </div>
-);
-
-const CardContent = ({ children }) => (
-  <div className="px-6 pb-4">
-    {children}
-  </div>
-);
-
-const CardFooter = ({ children }) => (
-  <div className="px-6 pb-6">
-    {children}
-  </div>
-);
-
-const Button = ({ children, className = "", ...props }) => (
-  <button
-    className={`inline-flex items-center justify-center text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${className}`}
-    {...props}
-  >
-    {children}
-  </button>
 );
 
 const getWhyUsData = cache(async () => {
@@ -64,10 +70,13 @@ const getWhyUsData = cache(async () => {
     const response = await fetch(`${BASE_URL}/api/home?populate=why_us.us_card`, {
       next: { revalidate: 3600 },
     });
+    
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
+    
     const data: ApiResponse = await response.json();
+    
     if (data.data?.attributes?.why_us?.[0]) {
       return data.data.attributes.why_us[0];
     } else {
@@ -79,64 +88,122 @@ const getWhyUsData = cache(async () => {
   }
 });
 
-export default async function WhyUs() {
-  const whyUsData = await getWhyUsData();
+const ESGPlatform = () => {
+  const [whyUsData, setWhyUsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
 
-  if (!whyUsData) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px] text-gray-500">
-        No data available
-      </div>
-    );
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) { // Mobile
+        setItemsPerPage(1);
+      } else if (window.innerWidth < 1024) { // Tablet
+        setItemsPerPage(2);
+      } else { // Desktop
+        setItemsPerPage(3);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getWhyUsData();
+        setWhyUsData(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-16">Loading...</div>;
   }
 
-  return (
-    <section className="py-16 px-4 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 text-gray-900 opacity-0 animate-fade-in">
-            {whyUsData.heading}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto opacity-0 animate-fade-in animation-delay-200">
-            {whyUsData.description}
-          </p>
-        </div>
+  if (error) {
+    return <div className="text-center py-16 text-red-600">Error: {error}</div>;
+  }
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {whyUsData.us_card.map((item, index) => (
-            <div
-              key={item.id}
-              className={`opacity-0 animate-fade-in`}
-              style={{ animationDelay: `${index * 100}ms` }}
+  if (!whyUsData) {
+    return <div className="text-center py-16">No data available</div>;
+  }
+
+  const totalCards = whyUsData.us_card.length;
+  const totalPages = Math.ceil((totalCards - itemsPerPage + 1) / 1);
+
+  const handlePrevClick = () => {
+    setCurrentIndex(prev => {
+      const newIndex = prev - 1;
+      return newIndex < 0 ? totalCards - itemsPerPage : newIndex;
+    });
+  };
+
+  const handleNextClick = () => {
+    setCurrentIndex(prev => {
+      const newIndex = prev + 1;
+      return newIndex > totalCards - itemsPerPage ? 0 : newIndex;
+    });
+  };
+
+  const visibleCards = whyUsData.us_card.slice(currentIndex, currentIndex + itemsPerPage);
+
+  return (
+    <div className="w-full max-w-7xl mx-auto px-4 py-16">
+      <div className="text-center mb-12">
+        <h1 className="text-3xl font-bold text-blue-600 mb-4">
+          {whyUsData.heading}
+        </h1>
+        <p className="text-gray-600 max-w-3xl mx-auto">
+          {whyUsData.description}
+        </p>
+      </div>
+
+      <div className="relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {visibleCards.map((item) => (
+            <div 
+              key={item.id} 
+              className="flex flex-col p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <Card className="h-full transition-all duration-300 hover:shadow-lg">
-                <CardHeader>
-                  <div className="flex items-center gap-2 mb-2">
-                    <CheckCircle className="w-6 h-6 text-blue-500" />
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      {item.heading}
-                    </h3>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">
-                    {item.description}
-                  </p>
-                </CardContent>
-                {/* <CardFooter>
-                  <a 
-                    href={item.link}
-                    className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors group"
-                  >
-                    Learn More
-                    <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                </CardFooter> */}
-              </Card>
+              <div className="text-4xl mb-4">{item.link}</div>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                {item.heading}
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 flex-grow">
+                {item.description}
+              </p>
             </div>
           ))}
         </div>
+
+        <div className="mt-8 relative">
+          <div className="absolute right-0 top-1/2 -translate-y-1/2">
+            <NavigationArrows
+              onPrevClick={handlePrevClick}
+              onNextClick={handleNextClick}
+            />
+          </div>
+          <div className="w-full pb-4">
+            <NavigationDots
+              total={totalPages}
+              current={currentIndex}
+              onDotClick={setCurrentIndex}
+            />
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
   );
-}
+};
+
+export default ESGPlatform;
