@@ -158,7 +158,7 @@ const ESGPlatform = () => {
   const visibleCards = whyUsData.us_card.slice(currentIndex, currentIndex + itemsPerPage);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-16">
+    <div className="w-full max-w-7xl mx-auto px-4 ">
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold text-blue-600 mb-4">
           {whyUsData.heading}

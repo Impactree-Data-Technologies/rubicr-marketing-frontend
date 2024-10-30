@@ -72,17 +72,15 @@ const FeatureCard = ({ heading, description, subdescription, index }: CardData &
           {getIconForCard(index)}
         </div>
         
-        <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+        {/* <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
           {subdescription}
-        </div>
+        </div> */}
         
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">{heading}</h2>
         
         <p className="text-gray-600 dark:text-gray-300 mb-6">{description}</p>
         
-        <div className="flex items-center text-purple-600 dark:text-purple-400 font-medium group-hover:translate-x-2 transition-transform duration-300">
-          Learn More <ArrowRight className="ml-2 w-4 h-4" />
-        </div>
+       
       </div>
     </motion.div>
   );
@@ -100,7 +98,7 @@ export default async function WhyRubicr() {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-purple-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <section className="py-8 px-4 bg-gradient-to-b from-purple-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

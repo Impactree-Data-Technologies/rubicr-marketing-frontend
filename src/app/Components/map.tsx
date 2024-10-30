@@ -122,14 +122,14 @@ const RegionalCarousel = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center  sm:p-6 md:p-8">
       <div className="w-full max-w-6xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 md:mb-4">
           ESG Relevance Across Regions
           </h1>
           <p className="text-sm md:text-base text-gray-600">
-          Explore how Environmental, Social, and Governance (ESG) factors impact our business across different regions. Click on the markers to learn more.
+          Explore how Environmental, Social, and Governance (ESG) factors impact our business across different regions.
           </p>
         </div>
 

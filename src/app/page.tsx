@@ -248,7 +248,7 @@ function AnimatedSection({ children, className = "" }) {
           }
         }
       }}
-      className={`relative z-10 py-6 sm:py-8 md:py-10 ${className}`}
+      className={`relative z-10 py-6 sm:py-8 md:py-8 ${className}`}
     >
       {children}
     </motion.section>
@@ -441,45 +441,17 @@ export default function Demo() {
         <MediaCoverage />
       </AnimatedSection>
 
-      {/* CTA Section with reduced spacing */}
-      <AnimatedSection>
-        <motion.section 
-          className="relative z-10 bg-[#f6e2cb] py-8 sm:py-10 md:py-12 mx-4 sm:mx-6 md:mx-8 lg:mx-12 rounded-3xl mb-12" // Reduced padding and margin
-          variants={scaleUpVariants}
-        >
-          <div className="max-w-screen-xl mx-auto px-4">
-            <AnimatedText>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"> {/* Reduced margin */}
-                Get Started Today
-              </h2>
-            </AnimatedText>
-            
-            <AnimatedText delay={0.2}>
-              <hr className="border-t-2 border-[#64271F] w-1/4 mb-4" /> {/* Reduced margin */}
-            </AnimatedText>
-            
-            <AnimatedText delay={0.4}>
-              <p className="text-lg sm:text-xl md:text-2xl mb-6"> {/* Reduced margin */}
-                Ready to transform your ESG Performance?
-              </p>
-            </AnimatedText>
-            
-            <AnimatedText delay={0.6}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button 
-                  label="Begin Your Journey" 
-                  background="#FFCD1B" 
-                  color="black" 
-                  href="/contact-us"
-                />
-              </motion.div>
-            </AnimatedText>
-          </div>
-        </motion.section>
-      </AnimatedSection>
+                 <div className="py-10">
+
+                  <section className="bg-gradient-to-r from-yellow-400 to-yellow-600 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
+                <div className="max-w-screen-xl mx-auto px-4 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>
+                    <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
+                    <p className="text-xl md:text-2xl mb-8 text-white">Ready to transform your ESG Performance?</p>
+                    <Button label="Begin Your Journey" background="#FFCD1B" color="white" href="/contact-us" />
+                </div>
+            </section>
+            </div>
 
       <Footer />
       <BotpressChat />
