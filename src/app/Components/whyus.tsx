@@ -4,6 +4,7 @@ import { cache } from 'react';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+// Interfaces for type safety
 interface UsCard {
   id: number;
   heading: string;
@@ -27,7 +28,20 @@ interface ApiResponse {
   };
 }
 
-const NavigationDots = ({ total, current, onDotClick }) => (
+// Type for NavigationDots props
+interface NavigationDotsProps {
+  total: number;
+  current: number;
+  onDotClick: (index: number) => void;
+}
+
+// Type for NavigationArrows props
+interface NavigationArrowsProps {
+  onPrevClick: () => void;
+  onNextClick: () => void;
+}
+
+const NavigationDots: React.FC<NavigationDotsProps> = ({ total, current, onDotClick }) => (
   <div className="flex justify-center space-x-2">
     {[...Array(total)].map((_, index) => (
       <button
@@ -42,7 +56,7 @@ const NavigationDots = ({ total, current, onDotClick }) => (
   </div>
 );
 
-const NavigationArrows = ({ onPrevClick, onNextClick }) => (
+const NavigationArrows: React.FC<NavigationArrowsProps> = ({ onPrevClick, onNextClick }) => (
   <div className="flex space-x-4">
     <button
       onClick={onPrevClick}
@@ -65,7 +79,7 @@ const NavigationArrows = ({ onPrevClick, onNextClick }) => (
   </div>
 );
 
-const getWhyUsData = cache(async () => {
+const getWhyUsData = cache(async (): Promise<WhyUsData | null> => {
   try {
     const response = await fetch(`${BASE_URL}/api/home?populate=why_us.us_card`, {
       next: { revalidate: 3600 },
@@ -88,12 +102,13 @@ const getWhyUsData = cache(async () => {
   }
 });
 
-const ESGPlatform = () => {
-  const [whyUsData, setWhyUsData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+const ESGPlatform: React.FC = () => {
+  // Explicitly type state variables
+  const [whyUsData, setWhyUsData] = useState<WhyUsData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(3);
 
   useEffect(() => {
     const handleResize = () => {
@@ -117,8 +132,10 @@ const ESGPlatform = () => {
         const data = await getWhyUsData();
         setWhyUsData(data);
         setLoading(false);
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        // Type safe error handling
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        setError(errorMessage);
         setLoading(false);
       }
     };
@@ -158,7 +175,7 @@ const ESGPlatform = () => {
   const visibleCards = whyUsData.us_card.slice(currentIndex, currentIndex + itemsPerPage);
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 ">
+    <div className="w-full max-w-7xl mx-auto px-4">
       <div className="text-center mb-12">
         <h1 className="text-3xl font-bold text-blue-600 mb-4">
           {whyUsData.heading}

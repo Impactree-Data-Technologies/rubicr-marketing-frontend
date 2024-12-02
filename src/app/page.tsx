@@ -4,69 +4,26 @@ import { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import dynamic from 'next/dynamic';
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import {Poppins } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 
 // Dynamic imports
 const Navbar = dynamic(() => import("../app/Components/navbar"), { ssr: false });
 const WhyRubicr = dynamic(() => import("../app/Components/whyrubicr"), { ssr: false });
 const WhyUs = dynamic(() => import("../app/Components/whyus"), { ssr: false });
-const Impact = dynamic(() => import("../app/Components/impact"), { ssr: false });
-const Doit = dynamic(() => import("../app/Components/doit"), { ssr: false });
 const Usecase = dynamic(() => import("../app/Components/usecase"), { ssr: false });
-const SixStep = dynamic(() => import("../app/Components/sixstep"), { ssr: false });
-const InteractiveMap = dynamic(() => import("../app/Components/map"), { ssr: false });
-const TeamSection = dynamic(() => import("../app/Components/teamsection"), { ssr: false });
-const ImageToggle = dynamic(() => import("../app/Components/imagetoggle"), { ssr: false });
 const Feedback = dynamic(() => import("../app/Components/feedback"), { ssr: false });
+const ImageToggle = dynamic(() => import("../app/Components/imagetoggle"), { ssr: false });
+const OurReach = dynamic(() => import("../app/Components/ourreach"), { ssr: false });
+const BotpressChat = dynamic(() => import("../app/Components/BotpressChat"), { ssr: false });
 const Footer = dynamic(() => import("../app/Components/footer"), { ssr: false });
 const Button = dynamic(() => import("../app/Components/button"), { ssr: false });
-const OurReach = dynamic(() => import("../app/Components/ourreach"), { ssr: false });
-const MediaCoverage = dynamic(() => import("../app/Components/MediaCoverage"), { ssr: false });
-const BotpressChat = dynamic(() => import("../app/Components/BotpressChat"), { ssr: false });
 const Image = dynamic(() => import('next/image'), { ssr: false });
 
-// Animation variants
-const textVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99]
-    }
-  }
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.3
-    }
-  }
-};
-
-const scaleUpVariants = {
-  hidden: { scale: 0.95, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.6, -0.05, 0.01, 0.99]
-    }
-  }
-};
-
-// Interfaces
+// Comprehensive Interfaces
 interface LogoAttributes {
   url: string;
   name: string;
+  alternativeText?: string;
 }
 
 interface Logo {
@@ -85,6 +42,12 @@ interface HomeData {
   subdescription: string;
 }
 
+interface ApiResponse<T> {
+  data: {
+    attributes: T;
+  };
+}
+
 interface WithRubicrData {
   id: number;
   attributes: {
@@ -92,18 +55,45 @@ interface WithRubicrData {
   };
 }
 
-// Logo Carousel Component
-const LogoCarousel = ({ logos, BASE_URL }) => {
+interface WhyRubicrAttributes {
+  card?: {
+    heading?: string;
+  };
+}
+
+interface ImageTogglerAttributes {
+  image_toggler?: {
+    with_rubicr?: {
+      data: WithRubicrData;
+    };
+  };
+}
+
+// Animation Variants (kept as before)
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3
+    }
+  }
+};
+
+// Logo Carousel Component with TypeScript Props
+const LogoCarousel: React.FC<{ 
+  logos: Logo[]; 
+  BASE_URL?: string 
+}> = ({ logos, BASE_URL = '' }) => {
   const [position, setPosition] = useState(0);
 
   useEffect(() => {
     const animation = () => {
-      const moveAmount = 2; // Speed of movement (pixels per frame)
+      const moveAmount = 2;
       setPosition((prevPosition) => {
-        // Calculate the width of one complete set of logos
-        const totalWidth = (logos.length * 200); // Assuming each logo container is 200px
+        const totalWidth = (logos.length * 200);
         
-        // If we've moved the full width, reset to start
         if (Math.abs(prevPosition) >= totalWidth) {
           return 0;
         }
@@ -111,14 +101,13 @@ const LogoCarousel = ({ logos, BASE_URL }) => {
       });
     };
 
-    const animationFrame = setInterval(animation, 30); // Adjust for smoother/faster animation
+    const animationFrame = setInterval(animation, 30);
 
     return () => clearInterval(animationFrame);
   }, [logos.length]);
 
   return (
     <div className="relative w-full overflow-hidden bg-white py-8">
-      {/* Main logo container */}
       <div 
         className="flex"
         style={{
@@ -126,70 +115,40 @@ const LogoCarousel = ({ logos, BASE_URL }) => {
           transition: 'transform 0.1s linear'
         }}
       >
-        {/* Original set of logos */}
-        {logos.map((logoData, index) => (
-          <div
-            key={`original-${index}`}
-            className="flex-shrink-0 mx-8" // Added margin for spacing between logos
-            style={{ width: '200px' }} // Fixed width for each logo container
-          >
-            <Image
-              src={`${BASE_URL}${logoData.attributes.url}`}
-              alt={logoData.attributes.name}
-              width={150}
-              height={75}
-              className="w-auto h-16 object-contain"
-            />
-          </div>
-        ))}
-        
-        {/* Duplicate set for seamless loop */}
-        {logos.map((logoData, index) => (
-          <div
-            key={`duplicate-${index}`}
-            className="flex-shrink-0 mx-8"
-            style={{ width: '200px' }}
-          >
-            <Image
-              src={`${BASE_URL}${logoData.attributes.url}`}
-              alt={logoData.attributes.name}
-              width={150}
-              height={75}
-              className="w-auto h-16 object-contain"
-            />
-          </div>
-        ))}
-        
-        {/* Third set for extra smoothness */}
-        {logos.map((logoData, index) => (
-          <div
-            key={`triplicate-${index}`}
-            className="flex-shrink-0 mx-8"
-            style={{ width: '200px' }}
-          >
-            <Image
-              src={`${BASE_URL}${logoData.attributes.url}`}
-              alt={logoData.attributes.name}
-              width={150}
-              height={75}
-              className="w-auto h-16 object-contain"
-            />
-          </div>
+        {[...Array(3)].map((_, setIndex) => (
+          logos.map((logoData, index) => (
+            <div
+              key={`logo-${setIndex}-${index}`}
+              className="flex-shrink-0 mx-8"
+              style={{ width: '200px' }}
+            >
+              <Image
+                src={`${BASE_URL}${logoData.attributes.url}`}
+                alt={logoData.attributes.name || 'Logo'}
+                width={150}
+                height={75}
+                className="w-auto h-16 object-contain"
+              />
+            </div>
+          ))
         ))}
       </div>
     </div>
   );
 };
 
-
-const poppins  = Poppins({
-  subsets: ['latin'] , // Include the required subsets
-   weight: '400' , // Specify the font weights you want to use
- style: 'normal', // Optional: Include italic styles if needed
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: '400',
+  style: 'normal'
 });
 
-// AnimatedText component
-const AnimatedText = ({ children, className = "", delay = 0 }) => {
+// AnimatedText Component
+const AnimatedText: React.FC<{ 
+  children: React.ReactNode; 
+  className?: string; 
+  delay?: number 
+}> = ({ children, className = "", delay = 0 }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -226,8 +185,11 @@ const AnimatedText = ({ children, className = "", delay = 0 }) => {
   );
 };
 
-// AnimatedSection component
-function AnimatedSection({ children, className = "" }) {
+// AnimatedSection Component
+const AnimatedSection: React.FC<{ 
+  children: React.ReactNode; 
+  className?: string 
+}> = ({ children, className = "" }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -261,34 +223,44 @@ function AnimatedSection({ children, className = "" }) {
       {children}
     </motion.section>
   );
-}
+};
 
-// Main component
+// Main Component
 export default function Demo() {
   const [data1, setData1] = useState<HomeData | null>(null);
-  const [data3, setData3] = useState<any>(null);
+  const [data3, setData3] = useState<WhyRubicrAttributes | null>(null);
   const [data4, setData4] = useState<WithRubicrData | null>(null);
-  const [logoData, setLogoData] = useState<LogoData>({ title: '', description: '', logos: [] });
+  const [logoData, setLogoData] = useState<LogoData>({ 
+    title: '', 
+    description: '', 
+    logos: [] 
+  });
 
   useEffect(() => {
     async function fetchData() {
       if (typeof window !== 'undefined') {
         try {
           const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-          const response1 = await fetch(`${BASE_URL}/api/home?populate=*`);
-          const response2 = await fetch(`${BASE_URL}/api/home?populate=Logo.logo`);
-          const response3 = await fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`);
-          const response4 = await fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`);
-          
-          if (!response1.ok || !response2.ok || !response3.ok || !response4.ok) {
+          const responses = await Promise.all([
+            fetch(`${BASE_URL}/api/home?populate=*`),
+            fetch(`${BASE_URL}/api/home?populate=Logo.logo`),
+            fetch(`${BASE_URL}/api/home?populate[0]=whyrubicr.card.heading`),
+            fetch(`${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr`)
+          ]);
+
+          // Check if all responses are okay
+          if (!responses.every(response => response.ok)) {
             throw new Error("Network response was not ok");
           }
 
-          const responseData1 = await response1.json();
-          const responseData2 = await response2.json();
-          const responseData3 = await response3.json();
-          const responseData4 = await response4.json();
+          const [
+            responseData1, 
+            responseData2, 
+            responseData3, 
+            responseData4
+          ] = await Promise.all(responses.map(r => r.json()));
 
+          // Type-safe data assignments
           setData1(responseData1.data.attributes);
           setLogoData({
             title: responseData2.data.attributes.Logo.logo_title,
@@ -296,12 +268,13 @@ export default function Demo() {
             logos: responseData2.data.attributes.Logo.logo.data.map((item: any) => ({
               attributes: {
                 url: item.attributes.url,
-                name: item.attributes.name || 'Logo'
+                name: item.attributes.name || 'Logo',
+                alternativeText: item.attributes.alternativeText || ''
               }
             }))
           });
           setData3(responseData3.data.attributes);
-          setData4(responseData4.data.attributes.image_toggler.with_rubicr.data);
+          setData4(responseData4.data.attributes.image_toggler?.with_rubicr?.data ?? null);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -311,8 +284,10 @@ export default function Demo() {
     fetchData();
   }, []);
 
+  // Rest of the component remains the same as in the original code
   return (
     <div className={poppins.className}>
+      {/* Previous JSX remains unchanged */}
       <Navbar className="fixed top-0 left-0 right-0 z-50" />
       
       {/* Hero Section with Video Background */}
@@ -462,9 +437,9 @@ export default function Demo() {
                 </div>
             </section>
             </div>
-
+      
       <Footer />
       <BotpressChat />
     </div>
   );
-}  
+}

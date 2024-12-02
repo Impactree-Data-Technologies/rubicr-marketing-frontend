@@ -1,7 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Globe2 } from 'lucide-react';
 
-const regions = [
+// Define the Region interface to resolve type issues
+interface Region {
+  name: string;
+  description: string;
+  status: string;
+  color: string;
+}
+
+const regions: Region[] = [
   {
     name: 'North America',
     description: 'Climate action and diversity are front and center, with regulations pushing for reduced carbon footprints and inclusive workplaces.',
@@ -34,16 +42,16 @@ const regions = [
   }
 ];
 
-const RegionalCarousel = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const carouselRef = useRef(null);
-  const autoPlayRef = useRef(null);
+const RegionalCarousel: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(true);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
-  const scrollToIndex = (index) => {
+  const scrollToIndex = (index: number) => {
     if (carouselRef.current) {
       const container = carouselRef.current;
-      const cardWidth = container.children[0].offsetWidth;
+      const cardWidth = container.children[0].clientWidth;
       const gap = 16; // Adjust based on your gap size
       const scrollLeft = index * (cardWidth + gap);
       
@@ -65,7 +73,7 @@ const RegionalCarousel = () => {
     scrollToIndex(newIndex);
   };
 
-  const handleNext = (fromAutoPlay = false) => {
+  const handleNext = (fromAutoPlay: boolean = false) => {
     if (!fromAutoPlay) {
       setIsAutoPlaying(false);
       if (autoPlayRef.current) {
@@ -107,11 +115,11 @@ const RegionalCarousel = () => {
     setIsAutoPlaying(true);
   };
 
-  const handleScroll = (e) => {
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     if (carouselRef.current) {
       const container = carouselRef.current;
       const scrollPosition = container.scrollLeft;
-      const cardWidth = container.children[0].offsetWidth;
+      const cardWidth = container.children[0].clientWidth;
       const gap = 16;
       const newIndex = Math.round(scrollPosition / (cardWidth + gap));
       
@@ -122,14 +130,14 @@ const RegionalCarousel = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center  sm:p-6 md:p-8">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center sm:p-6 md:p-8">
       <div className="w-full max-w-6xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 md:mb-4">
-          ESG Relevance Across Regions
+            ESG Relevance Across Regions
           </h1>
           <p className="text-sm md:text-base text-gray-600">
-          Explore how Environmental, Social, and Governance (ESG) factors impact our business across different regions.
+            Explore how Environmental, Social, and Governance (ESG) factors impact our business across different regions.
           </p>
         </div>
 

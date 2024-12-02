@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const MediaCoverage = () => {
-  const scrollRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(true);
-  
-  const mediaLogos = [
+// Define interface for media logo
+interface MediaLogo {
+  name: string;
+  src: string;
+}
+
+const MediaCoverage: React.FC = () => {
+  // Explicitly type the ref
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+ 
+  const mediaLogos: MediaLogo[] = [
     { name: 'NDTV', src: '/ndtv.webp' },
     { name: 'The Times of India', src: '/toi.webp' },
     { name: 'The Hindu', src: '/hindu.webp' },
@@ -13,31 +20,40 @@ const MediaCoverage = () => {
   ];
 
   useEffect(() => {
+    // Safely handle the ref
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
+    // Explicitly type the scroll event handler
     const handleScroll = () => {
       if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
         setIsVisible(false);
         setTimeout(() => {
-          scrollContainer.scrollLeft = 0;
-          setIsVisible(true);
+          if (scrollContainer) {
+            scrollContainer.scrollLeft = 0;
+            setIsVisible(true);
+          }
         }, 100);
       }
     };
 
+    // Explicitly type the animate function
     const animate = () => {
       if (scrollContainer && isVisible) {
         scrollContainer.scrollLeft += 3; // Adjust speed here
       }
     };
 
+    // Use NodeJS.Timeout for interval type
     const interval = setInterval(animate, 30);
-    scrollContainer.addEventListener('scroll', handleScroll);
-
+    
+    // Use type assertion for event listener
+    scrollContainer.addEventListener('scroll', handleScroll as EventListener);
+    
+    // Cleanup function
     return () => {
       clearInterval(interval);
-      scrollContainer.removeEventListener('scroll', handleScroll);
+      scrollContainer.removeEventListener('scroll', handleScroll as EventListener);
     };
   }, [isVisible]);
 
@@ -50,13 +66,12 @@ const MediaCoverage = () => {
             Top Media Outlets
           </span>
         </h2>
-
         <div className="relative w-full">
           {/* Fade effect on edges */}
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
-          
-          <div 
+         
+          <div
             ref={scrollRef}
             className="overflow-hidden relative w-full h-24 whitespace-nowrap"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
