@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import dynamic from 'next/dynamic';
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {Poppins } from 'next/font/google';
 
 // Dynamic imports
 const Navbar = dynamic(() => import("../app/Components/navbar"), { ssr: false });
@@ -180,6 +181,13 @@ const LogoCarousel = ({ logos, BASE_URL }) => {
   );
 };
 
+
+const poppins  = Poppins({
+  subsets: ['latin'] , // Include the required subsets
+   weight: '400' , // Specify the font weights you want to use
+ style: 'normal', // Optional: Include italic styles if needed
+});
+
 // AnimatedText component
 const AnimatedText = ({ children, className = "", delay = 0 }) => {
   const controls = useAnimation();
@@ -304,7 +312,7 @@ export default function Demo() {
   }, []);
 
   return (
-    <div className="font-sans">
+    <div className={poppins.className}>
       <Navbar className="fixed top-0 left-0 right-0 z-50" />
       
       {/* Hero Section with Video Background */}
@@ -359,7 +367,7 @@ export default function Demo() {
                    className="px-4"
                 >
                   <Button 
-                    label="Begin Your Journey" 
+                    label="Schedule a demo" 
                     background="#FFCD1B" 
                     color="black" 
                     href="/contact-us"
@@ -409,9 +417,9 @@ export default function Demo() {
         <WhyUs />
       </AnimatedSection>
 
-      <AnimatedSection>
+      {/* <AnimatedSection>
         <InteractiveMap />
-      </AnimatedSection>
+      </AnimatedSection> */}
 
       <AnimatedSection>
         <Usecase />
@@ -421,34 +429,36 @@ export default function Demo() {
         <WhyRubicr />
       </AnimatedSection>
 
-      <AnimatedSection >
+      {/* <AnimatedSection >
         <SixStep />
+      </AnimatedSection> */}
+
+      
+<AnimatedSection>
+        <Feedback />
       </AnimatedSection>
 
       <AnimatedSection>
         <ImageToggle />
       </AnimatedSection>
 
-      <AnimatedSection>
-        <Feedback />
-      </AnimatedSection>
 
       <AnimatedSection>
         <OurReach />
       </AnimatedSection>
 
-      <AnimatedSection>
+      {/* <AnimatedSection>
         <MediaCoverage />
-      </AnimatedSection>
+      </AnimatedSection> */}
 
                  <div className="py-10">
 
-                  <section className="bg-gradient-to-r from-yellow-400 to-yellow-600 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
+                  <section className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
                 <div className="max-w-screen-xl mx-auto px-4 text-center">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>
                     <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
                     <p className="text-xl md:text-2xl mb-8 text-white">Ready to transform your ESG Performance?</p>
-                    <Button label="Begin Your Journey" background="#FFCD1B" color="white" href="/contact-us" />
+                    <Button label="Schedule a demo" background="#FFCD1B" color="white" href="/contact-us" />
                 </div>
             </section>
             </div>

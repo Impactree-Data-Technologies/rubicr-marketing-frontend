@@ -25,23 +25,23 @@ interface MenuItems {
 const menuItems: MenuItems = {
     'Modules': [
         { title: 'Sustainability Reporting', items: [
-            { name: 'Extensive Standards Database', icon: '📊', link: '/modules/sustainability-reporting/standards-database', description: 'Access a comprehensive database of global sustainability standards.' },
-            { name: 'Task Management', icon: '✅', link: '/task-management', description: 'Efficiently manage and track sustainability-related tasks and projects.' },
-            { name: 'Sustainable Intelligence Rating', icon: '🌟', link: '/modules/sustainability-reporting/intelligence-rating', description: 'Get insights and ratings on your organization\'s sustainability performance.' },
-            { name: 'Performance Benchmarks', icon: '📈', link: '/modules/sustainability-reporting/performance-benchmarks', description: 'Compare your sustainability metrics against industry benchmarks.' },
+            { name: 'Extensive Standards Database', icon: '📊', link: '/modules/standards-database', description: 'Access a comprehensive database of global sustainability standards.' },
+            { name: 'Task Management', icon: '✅', link: '/modules/task-management', description: 'Efficiently manage and track sustainability-related tasks and projects.' },
+            { name: 'Sustainable Intelligence Rating', icon: '🌟', link: '/modules/intelligence-rating', description: 'Get insights and ratings on your organization\'s sustainability performance.' },
+            { name: 'Performance Benchmarks', icon: '📈', link: '/modules/performance-benchmarks', description: 'Compare your sustainability metrics against industry benchmarks.' },
         ]},
         { title: 'Performance Management', items: [
-            { name: 'Supply Chain Tracking', icon: '🔗', link: '/modules/performance-management/supply-chain-tracking', description: 'Monitor and optimize sustainability throughout your supply chain.' },
-            { name: 'Track Key Operational Indicators', icon: '🎯', link: '/modules/performance-management/operational-indicators', description: 'Monitor crucial operational metrics impacting sustainability.' },
-            { name: 'Easy to understand ESG pillars', icon: '🏛️', link: '/modules/performance-management/esg-pillars', description: 'Simplify complex ESG concepts for better understanding and implementation.' },
-            { name: 'Governance Tracker', icon: '📋', link: '/modules/performance-management/governance-tracker', description: 'Track and improve your organization\'s governance practices.' },
-            { name: 'Social Tracker', icon: '👥', link: '/modules/performance-management/social-tracker', description: 'Monitor and enhance your company\'s social impact and initiatives.' },
+            { name: 'Supply Chain Tracking', icon: '🔗', link: '/modules/supply-chain-tracking', description: 'Monitor and optimize sustainability throughout your supply chain.' },
+            { name: 'Track Key Operational Indicators', icon: '🎯', link: '/modules/operational-indicators', description: 'Monitor crucial operational metrics impacting sustainability.' },
+            { name: 'Easy to understand ESG pillars', icon: '🏛️', link: '/modules/esg-pillars', description: 'Simplify complex ESG concepts for better understanding and implementation.' },
+            { name: 'Governance Tracker', icon: '📋', link: '/modules/governance-tracker', description: 'Track and improve your organization\'s governance practices.' },
+            { name: 'Social Tracker', icon: '👥', link: '/modules/social-tracker', description: 'Monitor and enhance your company\'s social impact and initiatives.' },
         ]},
         { title: 'Emission Tracking', items: [
-            { name: 'Scope-1 & Scope-2 accounting', icon: '🏭', link: '/modules/emission-tracking/scope-1-2', description: 'Accurately measure and report direct and indirect emissions.' },
-            { name: 'Scope-3 tracking', icon: '🌐', link: '/modules/emission-tracking/scope-3', description: 'Monitor and manage emissions across your entire value chain.' },
-            { name: 'Non GHG Emissions Management', icon: '💨', link: '/modules/emission-tracking/non-ghg', description: 'Track and reduce non-greenhouse gas emissions effectively.' },
-            { name: 'Unit wise tracking', icon: '🏛️ ', link: '/modules/emission-tracking/unit-tracking', description: 'Monitor emissions at individual unit or facility level for detailed insights.' },
+            { name: 'Scope-1 & Scope-2 accounting', icon: '🏭', link: '/modules/scope-1-2', description: 'Accurately measure and report direct and indirect emissions.' },
+            { name: 'Scope-3 tracking', icon: '🌐', link: '/modules/scope-3', description: 'Monitor and manage emissions across your entire value chain.' },
+            { name: 'Non GHG Emissions Management', icon: '💨', link: '/modules/non-ghg', description: 'Track and reduce non-greenhouse gas emissions effectively.' },
+            { name: 'Unit wise tracking', icon: '🏛️ ', link: '/modules/unit-tracking', description: 'Monitor emissions at individual unit or facility level for detailed insights.' },
         ]},
     ],
     'Use Cases': [
@@ -155,7 +155,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                             </div>
                         </div>
                         <div className="hidden lg:flex items-center">
-                            <Button label="Begin Your Journey" background="#FFCD1B" color="black" href='/contact-us' />
+                            <Button label="Schedule a demo" background="#FFCD1B" color="black" href='/contact-us' />
                         </div>
                         <button
                             type="button"
@@ -217,7 +217,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
                             Pricing
                         </Link>
                         
-                        <Button label="Begin Your Journey" background="#FFCD1B" color="black"  href='/contact-us' />
+                        <Button label="Schedule a demo" background="#FFCD1B" color="black"  href='/contact-us' />
                         
                     </div>
                 </div>
