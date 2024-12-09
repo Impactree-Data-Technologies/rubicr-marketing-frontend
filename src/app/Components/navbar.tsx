@@ -44,27 +44,26 @@ const menuItems: MenuItems = {
             { name: 'Unit wise tracking', icon: '🏛️ ', link: '/modules/unit-tracking', description: 'Monitor emissions at individual unit or facility level for detailed insights.' },
         ]},
     ],
-    'Use Cases': [
-        { name: 'Sustainability Reporting', icon: '📊', link: '/sustainability-reporting', description: 'Streamline your sustainability reporting process.' },
-        { name: 'Performance Management', icon: '📈', link: '/use-cases/performance-management', description: 'Optimize your sustainability performance.' },
-        { name: 'Emission Tracking', icon: '🌍', link: '/use-cases/emission-tracking', description: 'Accurately track and reduce your emissions.' }
+    // 'Use Cases': [
+    //     { name: 'Sustainability Reporting', icon: '📊', link: '/sustainability-reporting', description: 'Streamline your sustainability reporting process.' },
+    //     { name: 'Performance Management', icon: '📈', link: '/use-cases/performance-management', description: 'Optimize your sustainability performance.' },
+    //     { name: 'Emission Tracking', icon: '🌍', link: '/use-cases/emission-tracking', description: 'Accurately track and reduce your emissions.' }
+    // ],
+    'Industries': [
+        { name: 'Automobile', icon: '🚗', link: '/industries/automobile', description: 'Sustainability solutions for the automotive industry.' },
+        { name: 'Chemical', icon: '🧪', link: '/industries/chemical', description: 'Manage environmental impact in the chemical sector.' },
+        { name: 'Logistics', icon: '🚚', link: '/industries/logistics', description: 'Optimizing supply chain efficiency and sustainable transportation solutions.' }
     ],
-    'Sectors': [
-        { name: 'Automobile', icon: '🚗', link: '/sectors/automobile', description: 'Sustainability solutions for the automotive industry.' },
-        { name: 'Chemicals', icon: '🧪', link: '/sectors/chemicals', description: 'Manage environmental impact in the chemical sector.' },
-        { name: 'ITES', icon: '💻', link: '/sectors/ites', description: 'IT-enabled services sustainability management.' },
-        { name: 'BFSI', icon: '🏦', link: '/sectors/bfsi', description: 'Sustainable practices for banking and finance.' },
-        { name: 'O&M', icon: '🔧', link: '/sectors/om', description: 'Operations and Maintenance sustainability solutions.' },
-        { name: 'Sports', icon: '⚽', link: '/sectors/sports', description: 'Promoting sustainability in sports organizations.' }
-    ],
-    'Resources': [
-        { name: 'Overview', icon: '📚', link: '/resources/overview', description: 'Get an overview of our sustainability resources.' },
-        { name: 'Case Studies', icon: '📝', link: '/resources/case-studies', description: 'Learn from real-world sustainability success stories.' },
-        { name: 'Blog', icon: '✍️', link: '/resources/blog', description: 'Stay updated with our latest sustainability insights.' },
-        { name: 'Community', icon: '👥', link: '/resources/community', description: 'Join our sustainability community.' },
-        { name: 'Documentation', icon: '📄', link: '/resources/documentation', description: 'Access detailed documentation and guides.' },
-        { name: 'Support', icon: '🆘', link: '/resources/support', description: 'Get help with our sustainability solutions.' }
-    ]
+   'Resources': [
+    { name: 'Case Studies', icon: '📝', link: '/resources/case-studies', description: 'Learn from real-world sustainability success stories.' },
+    { name: 'Blog', icon: '✍️', link: '/resources/blog', description: 'Stay updated with our latest sustainability insights.' }
+],
+
+   'About us': [
+    { name: 'About Rubicr', icon: '📝', link: '/about/rubicr', description: 'Learn from real-world sustainability success stories.' },
+    { name: 'News Releases', icon: '📝', link: '/about/news', description: 'Learn from real-world sustainability success stories.' },
+    { name: 'Rewards and Recognition', icon: '✍️', link: '/about/rewards', description: 'Stay updated with our latest sustainability insights.' }
+]
 };
 
 interface NavbarProps {

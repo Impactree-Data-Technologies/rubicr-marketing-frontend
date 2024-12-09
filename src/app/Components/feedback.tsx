@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
+import { Poppins } from 'next/font/google';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -16,6 +17,12 @@ interface FeedbackData {
   id: number;
   attributes: FeedbackAttributes;
 }
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: '400',
+  style: 'normal'
+});
 
 export default function Feedback() {
   const [feedbackData, setFeedbackData] = useState<FeedbackAttributes[]>([]);
@@ -62,7 +69,8 @@ export default function Feedback() {
   const { quote, name, title, image } = feedbackData[currentFeedbackIndex];
 
   return (
-    <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
+    <div className={poppins.className}>
+    <div className=" bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-lg leading-6 font-semibold text-white">Hear from Our</h2>
@@ -105,6 +113,7 @@ export default function Feedback() {
           <span className="text-white">{`${currentFeedbackIndex + 1}/${feedbackData.length}`}</span>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import Link  from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   HiOutlineClipboardList, 
@@ -24,8 +25,8 @@ const TaskManagement = () => {
   const features = [
     {
       icon: HiOutlineClipboardList,
-      title: "Flexible Task Management",
-      description: "Easily assign responsibilities and streamline workflows for seamless ESG data collection.",
+      title: "All relevant laws in one place",
+      // description: "Easily assign responsibilities and streamline workflows for seamless ESG data collection.",
       details: [
         // "Automated task prioritization",
         // "Smart resource allocation",
@@ -34,8 +35,8 @@ const TaskManagement = () => {
     },
     {
       icon: HiOutlineUserGroup,
-      title: "Centralized Data Coordination",
-      description: "Simplifies handling scattered data sources, integrating information from manual registers, Excel sheets, and disconnected databases",
+      title: "Real-time updates on most recent legal changes",
+      // description: "Simplifies handling scattered data sources, integrating information from manual registers, Excel sheets, and disconnected databases",
       details: [
         // "Cross-team communication",
         // "Role-based access control",
@@ -44,8 +45,8 @@ const TaskManagement = () => {
     },
     {
       icon: HiOutlineChartBar,
-      title: "Precision and Timeliness",
-      description: "Ensures the right data is collected by the right person, at the right time, every time.",
+      title: "Tailored alerts for specific legal requirements",
+      // description: "Ensures the right data is collected by the right person, at the right time, every time.",
       details: [
         // "Real-time progress tracking",
         // "Customizable reporting",
@@ -75,18 +76,18 @@ const TaskManagement = () => {
   const benefits = [
     { 
       icon: HiLightningBolt, 
-      title: "Reduced Workload",
-      description: "Empowers sustainability managers by distributing data collection tasks across teams efficiently"
+      title: "Reduced risk of legal penalties and reputational damage",
+      // description: "Empowers sustainability managers by distributing data collection tasks across teams efficiently"
     },
     { 
       icon: HiCheckCircle, 
-      title: "Enhanced Data Accuracy",
-      description: "Eliminates errors caused by scattered or unstructured data with streamlined task assignments and validation processes"
+      title: "Streamlined legal research and analysis, saving time and resources",
+      // description: "Eliminates errors caused by scattered or unstructured data with streamlined task assignments and validation processes"
     },
     { 
       icon: HiTrendingUp, 
-      title: "Scalable and Practical Solution",
-      description: "Avoids the complexities of ERP implementation, offering an adaptive approach tailored to organizational infrastructure and culture."
+      title: "Enables proactive identification of potential governance vulnerabilities",
+      // description: "Enables proactive identification of potential governance vulnerabilities, ensuring regulatory compliance and minimizing organizational exposure to legal, financial, and reputational risks."
     }
   ];
 
@@ -106,7 +107,7 @@ const TaskManagement = () => {
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 leading-tight"
             >
               Elevate Your <br className="hidden lg:block" />
-              Task Management
+              Governance Tracker
             </motion.h1>
             
             <motion.p 
@@ -115,7 +116,7 @@ const TaskManagement = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base md:text-lg lg:text-xl text-gray-300 max-w-xl"
             >
-             Effortless Task Management with RubiCr, Assign Responsibilities, Track Progress, and ensure that the Right Person provides the Right data at the Right Time.
+            A comprehensive digital monitoring system that tracks, analyzes, and provides real-time insights into organizational governance, compliance, and strategic decision-making processes
             </motion.p>
             
             <motion.div 
@@ -130,37 +131,33 @@ const TaskManagement = () => {
                 color="text-white"
                 className="px-6 md:px-8 py-2 md:py-3 rounded-full hover:scale-105 transition-transform text-base"
               />
-              <Link 
+              {/* <Link 
                 href="/features" 
                 className="px-6 md:px-8 py-2 md:py-3 border-2 border-teal-400 text-teal-400 rounded-full hover:bg-teal-400 hover:text-[#0A192F] transition-colors text-center inline-block"
               >
                 Learn More
-              </Link>
+              </Link> */}
             </motion.div>
           </div>
           
-          {/* Video Column */}
           <div className="order-1 lg:order-2 flex justify-center items-center">
-            <motion.div 
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="w-full max-w-2xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
-            >
-              <video 
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source src="/videos/task-management-hero.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </motion.div>
-          </div>
-        </div>
-      </div>
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="w-full max-w-2xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
+      >
+        <Image
+          src="/Governance Tracker.jpg"  // Replace with your actual image path
+          alt="Task Management Dashboard"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover"
+        />
+      </motion.div>
+    </div>
+  </div>
+</div>
 
       {/* Overview Section */}
       <section className="bg-[#112240] py-16 lg:py-24">
@@ -172,11 +169,11 @@ const TaskManagement = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-4">
-              Comprehensive Sustainability Task Management
+              How it works
             </h2>
-            <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
+            {/* <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
               Our advanced platform provides a holistic approach to sustainability task management, integrating intelligent workflows, real-time collaboration, and strategic insights.
-            </p>
+            </p> */}
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -235,7 +232,7 @@ const TaskManagement = () => {
                   </div>
                   {activeFeature === index && (
                     <div className="mt-4 space-y-2">
-                      <p className="text-gray-300">{feature.description}</p>
+                      {/* <p className="text-gray-300">{feature.description}</p> */}
                       <ul className="pl-4 list-disc text-gray-400">
                         {feature.details.map((detail, idx) => (
                           <li key={idx}>{detail}</li>
@@ -255,13 +252,13 @@ const TaskManagement = () => {
               transition={{ duration: 0.5 }}
               className="bg-[#112240] p-6 md:p-8 rounded-2xl shadow-2xl"
             >
-              <video 
-                className="w-full rounded-xl shadow-lg aspect-video object-cover"
-                controls
-                src="/videos/task-management-demo.mp4"
-              >
-                Your browser does not support the video tag.
-              </video>
+           <video
+            className="w-full rounded-xl shadow-lg aspect-video object-cover"
+            controls
+            src="https://v.ftcdn.net/09/13/30/64/700_F_913306442_asUlvFioSTs0MDC4GDu7zSA2dC4ikw6q_ST.mp4"
+             >
+  Your browser does not support the video tag.
+</video>
             </motion.div>
           </div>
         </div>
@@ -282,7 +279,7 @@ const TaskManagement = () => {
               >
                 <benefit.icon className="mx-auto text-4xl md:text-5xl text-teal-400 mb-4" />
                 <h3 className="text-xl font-semibold text-gray-200">{benefit.title}</h3>
-                <p className="text-gray-400 mt-2">{benefit.description}</p>
+                {/* <p className="text-gray-400 mt-2">{benefit.description}</p> */}
               </motion.div>
             ))}
           </div>

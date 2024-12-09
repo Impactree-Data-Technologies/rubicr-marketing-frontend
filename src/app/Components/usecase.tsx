@@ -155,13 +155,13 @@ export default function Usecase() {
                       </p>
                     ))}
                   </div>
-                  <Link
+                  {/* <Link
                     href={`/${activeUseCase.heading.toLowerCase().replace(/\s+/g, '-')}`}
                     className="inline-flex items-center mt-6 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full font-medium text-sm hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg"
                   >
                     Learn more
                     <ChevronRight className="ml-2 w-4 h-4" />
-                  </Link>
+                  </Link> */}
                 </div>
 
                 <div className="order-1 md:order-2">

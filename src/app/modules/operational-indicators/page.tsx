@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   HiOutlineClipboardList, 
@@ -105,8 +106,11 @@ const OperationalIndicators = () => {
               transition={{ duration: 0.6 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 leading-tight"
             >
-              Elevate Your <br className="hidden lg:block" />
-              Track Key Operational Indicators
+              Elevate Your Track <br />
+              <span className="whitespace-nowrap">Key Operational</span>
+              <br />
+              <span className="whitespace-nowrap">Indicators</span>
+             
             </motion.h1>
             
             <motion.p 
@@ -115,7 +119,7 @@ const OperationalIndicators = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base md:text-lg lg:text-xl text-gray-300 max-w-xl"
             >
-             Effortless Task Management with RubiCr, Assign Responsibilities, Track Progress, and ensure that the Right Person provides the Right data at the Right Time.
+             Measure what matters and turn insights into impact.
             </motion.p>
             
             <motion.div 
@@ -147,16 +151,13 @@ const OperationalIndicators = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="w-full max-w-2xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
             >
-              <video 
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source src="/videos/task-management-hero.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <Image
+          src="/Track key operation indicator.jpg"  // Replace with your actual image path
+          alt="Task Management Dashboard"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover"
+        />
             </motion.div>
           </div>
         </div>
@@ -258,7 +259,7 @@ const OperationalIndicators = () => {
               <video 
                 className="w-full rounded-xl shadow-lg aspect-video object-cover"
                 controls
-                src="/videos/task-management-demo.mp4"
+                src="https://v.ftcdn.net/09/13/30/64/700_F_913306442_asUlvFioSTs0MDC4GDu7zSA2dC4ikw6q_ST.mp4"
               >
                 Your browser does not support the video tag.
               </video>

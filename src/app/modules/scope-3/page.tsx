@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   HiOutlineClipboardList, 
@@ -24,8 +25,8 @@ const TaskManagement = () => {
   const features = [
     {
       icon: HiOutlineClipboardList,
-      title: "Flexible Task Management",
-      description: "Easily assign responsibilities and streamline workflows for seamless ESG data collection.",
+      title: "Granular Emission Category Tracking",
+      description: "Ability to track and analyze 15 distinct Scope 3 emission categories, including purchased goods and services.",
       details: [
         // "Automated task prioritization",
         // "Smart resource allocation",
@@ -34,8 +35,8 @@ const TaskManagement = () => {
     },
     {
       icon: HiOutlineUserGroup,
-      title: "Centralized Data Coordination",
-      description: "Simplifies handling scattered data sources, integrating information from manual registers, Excel sheets, and disconnected databases",
+      title: "Advanced Analytical Tools",
+      description: "Sophisticated data visualization and analysis capabilities that provide actionable insights, trend analysis",
       details: [
         // "Cross-team communication",
         // "Role-based access control",
@@ -44,8 +45,8 @@ const TaskManagement = () => {
     },
     {
       icon: HiOutlineChartBar,
-      title: "Precision and Timeliness",
-      description: "Ensures the right data is collected by the right person, at the right time, every time.",
+      title: "Supplier and Partner Engagement",
+      description: "Interactive platforms and tools that facilitate data collection, collaboration, and emissions reduction efforts with suppliers, partners, and stakeholders across the value chain",
       details: [
         // "Real-time progress tracking",
         // "Customizable reporting",
@@ -57,36 +58,36 @@ const TaskManagement = () => {
   const overviewHighlights = [
     {
       icon: HiShieldCheck,
-      title: "Robust Compliance",
-      description: "Ensure regulatory adherence with comprehensive tracking and documentation."
+      title: "Value Chain Mapping",
+      description: "Systematically identifies and categorizes all indirect emission sources across the organization's extended value chain."
     },
     {
       icon: HiDocumentText,
-      title: "Detailed Reporting",
-      description: "Generate sophisticated, customizable reports with advanced analytics."
+      title: "Data Collection and Estimation",
+      description: "Employs advanced methodologies, including supplier surveys, industry average data, and sophisticated calculation models to quantify complex and often hard-to-measure indirect emissions."
     },
     {
       icon: HiGlobeAlt,
-      title: "Global Scalability",
-      description: "Designed to support enterprise-level task management across diverse teams."
+      title: "Comprehensive Carbon Accounting",
+      description: "Integrates multiple data sources and emission factors to create a detailed and accurate representation of the organization's total carbon footprint across all Scope 3 categories."
     }
   ];
 
   const benefits = [
     { 
       icon: HiLightningBolt, 
-      title: "Reduced Workload",
-      description: "Empowers sustainability managers by distributing data collection tasks across teams efficiently"
+      title: "Holistic Carbon Footprint Assessment",
+      // description: "Empowers sustainability managers by distributing data collection tasks across teams efficiently"
     },
     { 
       icon: HiCheckCircle, 
-      title: "Enhanced Data Accuracy",
-      description: "Eliminates errors caused by scattered or unstructured data with streamlined task assignments and validation processes"
+      title: "Comprehensive Sustainability Strategy",
+      // description: "Eliminates errors caused by scattered or unstructured data with streamlined task assignments and validation processes"
     },
     { 
       icon: HiTrendingUp, 
-      title: "Scalable and Practical Solution",
-      description: "Avoids the complexities of ERP implementation, offering an adaptive approach tailored to organizational infrastructure and culture."
+      title: "Stakeholder and Investor Transparency",
+      // description: "Avoids the complexities of ERP implementation, offering an adaptive approach tailored to organizational infrastructure and culture."
     }
   ];
 
@@ -106,7 +107,7 @@ const TaskManagement = () => {
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 leading-tight"
             >
               Elevate Your <br className="hidden lg:block" />
-              Task Management
+              Scope-3 Tracking
             </motion.h1>
             
             <motion.p 
@@ -115,7 +116,7 @@ const TaskManagement = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base md:text-lg lg:text-xl text-gray-300 max-w-xl"
             >
-             Effortless Task Management with RubiCr, Assign Responsibilities, Track Progress, and ensure that the Right Person provides the Right data at the Right Time.
+             A comprehensive carbon accounting approach that captures and analyzes indirect emissions occurring across an organizations entire value chain, beyond direct operational boundaries
             </motion.p>
             
             <motion.div 
@@ -147,16 +148,13 @@ const TaskManagement = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="w-full max-w-2xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
             >
-              <video 
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source src="/videos/task-management-hero.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+             <Image
+          src="/Scope-3.jpg"  // Replace with your actual image path
+          alt="Task Management Dashboard"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover"
+        />
             </motion.div>
           </div>
         </div>
@@ -172,11 +170,11 @@ const TaskManagement = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-4">
-              Comprehensive Sustainability Task Management
+              How it works
             </h2>
-            <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
+            {/* <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
               Our advanced platform provides a holistic approach to sustainability task management, integrating intelligent workflows, real-time collaboration, and strategic insights.
-            </p>
+            </p> */}
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -258,7 +256,7 @@ const TaskManagement = () => {
               <video 
                 className="w-full rounded-xl shadow-lg aspect-video object-cover"
                 controls
-                src="/videos/task-management-demo.mp4"
+                src="https://v.ftcdn.net/09/13/30/64/700_F_913306442_asUlvFioSTs0MDC4GDu7zSA2dC4ikw6q_ST.mp4"
               >
                 Your browser does not support the video tag.
               </video>
@@ -282,7 +280,7 @@ const TaskManagement = () => {
               >
                 <benefit.icon className="mx-auto text-4xl md:text-5xl text-teal-400 mb-4" />
                 <h3 className="text-xl font-semibold text-gray-200">{benefit.title}</h3>
-                <p className="text-gray-400 mt-2">{benefit.description}</p>
+                {/* <p className="text-gray-400 mt-2">{benefit.description}</p> */}
               </motion.div>
             ))}
           </div>

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   HiOutlineClipboardList, 
@@ -24,8 +25,8 @@ const TaskManagement = () => {
   const features = [
     {
       icon: HiOutlineClipboardList,
-      title: "Flexible Task Management",
-      description: "Easily assign responsibilities and streamline workflows for seamless ESG data collection.",
+      title: "Multi-Source Emission Tracking",
+      description: "Capability to monitor and record emissions from diverse sources including on-site fuel combustion, purchased electricity, heating, and cooling systems.",
       details: [
         // "Automated task prioritization",
         // "Smart resource allocation",
@@ -34,8 +35,8 @@ const TaskManagement = () => {
     },
     {
       icon: HiOutlineUserGroup,
-      title: "Centralized Data Coordination",
-      description: "Simplifies handling scattered data sources, integrating information from manual registers, Excel sheets, and disconnected databases",
+      title: "Automated Data Integration",
+      description: "Seamless integration with existing organizational systems, enabling real-time data collection, processing, and visualization of carbon emission metrics",
       details: [
         // "Cross-team communication",
         // "Role-based access control",
@@ -44,8 +45,8 @@ const TaskManagement = () => {
     },
     {
       icon: HiOutlineChartBar,
-      title: "Precision and Timeliness",
-      description: "Ensures the right data is collected by the right person, at the right time, every time.",
+      title: "Benchmarking and Comparative Analysis",
+      description: "Advanced analytics that allow organizations to compare their emissions performance against industry standards, peers, and historical data to drive continuous improvement.",
       details: [
         // "Real-time progress tracking",
         // "Customizable reporting",
@@ -57,36 +58,36 @@ const TaskManagement = () => {
   const overviewHighlights = [
     {
       icon: HiShieldCheck,
-      title: "Robust Compliance",
-      description: "Ensure regulatory adherence with comprehensive tracking and documentation."
+      title: "Emission Source Identification",
+      description: "Systematically maps and categorizes all direct (Scope 1) and indirect energy-related (Scope 2) emission sources within the organization's operational context"
     },
     {
       icon: HiDocumentText,
-      title: "Detailed Reporting",
-      description: "Generate sophisticated, customizable reports with advanced analytics."
+      title: "Data Collection and Measurement",
+      description: "Utilizes advanced monitoring technologies and standardized protocols to capture"
     },
     {
       icon: HiGlobeAlt,
-      title: "Global Scalability",
-      description: "Designed to support enterprise-level task management across diverse teams."
+      title: "Comprehensive Reporting and Analysis",
+      description: "Generates detailed reports that break down emissions by source, track performance over time."
     }
   ];
 
   const benefits = [
     { 
       icon: HiLightningBolt, 
-      title: "Reduced Workload",
-      description: "Empowers sustainability managers by distributing data collection tasks across teams efficiently"
+      title: "Precise Environmental Accountability",
+      description: "Enables organizations to accurately quantify and understand their direct carbon footprint, supporting targeted reduction strategies and sustainability commitments"
     },
     { 
       icon: HiCheckCircle, 
-      title: "Enhanced Data Accuracy",
-      description: "Eliminates errors caused by scattered or unstructured data with streamlined task assignments and validation processes"
+      title: "Strategic Sustainability Planning",
+      description: "Offers detailed insights that facilitate data-driven decision-making for reducing carbon emissions"
     },
     { 
       icon: HiTrendingUp, 
-      title: "Scalable and Practical Solution",
-      description: "Avoids the complexities of ERP implementation, offering an adaptive approach tailored to organizational infrastructure and culture."
+      title: "Regulatory Compliance",
+      description: "Provides a structured approach to meet mandatory emissions reporting requirements."
     }
   ];
 
@@ -106,7 +107,7 @@ const TaskManagement = () => {
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 leading-tight"
             >
               Elevate Your <br className="hidden lg:block" />
-              Task Management
+              Scope-1 & 2 Accounting
             </motion.h1>
             
             <motion.p 
@@ -115,7 +116,7 @@ const TaskManagement = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base md:text-lg lg:text-xl text-gray-300 max-w-xl"
             >
-             Effortless Task Management with RubiCr, Assign Responsibilities, Track Progress, and ensure that the Right Person provides the Right data at the Right Time.
+             A comprehensive carbon accounting methodology that measures and tracks direct and indirect greenhouse gas emissions within an organizations operational boundaries.
             </motion.p>
             
             <motion.div 
@@ -130,12 +131,12 @@ const TaskManagement = () => {
                 color="text-white"
                 className="px-6 md:px-8 py-2 md:py-3 rounded-full hover:scale-105 transition-transform text-base"
               />
-              <Link 
+              {/* <Link 
                 href="/features" 
                 className="px-6 md:px-8 py-2 md:py-3 border-2 border-teal-400 text-teal-400 rounded-full hover:bg-teal-400 hover:text-[#0A192F] transition-colors text-center inline-block"
               >
                 Learn More
-              </Link>
+              </Link> */}
             </motion.div>
           </div>
           
@@ -147,16 +148,13 @@ const TaskManagement = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="w-full max-w-2xl aspect-video rounded-2xl overflow-hidden shadow-2xl"
             >
-              <video 
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source src="/videos/task-management-hero.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+             <Image
+          src="/Scope1&2.jpg"  // Replace with your actual image path
+          alt="Task Management Dashboard"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover"
+        />
             </motion.div>
           </div>
         </div>
@@ -172,11 +170,11 @@ const TaskManagement = () => {
             className="text-center mb-12"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-4">
-              Comprehensive Sustainability Task Management
+              How it works
             </h2>
-            <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
+            {/* <p className="text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
               Our advanced platform provides a holistic approach to sustainability task management, integrating intelligent workflows, real-time collaboration, and strategic insights.
-            </p>
+            </p> */}
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -258,7 +256,7 @@ const TaskManagement = () => {
               <video 
                 className="w-full rounded-xl shadow-lg aspect-video object-cover"
                 controls
-                src="/videos/task-management-demo.mp4"
+                src="https://v.ftcdn.net/09/13/30/64/700_F_913306442_asUlvFioSTs0MDC4GDu7zSA2dC4ikw6q_ST.mp4"
               >
                 Your browser does not support the video tag.
               </video>

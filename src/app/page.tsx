@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+
+import { motion, useAnimation, Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import dynamic from 'next/dynamic';
 import { Poppins } from 'next/font/google';
@@ -77,6 +78,37 @@ const containerVariants = {
     transition: {
       staggerChildren: 0.2,
       delayChildren: 0.3
+    }
+  }
+};
+
+const headerVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 50 
+  },
+  visible: {
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.4, 0.0, 0.2, 1],
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const headerChildVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 50 
+  },
+  visible: {
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0.0, 0.2, 1]
     }
   }
 };
@@ -294,52 +326,56 @@ export default function Demo() {
       <div className="relative flex items-center justify-center min-h-[calc(100vh-4rem)] md:min-h-[calc(111vh-4rem)]">
         {/* Video Background */}
         <div className="absolute inset-0 overflow-hidden">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute w-full h-full object-cover"
-          >
-            <source src="https://videos.pexels.com/video-files/856572/856572-hd_1920_1080_25fps.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black opacity-50"></div>
-        </div>
-        
-        <div className="relative z-10 w-full px-4 py-6 sm:px-6 md:px-8 lg:px-10">
+  <video
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="absolute w-full h-full object-cover object-center"
+  >
+    <source src="https://videos.pexels.com/video-files/856572/856572-hd_1920_1080_25fps.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div className="absolute inset-0 bg-black opacity-60"></div>
+</div>
+          {/* Improved Hero Content */}
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={headerVariants}
+          className="relative z-10 w-full px-4 py-6 sm:px-6 md:px-8 lg:px-10 flex items-center justify-center min-h-screen"
+        >
           {data1 && (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="max-w-7xl mx-auto text-center text-white"
-            >
-              <div className="pt-16 sm:pt-20 md:pt-24 lg:pt-28">
-              <AnimatedText className="mb-6 md:mb-8">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight px-4">
-                    {data1.title}
-                  </h1>
-                </AnimatedText>
-              
-                <AnimatedText className="mb-4 md:mb-6" delay={0.2}>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold px-4">
-                    {data1.description}
-                  </h3>
-                </AnimatedText>
+            <div className="max-w-7xl mx-auto text-center text-white">
+              <motion.div 
+                variants={headerChildVariants}
+                className="space-y-6 md:space-y-8"
+              >
+                <motion.h1 
+                  variants={headerChildVariants}
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight tracking-tight"
+                >
+                  {data1.title}
+                </motion.h1>
                 
-                <AnimatedText className="mb-6 md:mb-8" delay={0.4}>
-                  <p className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto px-4">
-                    {data1.subdescription}
-                  </p>
-                </AnimatedText>
-              
-              <AnimatedText delay={0.6}>
-                <motion.div
+                <motion.h3 
+                  variants={headerChildVariants}
+                  className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-wide px-4 md:px-0"
+                >
+                  {data1.description}
+                </motion.h3>
+                
+                <motion.p 
+                  variants={headerChildVariants}
+                  className="text-base sm:text-lg md:text-xl max-w-3xl mx-auto px-4 mb-8 opacity-90"
+                >
+                  {data1.subdescription}
+                </motion.p>
+                
+                <motion.div 
+                  variants={headerChildVariants}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                   className="px-4"
                 >
                   <Button 
                     label="Schedule a demo" 
@@ -348,11 +384,12 @@ export default function Demo() {
                     href="/contact-us"
                   />
                 </motion.div>
-              </AnimatedText>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           )}
-        </div>
+        </motion.div>
+      
+        
       </div>
 
       {/* Logo Section */}
