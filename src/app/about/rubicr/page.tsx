@@ -95,7 +95,7 @@ const AboutUsPage: React.FC = () => {
                 className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl"
               >
                 <div className="p-6 flex flex-col items-center">
-                  <Image 
+                  <img 
                     src={member.image} 
                     alt={member.name} 
                     className="w-32 h-32 rounded-full object-cover mb-4 border-4 border-gray-200"

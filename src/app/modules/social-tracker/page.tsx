@@ -99,7 +99,7 @@ const TaskManagement = () => {
       <div className="container mx-auto px-4 lg:px-8 py-16 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Content Column */}
-          <div className="space-y-6 order-2 lg:order-1">
+          <div className="space-y-4 md:space-y-6 mt-8">
             <motion.h1 
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -125,12 +125,7 @@ const TaskManagement = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
             >
-              <Button 
-                label="Schedule Demo" 
-                background="bg-gradient-to-r from-teal-400 to-blue-500" 
-                color="text-white"
-                className="px-6 md:px-8 py-2 md:py-3 rounded-full hover:scale-105 transition-transform text-base"
-              />
+             <Button label="Schedule a demo" background="#FFCD1B" color="black" href='/contact-us' />
               {/* <Link 
                 href="/features" 
                 className="px-6 md:px-8 py-2 md:py-3 border-2 border-teal-400 text-teal-400 rounded-full hover:bg-teal-400 hover:text-[#0A192F] transition-colors text-center inline-block"

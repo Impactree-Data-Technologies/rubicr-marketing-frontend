@@ -5,7 +5,7 @@ import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
 import Button from "../../Components/button";
 
-// Sample news data (replace with your actual data source)
+
 const newsReleases = [
   {
     id: 1,
@@ -54,7 +54,7 @@ const NewsReleasesPage = () => {
               <div className="md:flex">
                 {/* Image */}
                 <div className="md:w-1/3">
-                  <Image
+                  <img
                     src={release.imageUrl} 
                     alt={release.title} 
                     className="w-full h-48 md:h-full object-cover"
@@ -104,8 +104,8 @@ const NewsReleasesPage = () => {
         </div>
       </div>
     </div>
+    
     <div className="py-10">
-
 <section className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
 <div className="max-w-screen-xl mx-auto px-4 text-center">
   <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>

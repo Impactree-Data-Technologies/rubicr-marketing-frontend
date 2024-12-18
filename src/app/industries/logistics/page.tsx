@@ -14,7 +14,7 @@ const LogisticsSectors = () => {
   const challengesData = [
     {
       title: "Transportation Emissions",
-      description: "Both internal fleets and third-party logistics providers contribute significantly to the sector’s carbon footprint, complicating reduction efforts",
+      description: "Both internal fleets and third-party logistics providers contribute significantly to the sector's carbon footprint, complicating reduction efforts",
       Icon: CloudIcon
     },
     {
@@ -52,160 +52,146 @@ const LogisticsSectors = () => {
     },
     {
       title: "Simplified Regulatory Compliance",
-      description: "Rubicr’s global expertise ensures you can easily navigate complex regulatory requirements across regions",
+      description: "Rubicr's global expertise ensures you can easily navigate complex regulatory requirements across regions",
       Icon: GlobeAltIcon
     }
   ];
+
+  const featuresData = [
+    {
+      title: "Emissions Reduction",
+      description: "Advanced strategies to minimize carbon footprint across chemical operations.",
+      Icon: CloudIcon
+    },
+    {
+      title: "Data-Driven Insights",
+      description: "Real-time analytics and reporting for informed decision-making.",
+      Icon: ChartBarIcon
+    },
+    {
+      title: "Compliance Management",
+      description: "Seamless navigation of complex environmental regulations.",
+      Icon: DocumentCheckIcon
+    }
+  ];
+
+  const CardSection = ({ data, title, subtitle, bgColor = "bg-white", textColor = "text-gray-800", iconColor = "text-blue-500", gridCols = "md:grid-cols-2 lg:grid-cols-2" }) => (
+    <section className={`py-16 ${bgColor}`}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${textColor}`}>
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-base md:text-xl text-gray-600 max-w-3xl mx-auto">
+              {subtitle}
+            </p>
+          )}
+        </div>
+        
+        <div className={`grid ${gridCols} gap-6`}>
+          {data.map((item, index) => (
+            <div 
+              key={index} 
+              className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
+            >
+              <div className="flex flex-col items-center text-center">
+                <item.Icon 
+                  className={`mb-4 w-12 h-12 ${iconColor} group-hover:scale-110 transition-transform`}
+                />
+                <h3 className="text-xl font-semibold mb-3 text-gray-800">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600 text-center">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <div className="bg-white antialiased">
       <Navbar />
       
       {/* Hero Section */}
-    {/* Header Section */}
-    <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: 'url("/logistics.avif")' }}>
+      <div 
+        className="relative h-screen bg-cover bg-center flex items-center justify-center"
+        style={{ 
+          backgroundImage: 'url("/logistics.avif")', 
+          backgroundPosition: 'center center' 
+        }}
+      >
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-          <h1 className="text-4xl font-bold mb-4">Sustainability Solutions for</h1>
-          <h1 className="text-4xl font-bold mb-4"> the Logistics Industry</h1>
-          {/* <p className="text-xl mb-8">Explore tailored solutions to optimize your operations.</p> */}
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
-            Talk to an Expert
-          </button>
+        <div className="relative z-10 text-center px-4">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+           Sustainability Solutions
+          </h1>
+          <h2 className="text-2xl md:text-4xl font-bold mb-6 text-white">
+          for Logistics Industry
+          </h2>
+          <Button 
+            label="Talk to an Expert" 
+            background="#FFCD1B" 
+            color="white" 
+            href="/contact-us"
+            className="px-6 py-3 rounded-lg text-base md:text-lg"
+          />
         </div>
       </div>
 
       {/* Challenges Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-gray-800">
-            Sustainability Challenges in the Logistics Sector
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Sustainability is a critical concern in logistics, where reducing emissions and optimizing operations can both meet environmental goals and drive financial growth. As regulations around transportation emissions tighten, logistics companies must prioritize ESG practices to remain competitive and efficient
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {challengesData.map((challenge, index) => (
-              <div 
-                key={index} 
-                className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
-              >
-                <div className="flex items-center mb-5">
-                  <challenge.Icon 
-                    className="mr-5 w-12 h-12 text-yellow-500 group-hover:text-yellow-600 transition-colors"
-                  />
-                  <h3 className="text-2xl font-semibold text-gray-800">
-                    {challenge.title}
-                  </h3>
-                </div>
-                <p className="text-gray-600">
-                  {challenge.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CardSection 
+        data={challengesData} 
+        title="Sustainability Challenges in the Logistics Sector"
+        subtitle="Sustainability is a critical concern in logistics, where reducing emissions and optimizing operations can both meet environmental goals and drive financial growth."
+        bgColor="bg-gray-50"
+        iconColor="text-yellow-500"
+      />
 
       {/* Solutions Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-gray-800">
-            Our Holistic Approach to Sustainability in Logistics: Explore Tailored Solutions.
-            </h2>
-            {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Leverage our advanced technologies and expertise to transform your automotive logistics into a model of environmental efficiency.
-            </p> */}
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {solutionsData.map((solution, index) => (
-              <div 
-                key={index} 
-                className="bg-gray-100 p-8 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 group"
-              >
-                <div className="flex items-center mb-5">
-                  <solution.Icon 
-                    className="mr-5 w-12 h-12 text-green-500 group-hover:text-green-600 transition-colors"
-                  />
-                  <h3 className="text-2xl font-semibold text-gray-800">
-                    {solution.title}
-                  </h3>
-                </div>
-                <p className="text-gray-600">
-                  {solution.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CardSection 
+        data={solutionsData} 
+        title=" Our Holistic Approach to Sustainability in Logistics"
+        bgColor="bg-white"
+        iconColor="text-green-500"
+        gridCols="md:grid-cols-2 lg:grid-cols-2"
+      />
 
       {/* Features Highlight */}
-      <section className="bg-gradient-to-br from-blue-100 to-blue-200 py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-gray-800">
-              Key Features of Our Approach
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive solutions designed to address the most critical sustainability challenges in automotive logistics.
-            </p>
-          </div>
+      <CardSection 
+        data={featuresData} 
+        title="Key Features of Our Approach"
+        subtitle="Comprehensive solutions designed to address critical sustainability challenges in logistics."
+        bgColor="bg-gradient-to-br from-blue-100 to-blue-200"
+        iconColor="text-blue-500"
+        gridCols="grid-cols-1 md:grid-cols-3"
+      />
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Emissions Reduction",
-                description: "Advanced strategies to minimize carbon footprint across your logistics network.",
-                Icon: CloudIcon
-              },
-              {
-                title: "Data-Driven Insights",
-                description: "Real-time analytics and reporting for informed decision-making.",
-                Icon: ChartBarIcon
-              },
-              {
-                title: "Compliance Management",
-                description: "Seamless navigation of complex environmental regulations.",
-                Icon: DocumentCheckIcon
-              }
-            ].map((feature, index) => (
-              <div 
-                key={index} 
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 text-center"
-              >
-                <feature.Icon 
-                  className="mx-auto mb-5 w-16 h-16 text-blue-500 group-hover:text-blue-600 transition-colors"
-                />
-                <h3 className="text-xl font-semibold mb-3 text-gray-800">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
+      {/* Call to Action */}
+      <section className="py-16 px-4">
+        <div className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-16 rounded-3xl shadow-2xl">
+          <div className="max-w-screen-xl mx-auto text-center">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+              Get Started Today
+            </h2>
+            <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
+            <p className="text-xl md:text-2xl mb-8 text-white">
+              Ready to transform your ESG Performance?
+            </p>
+            <Button 
+              label="Schedule a demo" 
+              background="#FFCD1B" 
+              color="white" 
+              href="/contact-us"
+              className="px-6 py-3 rounded-lg text-base md:text-lg"
+            />
           </div>
         </div>
       </section>
-
-      {/* Call to Action */}
-      <div className="py-10">
-
-<section className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
-<div className="max-w-screen-xl mx-auto px-4 text-center">
-  <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>
-  <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
-  <p className="text-xl md:text-2xl mb-8 text-white">Ready to transform your ESG Performance?</p>
-  <Button label="Schedule a demo" background="#FFCD1B" color="white" href="/contact-us" />
-</div>
-</section>
-</div>
 
       <Footer />
     </div>

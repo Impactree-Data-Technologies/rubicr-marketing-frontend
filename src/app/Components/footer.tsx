@@ -1,56 +1,215 @@
-import Image from "next/image";
+"use client"
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Github, Linkedin, Twitter, ChevronDown } from 'lucide-react';
 
 export default function Footer() {
+  const [openSection, setOpenSection] = useState<number | null>(null);
 
-  
+  const solutionsMenu = [
+    {
+      title: "Sustainability Reporting",
+      subMenu: [
+        { href: "/modules/standards-database", label: "Extensive Standards Database" },
+        { href: "/modules/task-management", label: "Task Management" },
+        { href: "/modules/intelligence-rating", label: "Sustainable Intelligence Rating" },
+        { href: "/modules/performance-benchmarks", label: "Performance Benchmarks" }
+      ]
+    },
+    {
+      title: "Performance Management",
+      subMenu: [
+        { href: "/modules/supply-chain-tracking", label: "Supply Chain Tracking" },
+        { href: "/modules/operational-indicators", label: "Track Key Operational Indicators" },
+        { href: "/modules/esg-pillars", label: "Easy to understand ESG pillars" },
+        { href: "/modules/governance-tracker", label: "Governance Tracker" },
+        { href: "/modules/social-tracker", label: "Social Tracker" }
+      ]
+    },
+    {
+      title: "Emission Tracking",
+      subMenu: [
+        { href: "/modules/scope-1-2", label: "Scope-1 & Scope-2 accounting" },
+        { href: "/modules/scope-3", label: "Scope-3 tracking" },
+        { href: "/modules/non-ghg", label: "Non GHG Emissions Management" },
+        { href: "/modules/unit-tracking", label: "Unit wise tracking" }
+      ]
+    }
+  ];
+
+  const industriesMenu = [
+    { href: "/industries/automobile", label: "Automobile" },
+    { href: "/industries/chemical", label: "Chemical" },
+    { href: "/industries/logistics", label: "Logistics" }
+  ];
+
+  const resourcesMenu = [
+    { href: "/resources/case-studies", label: "Case Studies" },
+    { href: "/resources/blog", label: "Blog" },
+  ];
+    
+
   return (
-    <footer className="bg-black py-8 md:py-12 rounded-t-110px relative">
-      <div className="flex flex-col md:flex-row items-start justify-between px-8 md:px-20">
-        {/* Logo */}
-        <div className="mb-8 md:mb-0 md:order-2">
-          <Image
-            src={'/white_logo.png'}
-            alt="Company Logo"
-            width={150}
-            height={50}
-            unoptimized
-          />
+    <footer className="bg-gradient-to-br from-gray-900 to-black text-white py-16 px-6 sm:px-12 md:px-16">
+      <div className="max-w-7xl mx-auto">
+        {/* Grid Layout with Improved Spacing */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12">
+          {/* Company Brand Section */}
+          <div className="md:col-span-1">
+          <Link href="/">
+          <div className="flex items-center mb-6 cursor-pointer">
+              <Image
+                src="/white_logo.png"
+                alt="Company Logo"
+                width={150}
+                height={50}
+                className="mr-4"
+              />
+            </div>
+            </Link>
+            <p className="text-gray-300 text-sm">
+              Empowering sustainable business solutions through advanced tracking and reporting technologies.
+            </p>
+          </div>
+
+          {/* Modules Section with Dynamic Submenu */}
+          <div className="relative">
+            <h3 className="text-lg font-semibold mb-6 text-yellow-400 border-b border-gray-700 pb-2">Modules</h3>
+            <ul className="space-y-4">
+              {solutionsMenu.map((section, index) => (
+                <li key={section.title}>
+                  <div 
+                    className="flex justify-between items-center cursor-pointer group"
+                    onClick={() => setOpenSection(openSection === index ? null : index)}
+                  >
+                    <span className="text-gray-300 group-hover:text-yellow-300 transition-colors">
+                      {section.title}
+                    </span>
+                    <ChevronDown 
+                      size={20} 
+                      className={`text-gray-400 transition-transform ${
+                        openSection === index ? 'rotate-180' : ''
+                      }`} 
+                    />
+                  </div>
+                  
+                  {openSection === index && (
+                    <ul className="pl-4 mt-2 space-y-2 border-l border-gray-700">
+                      {section.subMenu.map((subItem) => (
+                        <li key={subItem.href}>
+                          <Link 
+                            href={subItem.href} 
+                            className="text-gray-400 hover:text-yellow-300 text-sm transition-colors block py-1"
+                          >
+                            {subItem.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Industries Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6 text-yellow-400 border-b border-gray-700 pb-2">Industries</h3>
+            <ul className="space-y-4">
+              {industriesMenu.map((industry) => (
+                <li key={industry.href}>
+                  <Link 
+                    href={industry.href} 
+                    className="text-gray-300 hover:text-yellow-300 transition-colors"
+                  >
+                    {industry.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Resources Section  */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6 text-yellow-400 border-b border-gray-700 pb-2">Resources</h3>
+            <ul className="space-y-4">
+              {resourcesMenu.map((resources) => (
+                <li key={resources.href}>
+                  <Link 
+                    href={resources.href} 
+                    className="text-gray-300 hover:text-yellow-300 transition-colors"
+                  >
+                    {resources.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* About Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6 text-yellow-400 border-b border-gray-700 pb-2">About</h3>
+            <ul className="space-y-4">
+              {[
+                { href: "/about/rubicr", label: "About Rubicr" },
+                { href: "/about/news", label: "News Releases" },
+                { href: "/about/rewards", label: "Rewards and Recognition" }
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-gray-300 hover:text-yellow-300 transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Pricing Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6 text-yellow-400 border-b border-gray-700 pb-2">Pricing</h3>
+            <Link 
+              href="/pricing" 
+              className="text-gray-300 hover:text-yellow-300 transition-colors block"
+            >
+              View Pricing Plans
+            </Link>
+          </div>
         </div>
 
-        {/* Social Icons */}
+        {/* Social and CTA Section */}
+        <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center">
+          {/* Social Icons */}
+          <div className="flex space-x-6 mb-6 sm:mb-0">
+            {[
+              { Icon: Github, href: "https://github.com/rubicr" },
+              { Icon: Linkedin, href: "https://linkedin.com/company/rubicr" },
+              { Icon: Twitter, href: "https://twitter.com/rubicr" }
+            ].map(({ Icon, href }) => (
+              <Link 
+                key={href} 
+                href={href} 
+                target="_blank" 
+                className="text-gray-400 hover:text-yellow-400 transition-colors"
+              >
+                <Icon size={24} />
+              </Link>
+            ))}
+          </div>
 
-        {/* Links */}
-        <ul className="flex flex-col md:flex-row gap-4 md:gap-8 list-none text-white mb-4 md:mb-0 md:order-3">
-          <li>Home</li>
-          <li>Modules</li>
-          <li>Use Cases</li>
-          <li>Sectors</li>
-          <li>Pricing</li>
-          <li>Resources</li>
-        </ul>
-      </div>
-
-      {/* <div className="text-white px-8 md:px-20 mt-4 md:mt-0 md:text-left md:order-4">
-
-      <div className="flex gap-4 md:ml-auto md:order-1 ">
-          <a href="#">
-            <Image src="/social.png" alt="Social" width={30} height={30} />
-          </a>
-          <a href="#">
-            <Image src="/li.png" alt="LinkedIn" width={30} height={30} />
-          </a>
-          <a href="#">
-            <Image src="/you.png" alt="YouTube" width={30} height={30} />
-          </a>
-          <a href="#">
-            <Image src="/in.png" alt="Instagram" width={30} height={30} />
-          </a>
+          {/* CTA Button */}
+          <Link 
+            href="/contact-us" 
+            className="bg-yellow-400 text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition-transform transform hover:scale-105"
+          >
+            Schedule a Demo
+          </Link>
         </div>
-        </div> */}
 
-      {/* All Rights Reserved */}
-      <div className="text-white px-8 md:px-20 mt-4 md:mt-0 md:text-left md:order-4 mt-2">
-        <p>&copy; 2024 Rubicr. All rights reserved</p>
+        {/* Copyright */}
+        <div className="mt-8 text-center text-gray-500 text-sm">
+          <p>&copy; 2024 Rubicr Technologies. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );
