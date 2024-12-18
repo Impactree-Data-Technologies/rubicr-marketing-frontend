@@ -9,8 +9,26 @@ import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
 import Button from "../../Components/button";
 
-const AutomobileSectors = () => {
-  const challengesData = [
+// Define a type for the card data using the individual icon components
+interface CardData {
+  title: string;
+  description: string;
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+}
+
+// Define props for CardSection component
+interface CardSectionProps {
+  data: CardData[];
+  title: string;
+  subtitle?: string;
+  bgColor?: string;
+  textColor?: string;
+  iconColor?: string;
+  gridCols?: string;
+}
+
+const AutomobileSectors: React.FC = () => {
+  const challengesData: CardData[] = [
     {
       title: "Complexity of Scope 3 Emissions",
       description: "Automakers face the challenge of managing emissions across vast and intricate supply chains, spanning multiple suppliers and logistics partners",
@@ -33,7 +51,7 @@ const AutomobileSectors = () => {
     }
   ];
 
-  const solutionsData = [
+  const solutionsData: CardData[] = [
     {
       title: "Comprehensive Scope 3 Management",
       description: "Rubicr helps you track, manage, and reduce emissions throughout your supply chain",
@@ -56,7 +74,7 @@ const AutomobileSectors = () => {
     }
   ];
 
-  const featuresData = [
+  const featuresData: CardData[] = [
     {
       title: "Emissions Reduction",
       description: "Advanced strategies to minimize carbon footprint across your logistics network.",
@@ -74,7 +92,15 @@ const AutomobileSectors = () => {
     }
   ];
 
-  const CardSection = ({ data, title, subtitle, bgColor = "bg-white", textColor = "text-gray-800", iconColor = "text-blue-500", gridCols = "md:grid-cols-2 lg:grid-cols-2" }) => (
+  const CardSection: React.FC<CardSectionProps> = ({ 
+    data, 
+    title, 
+    subtitle, 
+    bgColor = "bg-white", 
+    textColor = "text-gray-800", 
+    iconColor = "text-blue-500", 
+    gridCols = "md:grid-cols-2 lg:grid-cols-2" 
+  }) => (
     <section className={`py-16 ${bgColor}`}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
@@ -112,6 +138,7 @@ const AutomobileSectors = () => {
     </section>
   );
 
+  // Rest of the component remains the same as in the previous version
   return (
     <div className="bg-white antialiased">
       <Navbar />
@@ -170,7 +197,7 @@ const AutomobileSectors = () => {
         gridCols="grid-cols-1 md:grid-cols-3"
       />
 
-      {/* Call to Action */}
+      {/* Call to Action Section */}
       <section className="py-16 px-4">
         <div className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-16 rounded-3xl shadow-2xl">
           <div className="max-w-screen-xl mx-auto text-center">

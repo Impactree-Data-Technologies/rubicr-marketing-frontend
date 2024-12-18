@@ -10,8 +10,25 @@ import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
 import Button from "../../Components/button";
 
-const LogisticsSectors = () => {
-  const challengesData = [
+// Define types for the props
+interface CardItem {
+  title: string;
+  description: string;
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; // Type for Icon
+}
+
+interface CardSectionProps {
+  data: CardItem[];
+  title: string;
+  subtitle?: string;
+  bgColor?: string;
+  textColor?: string;
+  iconColor?: string;
+  gridCols?: string;
+}
+
+const LogisticsSectors: React.FC = () => {
+  const challengesData: CardItem[] = [
     {
       title: "Transportation Emissions",
       description: "Both internal fleets and third-party logistics providers contribute significantly to the sector's carbon footprint, complicating reduction efforts",
@@ -34,7 +51,7 @@ const LogisticsSectors = () => {
     }
   ];
 
-  const solutionsData = [
+  const solutionsData: CardItem[] = [
     {
       title: "Low-Carbon Logistics Strategies",
       description: "Rubicr helps you optimize fleet operations and explore alternative fuels to reduce your carbon footprint",
@@ -57,7 +74,7 @@ const LogisticsSectors = () => {
     }
   ];
 
-  const featuresData = [
+  const featuresData: CardItem[] = [
     {
       title: "Emissions Reduction",
       description: "Advanced strategies to minimize carbon footprint across chemical operations.",
@@ -75,7 +92,15 @@ const LogisticsSectors = () => {
     }
   ];
 
-  const CardSection = ({ data, title, subtitle, bgColor = "bg-white", textColor = "text-gray-800", iconColor = "text-blue-500", gridCols = "md:grid-cols-2 lg:grid-cols-2" }) => (
+  const CardSection: React.FC<CardSectionProps> = ({ 
+    data, 
+    title, 
+    subtitle, 
+    bgColor = "bg-white", 
+    textColor = "text-gray-800", 
+    iconColor = "text-blue-500", 
+    gridCols = "md:grid-cols-2 lg:grid-cols-2" 
+  }) => (
     <section className={`py-16 ${bgColor}`}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
@@ -117,13 +142,9 @@ const LogisticsSectors = () => {
     <div className="bg-white antialiased">
       <Navbar />
       
-      {/* Hero Section */}
+      {/* Hero Section with optimized Image */}
       <div 
         className="relative h-screen bg-cover bg-center flex items-center justify-center"
-        style={{ 
-          backgroundImage: 'url("/logistics.avif")', 
-          backgroundPosition: 'center center' 
-        }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 text-center px-4">
@@ -131,7 +152,7 @@ const LogisticsSectors = () => {
            Sustainability Solutions
           </h1>
           <h2 className="text-2xl md:text-4xl font-bold mb-6 text-white">
-          for Logistics Industry
+            for Logistics Industry
           </h2>
           <Button 
             label="Talk to an Expert" 
@@ -141,6 +162,13 @@ const LogisticsSectors = () => {
             className="px-6 py-3 rounded-lg text-base md:text-lg"
           />
         </div>
+        <Image
+          src="/logistics.avif"
+          alt="Logistics Hero"
+          layout="fill"
+          objectFit="cover"
+          quality={75}
+        />
       </div>
 
       {/* Challenges Section */}
@@ -155,7 +183,7 @@ const LogisticsSectors = () => {
       {/* Solutions Section */}
       <CardSection 
         data={solutionsData} 
-        title=" Our Holistic Approach to Sustainability in Logistics"
+        title="Our Holistic Approach to Sustainability in Logistics"
         bgColor="bg-white"
         iconColor="text-green-500"
         gridCols="md:grid-cols-2 lg:grid-cols-2"

@@ -9,8 +9,26 @@ import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
 import Button from "../../Components/button";
 
-const ChemicalSectors = () => {
-  const challengesData = [
+// Define the type for card data
+interface CardData {
+  title: string;
+  description: string;
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; // Type for SVG icons
+}
+
+// Define props for CardSection component
+interface CardSectionProps {
+  data: CardData[];
+  title: string;
+  subtitle?: string;
+  bgColor?: string;
+  textColor?: string;
+  iconColor?: string;
+  gridCols?: string;
+}
+
+const ChemicalSectors: React.FC = () => {
+  const challengesData: CardData[] = [
     {
       title: "Hazardous Materials and Scope 3 Emissions",
       description: "Managing emissions from the direct handling of hazardous materials and the indirect impact across complex supply chains can be difficult",
@@ -33,7 +51,7 @@ const ChemicalSectors = () => {
     }
   ];
 
-  const solutionsData = [
+  const solutionsData: CardData[] = [
     {
       title: "Lifecycle Emissions Management",
       description: "Rubicr's platform tracks emissions throughout the entire lifecycle of your operations, offering insights for targeted reductions",
@@ -56,7 +74,7 @@ const ChemicalSectors = () => {
     }
   ];
 
-  const featuresData = [
+  const featuresData: CardData[] = [
     {
       title: "Emissions Reduction",
       description: "Advanced strategies to minimize carbon footprint across chemical operations.",
@@ -74,7 +92,16 @@ const ChemicalSectors = () => {
     }
   ];
 
-  const CardSection = ({ data, title, subtitle, bgColor = "bg-white", textColor = "text-gray-800", iconColor = "text-blue-500", gridCols = "md:grid-cols-2 lg:grid-cols-2" }) => (
+  // CardSection Component - Typing props explicitly
+  const CardSection: React.FC<CardSectionProps> = ({ 
+    data, 
+    title, 
+    subtitle, 
+    bgColor = "bg-white", 
+    textColor = "text-gray-800", 
+    iconColor = "text-blue-500", 
+    gridCols = "md:grid-cols-2 lg:grid-cols-2" 
+  }) => (
     <section className={`py-16 ${bgColor}`}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
