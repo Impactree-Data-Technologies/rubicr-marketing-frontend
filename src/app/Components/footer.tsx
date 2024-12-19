@@ -208,7 +208,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="mt-8 text-center text-gray-500 text-sm">
-          <p>&copy; 2024 Rubicr Technologies. All rights reserved.</p>
+          <p>&copy; 2024 Rubicr. All rights reserved.</p>
         </div>
       </div>
     </footer>

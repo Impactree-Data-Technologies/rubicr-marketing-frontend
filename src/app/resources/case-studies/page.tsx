@@ -3,6 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
+import Link from 'next/link';
 
 interface StatItemProps {
   number: string;
@@ -144,12 +145,14 @@ const CaseStudies: React.FC = () => {
               comprehensive carbon management, and innovative environmental solutions.
             </p>
             <div className="flex space-x-4">
-              <button className="bg-white text-emerald-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition">
+              {/* <button className="bg-white text-emerald-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition">
                 Learn More
-              </button>
+              </button> */}
+              <Link href='/contact-us'>
               <button className="border border-white text-white px-6 py-3 rounded-md font-semibold hover:bg-white hover:text-emerald-500 transition">
                 Contact Us
               </button>
+              </Link>
             </div>
           </div>
           <div className="md:w-1/2 md:pl-12">
@@ -225,12 +228,14 @@ const CaseStudies: React.FC = () => {
             innovative approach to sustainability that drives business value.
           </p>
           <div className="flex justify-center space-x-4">
-            <button className="bg-white text-emerald-600 px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition">
-              Schedule Consultation
-            </button>
-            <button className="border border-white text-white px-8 py-4 rounded-md font-semibold hover:bg-white hover:text-emerald-500 transition">
+            <Link href='/contact-us'>
+            <button className="bg-white text-emerald-600 px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition"> 
+              Schedule a Demo
+             </button>
+            </Link>
+            {/* <button className="border border-white text-white px-8 py-4 rounded-md font-semibold hover:bg-white hover:text-emerald-500 transition">
               Download Brochure
-            </button>
+            </button> */}
           </div>
         </div>
       </section>

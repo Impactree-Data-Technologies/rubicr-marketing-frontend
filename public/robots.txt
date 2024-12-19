@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rubicr.ai/sitemap.xml

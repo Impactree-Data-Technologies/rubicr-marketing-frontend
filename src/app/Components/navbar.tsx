@@ -60,9 +60,9 @@ const menuItems: MenuItems = {
 ],
 
    'About us': [
-    { name: 'About Rubicr', icon: '📝', link: '/about/rubicr', description: 'Learn from real-world sustainability success stories.' },
-    { name: 'News Releases', icon: '📝', link: '/about/news', description: 'Learn from real-world sustainability success stories.' },
-    { name: 'Rewards and Recognition', icon: '✍️', link: '/about/rewards', description: 'Stay updated with our latest sustainability insights.' }
+    { name: 'About Rubicr', icon: '🌟', link: '/about/rubicr', description: 'Discover our mission, values, and commitment to sustainable solutions.' },
+    { name: 'News Releases', icon: '📰', link: '/about/news', description: 'Stay informed with our latest announcements, updates, and press releases.' },
+    { name: 'Rewards and Recognition', icon: '🏆', link: '/about/rewards', description: 'Explore our achievements, certifications, and industry recognition.' }
 ]
 };
 
