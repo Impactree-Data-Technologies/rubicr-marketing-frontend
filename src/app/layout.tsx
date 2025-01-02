@@ -1,15 +1,20 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+
 import Script from "next/script";
 import "./globals.css";
-import { Providers } from "../Providers"
+import { Providers } from "../Providers";
 
-const inter = Inter({ subsets: ["latin"] });
+
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1
+};
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://rubicr.ai'), // Replace with your actual domain
   title: "Rubicr",
   description: "Empowering sustainable business solutions through advanced tracking and reporting technologies",
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
   openGraph: {
     title: "Rubicr",
@@ -39,7 +44,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* Google Tag Manager Head Script */}
       <Script
         id="gtm-head-script"
         strategy="afterInteractive"
@@ -54,15 +58,14 @@ export default function RootLayout({
           `
         }}
       />
-      <body className={inter.className}>
-        {/* Google Tag Manager (noscript) */}
+      <body>
         <noscript
           dangerouslySetInnerHTML={{
             __html: `
-              <iframe 
-                src="https://www.googletagmanager.com/ns.html?id=GTM-NW2LFB78" 
-                height="0" 
-                width="0" 
+              <iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-NW2LFB78"
+                height="0"
+                width="0"
                 style="display:none;visibility:hidden"
               ></iframe>
             `

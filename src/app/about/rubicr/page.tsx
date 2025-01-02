@@ -95,7 +95,7 @@ const AboutUsPage: React.FC = () => {
                 className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl"
               >
                 <div className="p-6 flex flex-col items-center">
-                  <img 
+                  <Image 
                     src={member.image} 
                     alt={member.name} 
                     className="w-32 h-32 rounded-full object-cover mb-4 border-4 border-gray-200"
@@ -132,16 +132,15 @@ const AboutUsPage: React.FC = () => {
     </div>
 
     <div className="py-10">
-
-<section className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
-<div className="max-w-screen-xl mx-auto px-4 text-center">
-  <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>
-  <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
-  <p className="text-xl md:text-2xl mb-8 text-white">Ready to transform your ESG Performance?</p>
-  <Button label="Schedule a demo" background="#FFCD1B" color="white" href="/contact-us" />
-</div>
-</section>
-</div>
+    <section className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
+    <div className="max-w-screen-xl mx-auto px-4 text-center">
+    <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">Get Started Today</h2>
+    <hr className="border-t-2 border-white w-24 mx-auto mb-6" />
+    <p className="text-xl md:text-2xl mb-8 text-white">Ready to transform your ESG Performance?</p>
+    <Button label="Schedule a demo" background="#FFCD1B" color="white" href="/contact-us" />
+    </div>
+    </section>
+    </div>
 
 <Footer />
 </div>

@@ -54,7 +54,7 @@ const NewsReleasesPage = () => {
               <div className="md:flex">
                 {/* Image */}
                 <div className="md:w-1/3">
-                  <img
+                  <Image
                     src={release.imageUrl} 
                     alt={release.title} 
                     className="w-full h-48 md:h-full object-cover"

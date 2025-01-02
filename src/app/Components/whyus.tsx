@@ -41,68 +41,71 @@ interface NavigationArrowsProps {
   onNextClick: () => void;
 }
 
-const NavigationDots: React.FC<NavigationDotsProps> = ({ total, current, onDotClick }) => (
-  <div className="flex justify-center space-x-2">
-    {[...Array(total)].map((_, index) => (
-      <button
-        key={index}
-        onClick={() => onDotClick(index)}
-        className={`w-2 h-2 rounded-full transition-colors ${
-          index === current ? 'bg-blue-600' : 'bg-gray-300'
-        }`}
-        aria-label={`Go to slide ${index + 1}`}
-      />
-    ))}
-  </div>
-);
 
-const NavigationArrows: React.FC<NavigationArrowsProps> = ({ onPrevClick, onNextClick }) => (
-  <div className="flex space-x-4">
-    <button
-      onClick={onPrevClick}
-      className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
-      aria-label="Previous slide"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M15 18l-6-6 6-6" />
-      </svg>
-    </button>
-    <button
-      onClick={onNextClick}
-      className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
-      aria-label="Next slide"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M9 18l6-6-6-6" />
-      </svg>
-    </button>
-  </div>
-);
-
-const getWhyUsData = cache(async (): Promise<WhyUsData | null> => {
-  try {
-    const response = await fetch(`${BASE_URL}/api/home?populate=why_us.us_card`, {
-      next: { revalidate: 3600 },
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
-    }
-    
-    const data: ApiResponse = await response.json();
-    
-    if (data.data?.attributes?.why_us?.[0]) {
-      return data.data.attributes.why_us[0];
-    } else {
-      throw new Error('Data structure is not as expected');
-    }
-  } catch (err) {
-    console.error('Error fetching WhyUs data:', err);
-    return null;
-  }
-});
 
 const ESGPlatform: React.FC = () => {
+
+
+  const NavigationDots: React.FC<NavigationDotsProps> = ({ total, current, onDotClick }) => (
+    <div className="flex justify-center space-x-2">
+      {[...Array(total)].map((_, index) => (
+        <button
+          key={index}
+          onClick={() => onDotClick(index)}
+          className={`w-2 h-2 rounded-full transition-colors ${
+            index === current ? 'bg-blue-600' : 'bg-gray-300'
+          }`}
+          aria-label={`Go to slide ${index + 1}`}
+        />
+      ))}
+    </div>
+  );
+  
+  const NavigationArrows: React.FC<NavigationArrowsProps> = ({ onPrevClick, onNextClick }) => (
+    <div className="flex space-x-4">
+      <button
+        onClick={onPrevClick}
+        className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
+        aria-label="Previous slide"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <button
+        onClick={onNextClick}
+        className="p-2 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
+        aria-label="Next slide"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+  );
+  
+  const getWhyUsData = cache(async (): Promise<WhyUsData | null> => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/home?populate=why_us.us_card`, {
+        next: { revalidate: 3600 },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      
+      const data: ApiResponse = await response.json();
+      
+      if (data.data?.attributes?.why_us?.[0]) {
+        return data.data.attributes.why_us[0];
+      } else {
+        throw new Error('Data structure is not as expected');
+      }
+    } catch (err) {
+      console.error('Error fetching WhyUs data:', err);
+      return null;
+    }
+  });
   // Explicitly type state variables
   const [whyUsData, setWhyUsData] = useState<WhyUsData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);

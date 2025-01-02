@@ -39,7 +39,7 @@ const OurReach = () => {
           </div>
         </div>
        
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {stats.map((stat, index) => (
             <div key={index} className={`bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 ${stat.span}`}>
               <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-orange-500">
@@ -48,7 +48,7 @@ const OurReach = () => {
               <p className="text-gray-300 text-base sm:text-lg">{stat.label}</p>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );

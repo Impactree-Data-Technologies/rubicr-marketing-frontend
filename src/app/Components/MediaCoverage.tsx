@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 // Define interface for media logo
 interface MediaLogo {
@@ -85,7 +86,7 @@ const MediaCoverage: React.FC = () => {
                   style={{ width: '150px', height: '80px' }}
                 >
                   <div className="absolute inset-0 bg-gray-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <img
+                  <Image
                     src={logo.src}
                     alt={logo.name}
                     className="w-full h-full object-contain p-4 relative z-10 transition-transform duration-300 group-hover:scale-110"
@@ -100,7 +101,7 @@ const MediaCoverage: React.FC = () => {
                   style={{ width: '150px', height: '80px' }}
                 >
                   <div className="absolute inset-0 bg-gray-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <img
+                  <Image
                     src={logo.src}
                     alt={logo.name}
                     className="w-full h-full object-contain p-4 relative z-10 transition-transform duration-300 group-hover:scale-110"
