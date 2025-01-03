@@ -156,8 +156,14 @@ interface ApiResponse {
     attributes: {
       quote: string;
       name: string;
-      title?: string;
-      image?: ImageData;
+      title: string;
+      image?: {
+        data?: {
+          attributes?: {
+            url: string;
+          };
+        };
+      };
     };
   }>;
 }
@@ -725,12 +731,7 @@ const EnhancedHomePage: React.FC = () => {
     const [currentFeedbackIndex, setCurrentFeedbackIndex] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
-    const [touchStart, setTouchStart] = useState<number | null>(null);
-    const [touchEnd, setTouchEnd] = useState<number | null>(null);
-    
-    // Check if screen is mobile
-    const isMobile = useMediaQuery({ maxWidth: 768 });
-    
+  
     useEffect(() => {
       const fetchFeedbackData = async () => {
         try {
@@ -743,149 +744,151 @@ const EnhancedHomePage: React.FC = () => {
               image: item.attributes.image?.data?.attributes?.url || null,
             }))
           );
-        } catch (error) {
-          setError(error as Error);
+        } catch (err) {
+          setError(err instanceof Error ? err : new Error('An error occurred'));
         } finally {
           setLoading(false);
         }
       };
       fetchFeedbackData();
     }, []);
-
-    // Swipe handlers
-    const handleTouchStart = (e: React.TouchEvent) => {
-      setTouchStart(e.touches[0].clientX);
-    };
   
-    const handleTouchMove = (e: React.TouchEvent) => {
-      setTouchEnd(e.touches[0].clientX);
-    };
+    useEffect(() => {
+      if (feedbackData.length <= 1) return;
   
-    const handleTouchEnd = () => {
-      if (!touchStart || !touchEnd) return;
-      
-      const distance = touchStart - touchEnd;
-      const isLeftSwipe = distance > 50;
-      const isRightSwipe = distance < -50;
+      const interval = setInterval(() => {
+        setCurrentFeedbackIndex((prevIndex) => 
+          prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000);
   
-      if (isLeftSwipe) {
-        handleNext();
-      }
-      if (isRightSwipe) {
-        handlePrev();
-      }
-  
-      setTouchStart(null);
-      setTouchEnd(null);
-    };
+      return () => clearInterval(interval);
+    }, [feedbackData.length]);
   
     const handleNext = () => {
-      setCurrentFeedbackIndex((prevIndex) => (prevIndex + 1) % feedbackData.length);
+      setCurrentFeedbackIndex((prevIndex) => 
+        prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
+      );
     };
   
     const handlePrev = () => {
-      setCurrentFeedbackIndex((prevIndex) => (prevIndex - 1 + feedbackData.length) % feedbackData.length);
+      setCurrentFeedbackIndex((prevIndex) => 
+        prevIndex === 0 ? feedbackData.length - 1 : prevIndex - 1
+      );
     };
   
-    if (loading) return <div className="flex justify-center items-center min-h-[300px]"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div></div>;
+    if (loading) return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fba900]"></div>
+      </div>
+    );
+    
     if (error) return <div className="text-red-500 text-center p-4">Error: {error.message}</div>;
     if (!feedbackData.length) return null;
   
-    const { quote, name, title, image } = feedbackData[currentFeedbackIndex];
+    const currentFeedback = feedbackData[currentFeedbackIndex];
   
     return (
-      <section className="py-8 md:py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Client Testimonials
-              </h2>
-              <div className="w-16 md:w-20 h-1 bg-blue-500 mx-auto"></div>
+      <div className="w-full bg-[#fba900] min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="absolute top-0 left-0 right-0 h-1/2 bg-cover bg-center opacity-20"
+             style={{ backgroundImage: "url('/api/placeholder/1200/600')" }}>
+        </div>
+        
+        <div className="relative w-full max-w-5xl">
+          <h1 className="text-white text-6xl font-bold text-center mb-16">
+            TESTIMONIAL
+          </h1>
+  
+          <div className="relative">
+            <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex justify-between z-10 px-4 md:px-0">
+              <button 
+                onClick={handlePrev}
+                className="transform -translate-x-1/2 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="w-6 h-6 text-[#fba900]" />
+              </button>
+              <button 
+                onClick={handleNext}
+                className="transform translate-x-1/2 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="w-6 h-6 text-[#fba900]" />
+              </button>
             </div>
   
-            <div className="relative">
-              <div 
-                className="p-4 md:p-8 bg-white rounded-xl shadow-lg"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-              >
-                <div className="grid md:grid-cols-5 gap-4 md:gap-8">
-                  {/* Image Column */}
-                  <div className="md:col-span-2">
-                    <div className="relative w-full aspect-square md:aspect-square overflow-hidden rounded-xl">
-                      {image ? (
-                        <img
-                          src={`${process.env.NEXT_PUBLIC_API_URL}${image}`}
-                          alt={name}
-                          className="object-cover w-full h-full"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-gray-400">No image available</span>
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 to-transparent"></div>
-                    </div>
+            {/* Modified card dimensions */}
+            <div className="bg-white rounded-3xl p-8 relative mx-auto w-full max-w-4xl h-[400px]">
+              <div className="absolute -top-6 left-8 bg-gray-300 rounded-full p-4">
+                <Quote className="w-8 h-8 text-[#fba900]" />
+              </div>
+  
+              <div className="flex flex-row items-center justify-between h-full px-4">
+                {/* Left side - Profile */}
+                <div className="flex flex-col items-center w-1/4">
+                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[#fba900] mb-4">
+                    {currentFeedback.image ? (
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_API_URL}${currentFeedback.image}`}
+                        alt={currentFeedback.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-400">No image</span>
+                      </div>
+                    )}
                   </div>
   
-                  {/* Content Column */}
-                  <div className="md:col-span-3 flex flex-col justify-center">
-                    <div className="mb-4 md:mb-6">
-                      <Quote className="w-8 h-8 md:w-10 md:h-10 text-blue-500 mb-3 md:mb-4" />
-                      <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-                        {quote}
-                      </p>
-                    </div>
+                  <div className="text-center">
+                    <h3 className="text-xl font-bold text-gray-900">{currentFeedback.name}</h3>
+                    <p className="text-gray-600">{currentFeedback.title}</p>
+                  </div>
   
-                    <div className="border-l-4 border-blue-500 pl-4">
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-900">{name}</h3>
-                      {title && <p className="text-sm md:text-base text-gray-600">{title}</p>}
-                    </div>
+                  <div className="flex gap-1 mt-4">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`w-5 h-5 ${star <= 4 ? 'text-[#fba900] fill-[#fba900]' : 'text-gray-300'}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+  
+                {/* Right side - Text content */}
+                <div className="w-3/4 pl-8">
+                  <div className="h-full overflow-y-auto scrollbar-hide">
+                    <p className="text-gray-700 text-lg">
+                      {currentFeedback.quote}
+                    </p>
                   </div>
                 </div>
               </div>
   
-              {/* Navigation - Only show on desktop */}
-              {!isMobile && (
-                <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0">
-                  <div className="flex justify-between px-4">
-                    <button
-                      onClick={handlePrev}
-                      className="bg-white p-3 rounded-full shadow-lg hover:bg-blue-50 transition-colors"
-                      aria-label="Previous testimonial"
-                    >
-                      <ChevronLeft className="w-6 h-6 text-gray-600" />
-                    </button>
-                    <button
-                      onClick={handleNext}
-                      className="bg-white p-3 rounded-full shadow-lg hover:bg-blue-50 transition-colors"
-                      aria-label="Next testimonial"
-                    >
-                      <ChevronRight className="w-6 h-6 text-gray-600" />
-                    </button>
-                  </div>
-                </div>
-              )}
-  
-              {/* Progress Indicators */}
-              <div className="flex justify-center mt-4 md:mt-8 gap-2">
-                {feedbackData.map((_, index) => (
-                  <div
-                    key={index}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentFeedbackIndex ? 'bg-blue-500' : 'bg-gray-300'
-                    }`}
-                  />
-                ))}
+              <div className="absolute -bottom-6 right-8 bg-gray-300 rounded-full p-4">
+                <Quote className="w-8 h-8 text-[#fba900]" />
               </div>
             </div>
           </div>
+  
+          <div className="flex justify-center mt-12 gap-2">
+            {feedbackData.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentFeedbackIndex(index)}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  index === currentFeedbackIndex ? 'bg-white' : 'bg-white/50'
+                }`}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
-      </section>
+      </div>
     );
   };
+  
+
 
    // Enhanced Image Toggle Section
    const ImageToggleClient: React.FC<ImageToggleClientProps> = ({ withRubicrUrl, withoutRubicrUrl }) => {
