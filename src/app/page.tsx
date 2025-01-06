@@ -20,21 +20,17 @@ const BotpressChat = dynamic(() => import("./Components/BotpressChat"), {
 });
 const Button = dynamic(() => import("./Components/button"));
 
+
+const Feedback = dynamic(() => import("./Components/feedback"));
+
+
+
+
+
 // Font configuration
 
-const LoadingSpinner = () => (
-  <div className="flex justify-center items-center min-h-[200px]">
-    <div className="relative">
-      <div className="w-12 h-12 rounded-full border-4 border-indigo-200 animate-spin border-t-indigo-600"></div>
-    </div>
-  </div>
-);
 
-const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ message }) => (
-  <div className="flex flex-col items-center justify-center min-h-[200px] bg-red-50 rounded-lg p-6">
-    <p className="text-red-600 font-medium">{message}</p>
-  </div>
-);
+
 
 interface HomeData {
   title: string;
@@ -114,13 +110,42 @@ interface ImageTogglerData {
   };
 }
 
-interface PageData {
-  home: HomeData | null;
-  logos: LogoData;
-  whyUs: WhyUsData | null;
-  useCase: UseCaseData | null;
-  imageToggler: ImageTogglerData | null;
+interface Logo {
+  data: any[];
 }
+
+interface WhyUs {
+  us_card: any[];
+}
+
+interface UseCase {
+  heading: string;
+  case_card: Array<{
+    heading: string;
+    description: string;
+    link: {
+      data: {
+        attributes: {
+          url: string;
+        };
+      };
+    };
+  }>;
+}
+
+interface PageData {
+  home: any;
+  logos: {
+    title: string;
+    description: string;
+    logos: any[];
+  };
+  whyUs: WhyUs | null;
+  useCase: UseCase | null;
+  imageToggler: any;
+}
+
+
 
 interface FeedbackItem {
   quote: string;
@@ -196,7 +221,7 @@ const EnhancedHomePage: React.FC = () => {
 
    // Add new state for Why Us and Use Case sections
    const [activeWhyUsIndex, setActiveWhyUsIndex] = useState(0);
-   const [activeUseCaseIndex, setActiveUseCaseIndex] = useState(0);
+  
 
    const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -247,8 +272,7 @@ const EnhancedHomePage: React.FC = () => {
     fetchData();
   }, []);
 
-  if (error) return <ErrorDisplay message={error} />;
-  if (isLoading) return <LoadingSpinner />;
+ 
 
   // Enhanced Hero Section
   const Hero = () => (
@@ -562,58 +586,71 @@ const EnhancedHomePage: React.FC = () => {
   const UseCases = () => {
     const [activeUseCaseIndex, setActiveUseCaseIndex] = useState(0);
   
+    // Remove the duplicate pageData state since we're already using the one from EnhancedHomePage
+    // Only use the data passed from the parent pageData
+  
+    // Early return if data is not available
+    if (!pageData?.useCase?.case_card?.length) return null;
+  
+    const activeCase = pageData.useCase.case_card[activeUseCaseIndex];
+  
     return (
       <section className="py-10 md:py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          {/* Main heading */}
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 font-sans">
-              {pageData.useCase?.heading}
+              {pageData.useCase.heading}
             </h2>
           </div>
   
-          {/* Tabs - vertical on mobile, horizontal on desktop */}
           <div className="flex flex-col md:flex-row md:justify-center mb-8 md:mb-12 space-y-2 md:space-y-0 md:space-x-4">
-            {pageData.useCase?.case_card.map((useCase, idx) => (
+            {pageData.useCase.case_card.map((useCase, idx) => (
               <button
-                key={useCase.heading}
+                key={idx}
                 onClick={() => setActiveUseCaseIndex(idx)}
-                className={`w-full md:w-auto px-4 md:px-6 py-2 md:py-3 rounded-lg transition-all ${
-                  activeUseCaseIndex === idx
-                    ? 'bg-blue-500 text-white shadow-lg'
+                className={`
+                  w-full md:w-auto px-4 md:px-6 py-2 md:py-3 rounded-lg 
+                  transition-all duration-300 cursor-pointer
+                  ${activeUseCaseIndex === idx
+                    ? 'bg-blue-500 text-white shadow-lg transform scale-105'
                     : 'bg-white text-gray-700 hover:bg-blue-50'
-                }`}
+                  }
+                `}
               >
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-center md:justify-start space-x-2">
                   <Circle
                     className={`w-3 h-3 md:w-4 md:h-4 ${
                       activeUseCaseIndex === idx ? 'text-white' : 'text-blue-500'
                     }`}
                   />
-                  <span className="text-sm md:text-base font-semibold">{useCase.heading}</span>
+                  <span className="text-sm md:text-base font-semibold">
+                    {useCase.heading}
+                  </span>
                 </div>
               </button>
             ))}
           </div>
   
-          {/* Content section */}
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-12 items-start">
-            {/* Left side: Description */}
-            <div className="bg-white p-6 md:p-8 rounded-xl shadow-sm order-2 lg:order-1 w-full">
+            <div 
+              key={activeUseCaseIndex}
+              className="bg-white p-6 md:p-8 rounded-xl shadow-sm order-2 lg:order-1 w-full 
+                       transform transition-all duration-300"
+            >
               <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4 font-sans">
-                {pageData.useCase?.case_card[activeUseCaseIndex]?.heading}
+                {activeCase.heading}
               </h3>
               <p className="text-sm md:text-base text-gray-600 font-sans leading-relaxed">
-                {pageData.useCase?.case_card[activeUseCaseIndex]?.description}
+                {activeCase.description}
               </p>
             </div>
   
-            {/* Right side: Video */}
-            <div className="relative order-1 lg:order-2 w-full">
-              {pageData.useCase?.case_card[activeUseCaseIndex]?.link?.data?.attributes?.url && (
-                <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl md:shadow-2xl relative">
+            <div className="relative order-1 lg:order-2 w-full h-[300px] md:h-[400px]">
+              {activeCase.link?.data?.attributes?.url && (
+                <div className="rounded-xl md:rounded-2xl overflow-hidden shadow-xl md:shadow-2xl relative h-full">
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
                   <video
+                    key={activeCase.link.data.attributes.url}
                     className="w-full h-full object-cover"
                     autoPlay
                     loop
@@ -621,9 +658,10 @@ const EnhancedHomePage: React.FC = () => {
                     playsInline
                   >
                     <source
-                      src={`${process.env.NEXT_PUBLIC_API_URL}${pageData.useCase.case_card[activeUseCaseIndex].link.data.attributes.url}`}
+                      src={`${process.env.NEXT_PUBLIC_API_URL}${activeCase.link.data.attributes.url}`}
                       type="video/mp4"
                     />
+                    Your browser does not support video playback.
                   </video>
                 </div>
               )}
@@ -665,8 +703,7 @@ const EnhancedHomePage: React.FC = () => {
     fetchData();
   }, []);
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorDisplay message={error.message} />;
+ 
   if (!data) return null;
 
   return (
@@ -726,167 +763,206 @@ const EnhancedHomePage: React.FC = () => {
   // Enhanced Feedback Section with new design
 
   
-  const Feedback: React.FC = () => {
-    const [feedbackData, setFeedbackData] = useState<FeedbackItem[]>([]);
-    const [currentFeedbackIndex, setCurrentFeedbackIndex] = useState<number>(0);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<Error | null>(null);
+  // const Feedback: React.FC = () => {
+  //   const [feedbackData, setFeedbackData] = useState<FeedbackItem[]>([]);
+  //   const [currentFeedbackIndex, setCurrentFeedbackIndex] = useState<number>(0);
+  //   const [loading, setLoading] = useState<boolean>(true);
+  //   const [error, setError] = useState<Error | null>(null);
+  //   const [touchStart, setTouchStart] = useState<number>(0);
+  //   const [touchEnd, setTouchEnd] = useState<number>(0);
   
-    useEffect(() => {
-      const fetchFeedbackData = async () => {
-        try {
-          const response = await axios.get<ApiResponse>(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/feedbacks?populate=*`
-          );
-          setFeedbackData(
-            response.data.data.map((item) => ({
-              ...item.attributes,
-              image: item.attributes.image?.data?.attributes?.url || null,
-            }))
-          );
-        } catch (err) {
-          setError(err instanceof Error ? err : new Error('An error occurred'));
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchFeedbackData();
-    }, []);
+  //   useEffect(() => {
+  //     const fetchFeedbackData = async () => {
+  //       try {
+  //         const response = await axios.get<ApiResponse>(
+  //           `${process.env.NEXT_PUBLIC_API_URL}/api/feedbacks?populate=*`
+  //         );
+  //         setFeedbackData(
+  //           response.data.data.map((item) => ({
+  //             ...item.attributes,
+  //             image: item.attributes.image?.data?.attributes?.url || null,
+  //           }))
+  //         );
+  //       } catch (err) {
+  //         setError(err instanceof Error ? err : new Error('An error occurred'));
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+  //     fetchFeedbackData();
+  //   }, []);
   
-    useEffect(() => {
-      if (feedbackData.length <= 1) return;
+  //   useEffect(() => {
+  //     if (feedbackData.length <= 1) return;
   
-      const interval = setInterval(() => {
-        setCurrentFeedbackIndex((prevIndex) => 
-          prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 5000);
+  //     const interval = setInterval(() => {
+  //       setCurrentFeedbackIndex((prevIndex) =>
+  //         prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
+  //       );
+  //     }, 5000);
   
-      return () => clearInterval(interval);
-    }, [feedbackData.length]);
+  //     return () => clearInterval(interval);
+  //   }, [feedbackData.length]);
   
-    const handleNext = () => {
-      setCurrentFeedbackIndex((prevIndex) => 
-        prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
-      );
-    };
+  //   const handleNext = () => {
+  //     setCurrentFeedbackIndex((prevIndex) =>
+  //       prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
+  //     );
+  //   };
   
-    const handlePrev = () => {
-      setCurrentFeedbackIndex((prevIndex) => 
-        prevIndex === 0 ? feedbackData.length - 1 : prevIndex - 1
-      );
-    };
+  //   const handlePrev = () => {
+  //     setCurrentFeedbackIndex((prevIndex) =>
+  //       prevIndex === 0 ? feedbackData.length - 1 : prevIndex - 1
+  //     );
+  //   };
   
-    if (loading) return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fba900]"></div>
-      </div>
-    );
+  //   // Handle touch events for swipe with proper types
+  //   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+  //     setTouchStart(e.touches[0].clientX);
+  //   };
+  
+  //   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+  //     setTouchEnd(e.touches[0].clientX);
+  //   };
+  
+  //   const handleTouchEnd = () => {
+  //     if (!touchStart || !touchEnd) return;
+      
+  //     const distance = touchStart - touchEnd;
+  //     const minSwipeDistance = 50;
+  
+  //     if (Math.abs(distance) < minSwipeDistance) return;
+  
+  //     if (distance > 0) {
+  //       // Swiped left
+  //       handleNext();
+  //     } else {
+  //       // Swiped right
+  //       handlePrev();
+  //     }
+  
+  //     // Reset values
+  //     setTouchStart(0);
+  //     setTouchEnd(0);
+  //   };
+  
+  //   if (loading) return (
+  //     <div className="flex justify-center items-center h-[450px]">
+  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fba900]"></div>
+  //     </div>
+  //   );
     
-    if (error) return <div className="text-red-500 text-center p-4">Error: {error.message}</div>;
-    if (!feedbackData.length) return null;
+  //   if (error) return <div className="text-red-500 text-center p-4">Error: {error.message}</div>;
+  //   if (!feedbackData.length) return null;
   
-    const currentFeedback = feedbackData[currentFeedbackIndex];
+  //   const currentFeedback = feedbackData[currentFeedbackIndex];
   
-    return (
-      <div className="w-full bg-[#fba900] min-h-screen flex flex-col items-center justify-center p-4">
-        <div className="absolute top-0 left-0 right-0 h-1/2 bg-cover bg-center opacity-20"
-             style={{ backgroundImage: "url('/api/placeholder/1200/600')" }}>
-        </div>
+  //   return (
+  //     <div className="w-full bg-[#fba900] h-[650px] md:h-[550px] lg:h-[500px] flex flex-col items-center justify-center p-4">
+  //       <div className="absolute top-0 left-0 right-0 h-1/2 bg-cover bg-center opacity-20"
+  //            style={{ backgroundImage: "url('/api/placeholder/1200/600')" }}>
+  //       </div>
         
-        <div className="relative w-full max-w-5xl">
-          <h1 className="text-white text-6xl font-bold text-center mb-16">
-            TESTIMONIAL
-          </h1>
+  //       <div className="relative w-full max-w-5xl mx-auto">
+  //         <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-bold text-center mb-6 md:mb-10">
+  //           TESTIMONIAL
+  //         </h1>
   
-          <div className="relative">
-            <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex justify-between z-10 px-4 md:px-0">
-              <button 
-                onClick={handlePrev}
-                className="transform -translate-x-1/2 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft className="w-6 h-6 text-[#fba900]" />
-              </button>
-              <button 
-                onClick={handleNext}
-                className="transform translate-x-1/2 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight className="w-6 h-6 text-[#fba900]" />
-              </button>
-            </div>
+  //         <div className="relative">
+  //           {/* Navigation buttons - visible only on desktop */}
+  //           <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 hidden md:flex justify-between z-10">
+  //             <button
+  //               onClick={handlePrev}
+  //               className="transform -translate-x-6 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
+  //               aria-label="Previous testimonial"
+  //             >
+  //               <ChevronLeft className="w-6 h-6 text-[#fba900]" />
+  //             </button>
+  //             <button
+  //               onClick={handleNext}
+  //               className="transform translate-x-6 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
+  //               aria-label="Next testimonial"
+  //             >
+  //               <ChevronRight className="w-6 h-6 text-[#fba900]" />
+  //             </button>
+  //           </div>
   
-            {/* Modified card dimensions */}
-            <div className="bg-white rounded-3xl p-8 relative mx-auto w-full max-w-4xl h-[400px]">
-              <div className="absolute -top-6 left-8 bg-gray-300 rounded-full p-4">
-                <Quote className="w-8 h-8 text-[#fba900]" />
-              </div>
+  //           {/* Card with touch events */}
+  //           <div 
+  //             className="bg-white rounded-3xl p-4 md:p-6 lg:p-8 relative mx-auto w-full max-w-4xl h-[450px] md:h-[300px] lg:h-[280px] touch-pan-x"
+  //             onTouchStart={handleTouchStart}
+  //             onTouchMove={handleTouchMove}
+  //             onTouchEnd={handleTouchEnd}
+  //           >
+  //             <div className="absolute -top-6 left-8 bg-gray-300 rounded-full p-3 md:p-4 hidden md:block">
+  //               <Quote className="w-6 h-6 md:w-8 md:h-8 text-[#fba900]" />
+  //             </div>
   
-              <div className="flex flex-row items-center justify-between h-full px-4">
-                {/* Left side - Profile */}
-                <div className="flex flex-col items-center w-1/4">
-                  <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[#fba900] mb-4">
-                    {currentFeedback.image ? (
-                      <img
-                        src={`${process.env.NEXT_PUBLIC_API_URL}${currentFeedback.image}`}
-                        alt={currentFeedback.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-400">No image</span>
-                      </div>
-                    )}
-                  </div>
+  //             <div className="h-full flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+  //               {/* Profile section */}
+  //               <div className="flex flex-col items-center w-full md:w-1/4 pt-2">
+  //                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-[#fba900] mb-3">
+  //                   {currentFeedback.image ? (
+  //                     <img
+  //                       src={`${process.env.NEXT_PUBLIC_API_URL}${currentFeedback.image}`}
+  //                       alt={currentFeedback.name}
+  //                       className="w-full h-full object-cover"
+  //                     />
+  //                   ) : (
+  //                     <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+  //                       <span className="text-gray-400 text-sm">No image</span>
+  //                     </div>
+  //                   )}
+  //                 </div>
   
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-gray-900">{currentFeedback.name}</h3>
-                    <p className="text-gray-600">{currentFeedback.title}</p>
-                  </div>
+  //                 <div className="text-center mb-3">
+  //                   <h3 className="text-lg md:text-xl font-bold text-gray-900">{currentFeedback.name}</h3>
+  //                   <p className="text-sm md:text-base text-gray-600">{currentFeedback.title}</p>
+  //                 </div>
   
-                  <div className="flex gap-1 mt-4">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className={`w-5 h-5 ${star <= 4 ? 'text-[#fba900] fill-[#fba900]' : 'text-gray-300'}`}
-                      />
-                    ))}
-                  </div>
-                </div>
+  //                 <div className="flex gap-1">
+  //                   {[1, 2, 3, 4, 5].map((star) => (
+  //                     <Star
+  //                       key={star}
+  //                       className={`w-4 h-4 md:w-5 md:h-5 ${star <= 4 ? 'text-[#fba900] fill-[#fba900]' : 'text-gray-300'}`}
+  //                     />
+  //                   ))}
+  //                 </div>
+  //               </div>
   
-                {/* Right side - Text content */}
-                <div className="w-3/4 pl-8">
-                  <div className="h-full overflow-y-auto scrollbar-hide">
-                    <p className="text-gray-700 text-lg">
-                      {currentFeedback.quote}
-                    </p>
-                  </div>
-                </div>
-              </div>
+  //               {/* Quote section */}
+  //               <div className="w-full md:w-3/4 flex-1 overflow-hidden">
+  //                 <div className="h-[250px] md:h-full overflow-y-auto scrollbar-hide px-2">
+  //                   <p className="text-gray-700 text-base md:text-lg">
+  //                     {currentFeedback.quote}
+  //                   </p>
+  //                 </div>
+  //               </div>
+  //             </div>
   
-              <div className="absolute -bottom-6 right-8 bg-gray-300 rounded-full p-4">
-                <Quote className="w-8 h-8 text-[#fba900]" />
-              </div>
-            </div>
-          </div>
+  //             <div className="absolute -bottom-6 right-8 bg-gray-300 rounded-full p-3 md:p-4 hidden md:block">
+  //               <Quote className="w-6 h-6 md:w-8 md:h-8 text-[#fba900]" />
+  //             </div>
+  //           </div>
+  //         </div>
   
-          <div className="flex justify-center mt-12 gap-2">
-            {feedbackData.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentFeedbackIndex(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentFeedbackIndex ? 'bg-white' : 'bg-white/50'
-                }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
+  //         <div className="flex justify-center mt-8 gap-2">
+  //           {feedbackData.map((_, index) => (
+  //             <button
+  //               key={index}
+  //               onClick={() => setCurrentFeedbackIndex(index)}
+  //               className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors ${
+  //                 index === currentFeedbackIndex ? 'bg-white' : 'bg-white/50'
+  //               }`}
+  //               aria-label={`Go to testimonial ${index + 1}`}
+  //             />
+  //           ))}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // };
+  
   
 
 
@@ -1022,8 +1098,8 @@ const EnhancedHomePage: React.FC = () => {
       fetchImageData();
     }, []);
 
-    if (error) return <ErrorDisplay message="Error loading images" />;
-    if (!imageData) return <LoadingSpinner />;
+   
+    if (!imageData) return null
 
     return (
       <ImageToggleClient
