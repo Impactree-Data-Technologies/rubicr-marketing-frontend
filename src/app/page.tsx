@@ -612,11 +612,9 @@ const EnhancedHomePage: React.FC = () => {
                 className={`
                   w-full md:w-auto px-4 md:px-6 py-2 md:py-3 rounded-lg
                   transition-all duration-300 cursor-pointer
-                  ${
-                    activeUseCaseIndex === idx
-                      ? 'bg-blue-500 text-white shadow-lg transform scale-105'
-                      : 'bg-white text-gray-700 hover:bg-blue-50'
-                  }
+                  ${activeUseCaseIndex === idx
+                    ? 'bg-blue-500 text-white shadow-lg transform scale-105'
+                    : 'bg-white text-gray-700 hover:bg-blue-50'}
                 `}
               >
                 <div className="flex items-center justify-center md:justify-start space-x-2">
@@ -636,8 +634,7 @@ const EnhancedHomePage: React.FC = () => {
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-12 items-start">
             <div
               key={activeUseCaseIndex}
-              className="bg-white p-6 md:p-8 rounded-xl shadow-sm order-2 lg:order-1 w-full
-                        transform transition-all duration-300"
+              className="bg-white p-6 md:p-8 rounded-xl shadow-sm order-2 lg:order-1 w-full transform transition-all duration-300"
             >
               <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4 font-sans">
                 {activeCase.heading}
@@ -651,14 +648,12 @@ const EnhancedHomePage: React.FC = () => {
               <div className="absolute inset-0 rounded-xl md:rounded-2xl overflow-hidden shadow-xl md:shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
                 <video
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  loop
+                  className="w-full h-full object-cover rounded-xl shadow-lg"
                   controls
-                  playsInline
+                  src={VIDEO_PATH}
+                  poster={VIDEO_PATH} // Optional: Use a static poster image if you have one
                 >
-                  <source src={VIDEO_PATH} type="video/mp4" />
-                  Your browser does not support video playback.
+                  Your browser does not support the video tag.
                 </video>
               </div>
             </div>
@@ -667,7 +662,6 @@ const EnhancedHomePage: React.FC = () => {
       </section>
     );
   };
-
 
 
   // Enhanced Why Rubicr Section
