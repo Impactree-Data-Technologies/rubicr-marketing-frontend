@@ -22,9 +22,9 @@ interface Post {
 const categories = [
   "ALL",
   "ESG Insights & Analysis",
-  "Sustainable Business Strategies",
+  // "Sustainable Business Strategies",
   "Green Tech & Innovation",
-  "Climate Action & Advocacy",
+  // "Climate Action & Advocacy",
   "Social Impact & Corporate Responsibility"
 ] as const;
 
