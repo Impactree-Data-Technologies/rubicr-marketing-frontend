@@ -301,6 +301,7 @@ const SupplyChain = () => {
             label="Get Started" 
             background="bg-white" 
             color="text-[#0A192F]"
+            href='/contact-us'
             className="px-8 md:px-10 py-3 md:py-4 text-base md:text-lg rounded-full hover:scale-110 transition-transform"
           />
         </motion.div>

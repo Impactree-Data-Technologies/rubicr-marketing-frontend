@@ -1,40 +1,12 @@
 import type { Metadata, Viewport } from "next";
-
-import Script from "next/script";
+import Script from "next/script";  // Add this import for Script
+import { Providers } from "../Providers";  // Make sure path matches your file structure
 import "./globals.css";
-import { Providers } from "../Providers";
 
-
-
+// Rest of your code remains the same
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1
-};
-
-export const metadata: Metadata = {
-  metadataBase: new URL('https://rubicr.ai'), // Replace with your actual domain
-  title: "Rubicr",
-  description: "Empowering sustainable business solutions through advanced tracking and reporting technologies",
-  robots: "index, follow",
-  openGraph: {
-    title: "Rubicr",
-    description: "Empowering sustainable business solutions through advanced tracking and reporting technologies",
-    type: "website",
-    url: "https://rubicr.ai/",
-    images: [
-      {
-        url: "/Logo.svg",
-        width: 1200,
-        height: 630,
-        alt: "Rubicr"
-      }
-    ]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Rubicr",
-    description: "Empowering sustainable business solutions through advanced tracking and reporting technologies"
-  }
 };
 
 export default function RootLayout({
@@ -57,6 +29,14 @@ export default function RootLayout({
             })(window,document,'script','dataLayer','GTM-NW2LFB78');
           `
         }}
+      />
+      <Script
+        id="guidelite-chatbot"
+        strategy="afterInteractive"
+        src="https://guidelite.ai/static/embed.fab.min.js"
+        data-open-on-load="true"
+        data-chatbotid="7e05cd22-8058-4899-864d-f8ac1e765708"
+        data-url="https://guidelite.ai"
       />
       <body>
         <noscript

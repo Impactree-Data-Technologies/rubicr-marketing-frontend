@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Github, Linkedin, Twitter, ChevronDown } from 'lucide-react';
+import { Linkedin, ChevronDown } from 'lucide-react';
 
 export default function Footer() {
   const [openSection, setOpenSection] = useState<number | null>(null);
@@ -48,25 +48,24 @@ export default function Footer() {
     { href: "/resources/case-studies", label: "Case Studies" },
     { href: "/resources/blog", label: "Blog" },
   ];
-    
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-black text-white py-16 px-6 sm:px-12 md:px-16">
       <div className="max-w-7xl mx-auto">
-        {/* Grid Layout with Improved Spacing */}
+        {/* Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12">
           {/* Company Brand Section */}
           <div className="md:col-span-1">
-          <Link href="/">
-          <div className="flex items-center mb-6 cursor-pointer">
-              <Image
-                src="/white_logo.png"
-                alt="Company Logo"
-                width={150}
-                height={50}
-                className="mr-4"
-              />
-            </div>
+            <Link href="/">
+              <div className="flex items-center mb-6 cursor-pointer">
+                <Image
+                  src="/white_logo.png"
+                  alt="Company Logo"
+                  width={150}
+                  height={50}
+                  className="mr-4"
+                />
+              </div>
             </Link>
             <p className="text-gray-300 text-sm">
               Empowering sustainable business solutions through advanced tracking and reporting technologies.
@@ -130,17 +129,17 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Resources Section  */}
+          {/* Resources Section */}
           <div>
             <h3 className="text-lg font-semibold mb-6 text-yellow-400 border-b border-gray-700 pb-2">Resources</h3>
             <ul className="space-y-4">
-              {resourcesMenu.map((resources) => (
-                <li key={resources.href}>
+              {resourcesMenu.map((resource) => (
+                <li key={resource.href}>
                   <Link 
-                    href={resources.href} 
+                    href={resource.href} 
                     className="text-gray-300 hover:text-yellow-300 transition-colors"
                   >
-                    {resources.label}
+                    {resource.label}
                   </Link>
                 </li>
               ))}
@@ -157,7 +156,10 @@ export default function Footer() {
                 { href: "/about/rewards", label: "Rewards and Recognition" }
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-gray-300 hover:text-yellow-300 transition-colors">
+                  <Link 
+                    href={link.href} 
+                    className="text-gray-300 hover:text-yellow-300 transition-colors"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -177,33 +179,34 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Social and CTA Section */}
-        <div className="mt-16 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center">
-          {/* Social Icons */}
-          <div className="flex space-x-6 mb-6 sm:mb-0">
-            {[
-              { Icon: Github, href: "https://github.com/rubicr" },
-              { Icon: Linkedin, href: "https://linkedin.com/company/rubicr" },
-              { Icon: Twitter, href: "https://twitter.com/rubicr" }
-            ].map(({ Icon, href }) => (
+        {/* Enhanced Social and CTA Section */}
+        <div className="mt-16 pt-8 border-t border-gray-800">
+          <div className="flex flex-col sm:flex-row justify-between items-center">
+            {/* LinkedIn Section */}
+            <div className="flex items-center space-x-4 mb-6 sm:mb-0">
               <Link 
-                key={href} 
-                href={href} 
-                target="_blank" 
-                className="text-gray-400 hover:text-yellow-400 transition-colors"
+                href="https://www.linkedin.com/company/impactreeai/posts/?feedView=all" 
+                target="_blank"
+                className="group flex items-center bg-gray-800 hover:bg-blue-600 rounded-lg px-4 py-2 transition-all duration-300 ease-in-out transform hover:scale-105"
               >
-                <Icon size={24} />
+                <Linkedin 
+                  size={28} 
+                  className="text-gray-300 group-hover:text-white mr-2"
+                />
+                <span className="text-gray-300 group-hover:text-white font-medium">
+                  Follow us on LinkedIn
+                </span>
               </Link>
-            ))}
-          </div>
+            </div>
 
-          {/* CTA Button */}
-          <Link 
-            href="/contact-us" 
-            className="bg-yellow-400 text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition-transform transform hover:scale-105"
-          >
-            Schedule a Demo
-          </Link>
+            {/* CTA Button */}
+            <Link 
+              href="/contact-us" 
+              className="bg-yellow-400 text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 transition-transform transform hover:scale-105"
+            >
+              Schedule a Demo
+            </Link>
+          </div>
         </div>
 
         {/* Copyright */}

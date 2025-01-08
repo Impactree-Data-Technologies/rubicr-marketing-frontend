@@ -209,7 +209,7 @@ const Feedback = () => {
                   </p>
                 </div>
 
-                <div className="flex gap-1">
+                {/* <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <Star
                       key={star}
@@ -218,7 +218,7 @@ const Feedback = () => {
                       }`}
                     />
                   ))}
-                </div>
+                </div> */}
               </div>
 
               <div className="w-full md:w-3/4 flex-1 overflow-hidden">

@@ -269,6 +269,7 @@ const ExtensiveStandardsDatabase = () => {
             label="Get Started" 
             background="bg-white" 
             color="text-[#0A192F]"
+            href='/contact-us'
             className="px-6 md:px-8 py-2 md:py-3 text-sm md:text-base rounded-full hover:scale-110 transition-transform"
           />
         </motion.div>

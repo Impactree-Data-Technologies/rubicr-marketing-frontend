@@ -188,7 +188,7 @@ const LatestPost: React.FC = () => {
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">Get Started Today</h2>
                     <hr className="border-t-2 border-[#64271F] w-1/4 mb-6" />
                     <p className="text-lg md:text-2xl mb-8">Ready to transform your ESG Performance?</p>
-                    <Button label="Contact Us" background="#FFCD1B" color="black" />
+                    <Button label="Contact Us" background="#FFCD1B"  href='/contact-us' color="black" />
                 </div>
             </section>
 

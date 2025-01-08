@@ -163,7 +163,7 @@ const LogisticsSectors: React.FC = () => {
           />
         </div>
         <Image
-          src="/logistics.avif"
+          src="/log1.jpg"
           alt="Logistics Hero"
           layout="fill"
           objectFit="cover"

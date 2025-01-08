@@ -126,12 +126,12 @@ const TaskManagement = () => {
               className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
             >
                <Button label="Schedule a demo" background="#FFCD1B" color="black" href='/contact-us' />
-              <Link 
+              {/* <Link 
                 href="/features" 
                 className="px-6 md:px-8 py-2 md:py-3 border-2 border-teal-400 text-teal-400 rounded-full hover:bg-teal-400 hover:text-[#0A192F] transition-colors text-center inline-block"
               >
                 Learn More
-              </Link>
+              </Link> */}
             </motion.div>
           </div>
           
@@ -300,6 +300,7 @@ const TaskManagement = () => {
             label="Get Started" 
             background="bg-white" 
             color="text-[#0A192F]"
+            href='/contact-us'
             className="px-8 md:px-10 py-3 md:py-4 text-base md:text-lg rounded-full hover:scale-110 transition-transform"
           />
         </motion.div>
