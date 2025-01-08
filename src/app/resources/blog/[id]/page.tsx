@@ -95,7 +95,7 @@ export default async function BlogPost({ params }: { params: { id: string } }) {
         <div className="min-h-screen bg-[#fdf6f0] pt-24 px-4">
           <div className="max-w-4xl mx-auto text-center py-16">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">Post Not Found</h1>
-            <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist or has been removed.</p>
+            <p className="text-gray-600 mb-8">The blog post you are looking for does not exist or has been removed.</p>
             <Link 
               href="/resources/blog" 
               className="inline-flex items-center text-[#ff6600] hover:underline group"
