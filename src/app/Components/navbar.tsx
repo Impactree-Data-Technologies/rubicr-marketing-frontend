@@ -54,14 +54,15 @@ const menuItems: MenuItems = {
         { name: 'Chemical', icon: '🧪', link: '/industries/chemical', description: 'Manage environmental impact in the chemical sector.' },
         { name: 'Logistics', icon: '🚚', link: '/industries/logistics', description: 'Optimizing supply chain efficiency and sustainable transportation solutions.' }
     ],
-   'Resources': [
-    { name: 'Case Studies', icon: '📝', link: '/resources/case-studies', description: 'Learn from real-world sustainability success stories.' },
-    { name: 'Blog', icon: '✍️', link: '/resources/blog', description: 'Stay updated with our latest sustainability insights.' }
-],
+//    'Resources': [
+//     { name: 'Case Studies', icon: '📝', link: '/resources/case-studies', description: 'Learn from real-world sustainability success stories.' },
+//     { name: 'Blog', icon: '✍️', link: '/resources/blog', description: 'Stay updated with our latest sustainability insights.' }
+// ],
 
    'About us': [
     { name: 'About Rubicr', icon: '🌟', link: '/about/rubicr', description: 'Discover our mission, values, and commitment to sustainable solutions.' },
-    { name: 'News Releases', icon: '📰', link: '/about/news', description: 'Stay informed with our latest announcements, updates, and press releases.' },
+    // { name: 'News Releases', icon: '📰', link: '/about/news', description: 'Stay informed with our latest announcements, updates, and press releases.' },
+    { name: 'Blog', icon: '✍️', link: '/resources/blog', description: 'Stay updated with our latest sustainability insights.' },
     { name: 'Rewards and Recognition', icon: '🏆', link: '/about/rewards', description: 'Explore our achievements, certifications, and industry recognition.' }
 ]
 };

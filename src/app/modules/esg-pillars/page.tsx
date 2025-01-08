@@ -196,69 +196,68 @@ const EsgPillars = () => {
       </section>
 
        {/* Features Section */}
-      <section className="container mx-auto px-4 lg:px-8 py-16 lg:py-24">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">
-              Key Features
-            </h2>
-            <div className="space-y-4">
-              {features.map((feature, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ 
-                    opacity: activeFeature === index ? 1 : 0.6, 
-                    x: 0 
-                  }}
-                  transition={{ duration: 0.3 }}
-                  onClick={() => setActiveFeature(index)}
-                  className={`p-6 rounded-xl cursor-pointer transition-all 
-                    ${activeFeature === index 
-                      ? 'bg-gradient-to-r from-[#112240] to-[#0A192F] shadow-2xl' 
-                      : 'bg-[#112240] hover:bg-opacity-50'
-                    }`}
-                >
-                  <div className="flex items-center space-x-4">
-                    <feature.icon 
-                      className={`text-3xl transition-colors 
-                        ${activeFeature === index ? 'text-teal-400' : 'text-gray-500'}`} 
-                    />
-                    <h3 className="text-xl font-semibold">{feature.title}</h3>
-                  </div>
-                  {activeFeature === index && (
-                    <div className="mt-4 space-y-2">
-                      {/* <p className="text-gray-300">{feature.description}</p> */}
-                      <ul className="pl-4 list-disc text-gray-400">
-                        {feature.details.map((detail, idx) => (
-                          <li key={idx}>{detail}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <motion.div
-              key={activeFeature}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="bg-[#112240] p-6 md:p-8 rounded-2xl shadow-2xl"
+       <section className="container mx-auto px-4 lg:px-8 py-16 lg:py-24">
+    <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="space-y-6">
+        <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">
+          Key Features
+        </h2>
+        <div className="space-y-4">
+          {features.map((feature, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ 
+                opacity: activeFeature === index ? 1 : 0.6, 
+                x: 0 
+              }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setActiveFeature(index)}
+              className={`p-6 rounded-xl cursor-pointer transition-all 
+                ${activeFeature === index 
+                  ? 'bg-gradient-to-r from-[#112240] to-[#0A192F] shadow-2xl' 
+                  : 'bg-[#112240] hover:bg-opacity-50'
+                }`}
             >
-              <video 
-                className="w-full rounded-xl shadow-lg aspect-video object-cover"
-                controls
-                src="https://v.ftcdn.net/09/13/30/64/700_F_913306442_asUlvFioSTs0MDC4GDu7zSA2dC4ikw6q_ST.mp4"
-              >
-                Your browser does not support the video tag.
-              </video>
+              <div className="flex items-center space-x-4">
+                <feature.icon 
+                  className={`text-3xl transition-colors 
+                    ${activeFeature === index ? 'text-teal-400' : 'text-gray-500'}`} 
+                />
+                <h3 className="text-xl font-semibold">{feature.title}</h3>
+              </div>
+              {activeFeature === index && (
+                <div className="mt-4 space-y-2">
+                  <ul className="pl-4 list-disc text-gray-400">
+                    {feature.details.map((detail, idx) => (
+                      <li key={idx}>{detail}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </motion.div>
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
+      <div>
+        {/* <motion.div
+          key={activeFeature}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-[#112240] p-6 md:p-8 rounded-2xl shadow-2xl"
+        > */}
+          <Image 
+            src="/easy-to-understand-esg-pillars.jpg"  // Use the same image for all features
+            alt="Feature Illustration"
+            width={1920}
+            height={1080}
+            className="w-full rounded-xl shadow-lg aspect-video object-full"
+          />
+        {/* </motion.div> */}
+      </div>
+    </div>
+  </section>
 
       {/* Benefits Section */}
       <section className="bg-[#112240] py-16 lg:py-24">

@@ -11,6 +11,7 @@ import {
 import Navbar from "../../Components/navbar";
 import Footer from "../../Components/footer";
 import Button from "../../Components/button";
+import { px } from 'framer-motion';
 
 // Team Member Type
 interface TeamMember {
@@ -29,13 +30,13 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Vivek Shankarnarayanan",
-    role: "Co-Founder ",
+    role: "Founder ",
     image: "/Vivek.webp",
     bio: ""
   },
   {
     name: "Ashlesha Kshirsagar ",
-    role: "Creative Director",
+    role: "Director of Operations",
     image: "/ash.webp",
     bio: ""
   }

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ChevronRight, ChevronLeft,ArrowRight, Circle,Quote , Star, Shield, Zap } from 'lucide-react';
 import { cache } from 'react';
 import dynamic from 'next/dynamic';
+
 import { useMediaQuery } from 'react-responsive';
 import axios from 'axios';
 
@@ -285,7 +286,7 @@ const EnhancedHomePage: React.FC = () => {
           playsInline
           className="absolute w-full h-full object-cover"
         >
-          <source src="https://videos.pexels.com/video-files/856572/856572-hd_1920_1080_25fps.mp4" type="video/mp4" />
+          <source src="/bgvideo2.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
       </div>
@@ -324,7 +325,7 @@ const EnhancedHomePage: React.FC = () => {
         }
       }
     };
- 
+  
     const headerVariants = {
       hidden: { opacity: 0, y: -20 },
       visible: {
@@ -336,9 +337,10 @@ const EnhancedHomePage: React.FC = () => {
         }
       }
     };
- 
-    const duplicatedLogos = [...pageData.logos.logos, ...pageData.logos.logos];
- 
+  
+    // Create enough duplicates to ensure smooth infinite scroll
+    const duplicatedLogos = [...pageData.logos.logos, ...pageData.logos.logos, ...pageData.logos.logos];
+  
     return (
       <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-gray-100 opacity-40" />
@@ -360,10 +362,10 @@ const EnhancedHomePage: React.FC = () => {
                 {pageData.logos.description}
               </p>
             </motion.div>
- 
+  
             <div className="relative w-full overflow-hidden">
               <motion.div
-                className="flex gap-8"
+                className="flex gap-4 md:gap-8"
                 animate={{
                   x: ["0%", "-50%"],
                 }}
@@ -380,7 +382,7 @@ const EnhancedHomePage: React.FC = () => {
                     key={index}
                     className="flex-shrink-0 group relative"
                   >
-                    <div className="relative p-6 bg-white rounded-xl border border-gray-100 backdrop-blur-sm hover:shadow-lg transition-all duration-300 w-48 h-24 flex items-center justify-center">
+                    <div className="relative p-3 md:p-6 bg-white rounded-xl border border-gray-100 backdrop-blur-sm hover:shadow-lg transition-all duration-300 w-32 h-16 md:w-48 md:h-24 flex items-center justify-center">
                       <div className="relative w-full h-full">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_API_URL}${logo.attributes.url}`}
@@ -398,14 +400,14 @@ const EnhancedHomePage: React.FC = () => {
             </div>
           </motion.div>
         </div>
- 
+  
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
         <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
         <div className="absolute bottom-0 left-1/2 w-32 h-32 bg-pink-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
       </section>
     );
-  }; 
+  };
   
 
  
@@ -583,13 +585,12 @@ const EnhancedHomePage: React.FC = () => {
 
 
   // Enhanced Use Cases Section
+ 
+  const VIDEO_PATH = '/demo.mp4';
+
   const UseCases = () => {
     const [activeUseCaseIndex, setActiveUseCaseIndex] = useState(0);
   
-    // Remove the duplicate pageData state since we're already using the one from EnhancedHomePage
-    // Only use the data passed from the parent pageData
-  
-    // Early return if data is not available
     if (!pageData?.useCase?.case_card?.length) return null;
   
     const activeCase = pageData.useCase.case_card[activeUseCaseIndex];
@@ -609,11 +610,12 @@ const EnhancedHomePage: React.FC = () => {
                 key={idx}
                 onClick={() => setActiveUseCaseIndex(idx)}
                 className={`
-                  w-full md:w-auto px-4 md:px-6 py-2 md:py-3 rounded-lg 
+                  w-full md:w-auto px-4 md:px-6 py-2 md:py-3 rounded-lg
                   transition-all duration-300 cursor-pointer
-                  ${activeUseCaseIndex === idx
-                    ? 'bg-blue-500 text-white shadow-lg transform scale-105'
-                    : 'bg-white text-gray-700 hover:bg-blue-50'
+                  ${
+                    activeUseCaseIndex === idx
+                      ? 'bg-blue-500 text-white shadow-lg transform scale-105'
+                      : 'bg-white text-gray-700 hover:bg-blue-50'
                   }
                 `}
               >
@@ -632,10 +634,10 @@ const EnhancedHomePage: React.FC = () => {
           </div>
   
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-12 items-start">
-            <div 
+            <div
               key={activeUseCaseIndex}
-              className="bg-white p-6 md:p-8 rounded-xl shadow-sm order-2 lg:order-1 w-full 
-                       transform transition-all duration-300"
+              className="bg-white p-6 md:p-8 rounded-xl shadow-sm order-2 lg:order-1 w-full
+                        transform transition-all duration-300"
             >
               <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4 font-sans">
                 {activeCase.heading}
@@ -646,31 +648,26 @@ const EnhancedHomePage: React.FC = () => {
             </div>
   
             <div className="relative order-1 lg:order-2 w-full aspect-video">
-  {activeCase.link?.data?.attributes?.url && (
-    <div className="absolute inset-0 rounded-xl md:rounded-2xl overflow-hidden shadow-xl md:shadow-2xl">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
-      <video
-        key={activeCase.link.data.attributes.url}
-        className="w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-      >
-        <source
-          src={`${process.env.NEXT_PUBLIC_API_URL}${activeCase.link.data.attributes.url}`}
-          type="video/mp4"
-        />
-        Your browser does not support video playback.
-      </video>
-    </div>
-  )}
-          </div>
+              <div className="absolute inset-0 rounded-xl md:rounded-2xl overflow-hidden shadow-xl md:shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
+                <video
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  controls
+                  playsInline
+                >
+                  <source src={VIDEO_PATH} type="video/mp4" />
+                  Your browser does not support video playback.
+                </video>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     );
   };
+
 
 
   // Enhanced Why Rubicr Section
@@ -759,211 +756,7 @@ const EnhancedHomePage: React.FC = () => {
 };
 
 
-
-  // Enhanced Feedback Section with new design
-
-  
-  // const Feedback: React.FC = () => {
-  //   const [feedbackData, setFeedbackData] = useState<FeedbackItem[]>([]);
-  //   const [currentFeedbackIndex, setCurrentFeedbackIndex] = useState<number>(0);
-  //   const [loading, setLoading] = useState<boolean>(true);
-  //   const [error, setError] = useState<Error | null>(null);
-  //   const [touchStart, setTouchStart] = useState<number>(0);
-  //   const [touchEnd, setTouchEnd] = useState<number>(0);
-  
-  //   useEffect(() => {
-  //     const fetchFeedbackData = async () => {
-  //       try {
-  //         const response = await axios.get<ApiResponse>(
-  //           `${process.env.NEXT_PUBLIC_API_URL}/api/feedbacks?populate=*`
-  //         );
-  //         setFeedbackData(
-  //           response.data.data.map((item) => ({
-  //             ...item.attributes,
-  //             image: item.attributes.image?.data?.attributes?.url || null,
-  //           }))
-  //         );
-  //       } catch (err) {
-  //         setError(err instanceof Error ? err : new Error('An error occurred'));
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-  //     fetchFeedbackData();
-  //   }, []);
-  
-  //   useEffect(() => {
-  //     if (feedbackData.length <= 1) return;
-  
-  //     const interval = setInterval(() => {
-  //       setCurrentFeedbackIndex((prevIndex) =>
-  //         prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
-  //       );
-  //     }, 5000);
-  
-  //     return () => clearInterval(interval);
-  //   }, [feedbackData.length]);
-  
-  //   const handleNext = () => {
-  //     setCurrentFeedbackIndex((prevIndex) =>
-  //       prevIndex === feedbackData.length - 1 ? 0 : prevIndex + 1
-  //     );
-  //   };
-  
-  //   const handlePrev = () => {
-  //     setCurrentFeedbackIndex((prevIndex) =>
-  //       prevIndex === 0 ? feedbackData.length - 1 : prevIndex - 1
-  //     );
-  //   };
-  
-  //   // Handle touch events for swipe with proper types
-  //   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-  //     setTouchStart(e.touches[0].clientX);
-  //   };
-  
-  //   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-  //     setTouchEnd(e.touches[0].clientX);
-  //   };
-  
-  //   const handleTouchEnd = () => {
-  //     if (!touchStart || !touchEnd) return;
-      
-  //     const distance = touchStart - touchEnd;
-  //     const minSwipeDistance = 50;
-  
-  //     if (Math.abs(distance) < minSwipeDistance) return;
-  
-  //     if (distance > 0) {
-  //       // Swiped left
-  //       handleNext();
-  //     } else {
-  //       // Swiped right
-  //       handlePrev();
-  //     }
-  
-  //     // Reset values
-  //     setTouchStart(0);
-  //     setTouchEnd(0);
-  //   };
-  
-  //   if (loading) return (
-  //     <div className="flex justify-center items-center h-[450px]">
-  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#fba900]"></div>
-  //     </div>
-  //   );
-    
-  //   if (error) return <div className="text-red-500 text-center p-4">Error: {error.message}</div>;
-  //   if (!feedbackData.length) return null;
-  
-  //   const currentFeedback = feedbackData[currentFeedbackIndex];
-  
-  //   return (
-  //     <div className="w-full bg-[#fba900] h-[650px] md:h-[550px] lg:h-[500px] flex flex-col items-center justify-center p-4">
-  //       <div className="absolute top-0 left-0 right-0 h-1/2 bg-cover bg-center opacity-20"
-  //            style={{ backgroundImage: "url('/api/placeholder/1200/600')" }}>
-  //       </div>
-        
-  //       <div className="relative w-full max-w-5xl mx-auto">
-  //         <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-bold text-center mb-6 md:mb-10">
-  //           TESTIMONIAL
-  //         </h1>
-  
-  //         <div className="relative">
-  //           {/* Navigation buttons - visible only on desktop */}
-  //           <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 hidden md:flex justify-between z-10">
-  //             <button
-  //               onClick={handlePrev}
-  //               className="transform -translate-x-6 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
-  //               aria-label="Previous testimonial"
-  //             >
-  //               <ChevronLeft className="w-6 h-6 text-[#fba900]" />
-  //             </button>
-  //             <button
-  //               onClick={handleNext}
-  //               className="transform translate-x-6 bg-white rounded-full p-3 shadow-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#fba900]"
-  //               aria-label="Next testimonial"
-  //             >
-  //               <ChevronRight className="w-6 h-6 text-[#fba900]" />
-  //             </button>
-  //           </div>
-  
-  //           {/* Card with touch events */}
-  //           <div 
-  //             className="bg-white rounded-3xl p-4 md:p-6 lg:p-8 relative mx-auto w-full max-w-4xl h-[450px] md:h-[300px] lg:h-[280px] touch-pan-x"
-  //             onTouchStart={handleTouchStart}
-  //             onTouchMove={handleTouchMove}
-  //             onTouchEnd={handleTouchEnd}
-  //           >
-  //             <div className="absolute -top-6 left-8 bg-gray-300 rounded-full p-3 md:p-4 hidden md:block">
-  //               <Quote className="w-6 h-6 md:w-8 md:h-8 text-[#fba900]" />
-  //             </div>
-  
-  //             <div className="h-full flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
-  //               {/* Profile section */}
-  //               <div className="flex flex-col items-center w-full md:w-1/4 pt-2">
-  //                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-[#fba900] mb-3">
-  //                   {currentFeedback.image ? (
-  //                     <img
-  //                       src={`${process.env.NEXT_PUBLIC_API_URL}${currentFeedback.image}`}
-  //                       alt={currentFeedback.name}
-  //                       className="w-full h-full object-cover"
-  //                     />
-  //                   ) : (
-  //                     <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-  //                       <span className="text-gray-400 text-sm">No image</span>
-  //                     </div>
-  //                   )}
-  //                 </div>
-  
-  //                 <div className="text-center mb-3">
-  //                   <h3 className="text-lg md:text-xl font-bold text-gray-900">{currentFeedback.name}</h3>
-  //                   <p className="text-sm md:text-base text-gray-600">{currentFeedback.title}</p>
-  //                 </div>
-  
-  //                 <div className="flex gap-1">
-  //                   {[1, 2, 3, 4, 5].map((star) => (
-  //                     <Star
-  //                       key={star}
-  //                       className={`w-4 h-4 md:w-5 md:h-5 ${star <= 4 ? 'text-[#fba900] fill-[#fba900]' : 'text-gray-300'}`}
-  //                     />
-  //                   ))}
-  //                 </div>
-  //               </div>
-  
-  //               {/* Quote section */}
-  //               <div className="w-full md:w-3/4 flex-1 overflow-hidden">
-  //                 <div className="h-[250px] md:h-full overflow-y-auto scrollbar-hide px-2">
-  //                   <p className="text-gray-700 text-base md:text-lg">
-  //                     {currentFeedback.quote}
-  //                   </p>
-  //                 </div>
-  //               </div>
-  //             </div>
-  
-  //             <div className="absolute -bottom-6 right-8 bg-gray-300 rounded-full p-3 md:p-4 hidden md:block">
-  //               <Quote className="w-6 h-6 md:w-8 md:h-8 text-[#fba900]" />
-  //             </div>
-  //           </div>
-  //         </div>
-  
-  //         <div className="flex justify-center mt-8 gap-2">
-  //           {feedbackData.map((_, index) => (
-  //             <button
-  //               key={index}
-  //               onClick={() => setCurrentFeedbackIndex(index)}
-  //               className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors ${
-  //                 index === currentFeedbackIndex ? 'bg-white' : 'bg-white/50'
-  //               }`}
-  //               aria-label={`Go to testimonial ${index + 1}`}
-  //             />
-  //           ))}
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-  
-  
+ 
 
 
    // Enhanced Image Toggle Section
@@ -1179,7 +972,6 @@ const EnhancedHomePage: React.FC = () => {
         </div>
       </main>
       <Footer />
-      {/* <BotpressChat /> */}
     </div>
   );
 };

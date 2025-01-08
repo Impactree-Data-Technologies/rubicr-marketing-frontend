@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";  // Add this import for Script
 import { Providers } from "../Providers";  // Make sure path matches your file structure
 import "./globals.css";
-
+// import { GoogleTagManager } from '@next/third-parties/google'
 // Rest of your code remains the same
 export const viewport: Viewport = {
   width: "device-width",

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, TouchEvent } from 'react';
 import { ChevronRight, ChevronLeft, Quote, Star } from 'lucide-react';
+import Image from 'next/image';
 
 interface FeedbackItem {
   quote: string;
@@ -153,7 +154,7 @@ const Feedback = () => {
     >
       <div 
         className="absolute top-0 left-0 right-0 h-1/2 bg-cover bg-center opacity-20"
-        style={{ backgroundImage: "url('/api/placeholder/1200/600')" }}
+        // style={{ backgroundImage: "url('/api/placeholder/1200/600')" }}
       />
       
       <div className="relative w-full max-w-5xl mx-auto">
