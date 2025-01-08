@@ -634,7 +634,7 @@ const EnhancedHomePage: React.FC = () => {
           <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 md:gap-12 items-start">
             <div
               key={activeUseCaseIndex}
-              className="bg-white p-6 md:p-8 rounded-xl shadow-sm order-2 lg:order-1 w-full transform transition-all duration-300"
+              className="bg-white p-6 md:p-8 rounded-xl shadow-sm w-full transform transition-all duration-300"
             >
               <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3 md:mb-4 font-sans">
                 {activeCase.heading}
@@ -644,19 +644,13 @@ const EnhancedHomePage: React.FC = () => {
               </p>
             </div>
   
-            <div className="relative order-1 lg:order-2 w-full aspect-video">
-              <div className="absolute inset-0 rounded-xl md:rounded-2xl overflow-hidden shadow-xl md:shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
-                <video
-                  className="w-full h-full object-cover rounded-xl shadow-lg"
-                  controls
-                  src={VIDEO_PATH}
-                  poster={VIDEO_PATH} // Optional: Use a static poster image if you have one
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </div>
+            <video
+              className="w-full rounded-xl shadow-lg aspect-video object-cover"
+              controls
+              src={VIDEO_PATH}
+            >
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </section>
