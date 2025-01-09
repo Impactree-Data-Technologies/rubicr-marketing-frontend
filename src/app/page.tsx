@@ -16,9 +16,7 @@ const Navbar = dynamic(() => import("./Components/navbar"), {
 const Footer = dynamic(() => import("./Components/footer"), {
   loading: () => <div className="h-20 bg-gray-100" />
 });
-const BotpressChat = dynamic(() => import("./Components/BotpressChat"), {
-  ssr: false
-});
+
 const Button = dynamic(() => import("./Components/button"));
 
 
@@ -276,6 +274,7 @@ const EnhancedHomePage: React.FC = () => {
  
 
   // Enhanced Hero Section
+
   const Hero = () => (
     <section className="relative min-h-screen flex items-center">
       <div className="absolute inset-0 overflow-hidden">
@@ -309,6 +308,8 @@ const EnhancedHomePage: React.FC = () => {
       </motion.div>
     </section>
   );
+
+ 
 
 
   // Enhanced Logo Section
@@ -507,7 +508,7 @@ const EnhancedHomePage: React.FC = () => {
     return (
       <div className="w-full max-w-6xl mx-auto px-4 md:px-8 py-8">
         <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-2xl md:text-3xl font-bold text-blue-600 mb-3 md:mb-4">
+           <h1 className="text-2xl md:text-3xl font-bold text-blue-600 mb-3 md:mb-4">
             {whyUsData.heading}
           </h1>
           <p className="text-gray-600 max-w-3xl mx-auto mb-6 md:mb-8 text-sm md:text-base">
@@ -648,6 +649,7 @@ const EnhancedHomePage: React.FC = () => {
               className="w-full rounded-xl shadow-lg aspect-video object-cover"
               controls
               src={VIDEO_PATH}
+              poster="/rubcr thumbnail.jpg" // Add this line to set the video thumbnail
             >
               Your browser does not support the video tag.
             </video>
