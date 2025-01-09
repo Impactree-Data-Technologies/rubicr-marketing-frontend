@@ -248,7 +248,7 @@ const EsgPillars = () => {
           className="bg-[#112240] p-6 md:p-8 rounded-2xl shadow-2xl"
         > */}
           <Image 
-            src="/easy-to-understand-esg-pillars.jpg"  // Use the same image for all features
+            src="/esgpillar.jpg"  // Use the same image for all features
             alt="Feature Illustration"
             width={1920}
             height={1080}

@@ -44,10 +44,10 @@ export default function Footer() {
     { href: "/industries/logistics", label: "Logistics" }
   ];
 
-  const resourcesMenu = [
-    { href: "/resources/case-studies", label: "Case Studies" },
-    { href: "/resources/blog", label: "Blog" },
-  ];
+  // const resourcesMenu = [
+  //   { href: "/resources/case-studies", label: "Case Studies" },
+   
+  // ];
 
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-black text-white py-16 px-6 sm:px-12 md:px-16">
@@ -130,7 +130,7 @@ export default function Footer() {
           </div>
 
           {/* Resources Section */}
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold mb-6 text-yellow-400 border-b border-gray-700 pb-2">Resources</h3>
             <ul className="space-y-4">
               {resourcesMenu.map((resource) => (
@@ -144,7 +144,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* About Section */}
           <div>
@@ -152,7 +152,7 @@ export default function Footer() {
             <ul className="space-y-4">
               {[
                 { href: "/about/rubicr", label: "About Rubicr" },
-                { href: "/about/news", label: "News Releases" },
+                { href: "/resources/blog", label: "Blog" },
                 { href: "/about/rewards", label: "Rewards and Recognition" }
               ].map((link) => (
                 <li key={link.href}>
