@@ -340,7 +340,7 @@ const EnhancedHomePage: React.FC = () => {
             Improve your Business Outcomes through Sustainability initiatives
           </p>
           <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
-            The world's leading AI-powered ESG platform
+            The worlds leading AI-powered ESG platform
           </p>
           <Button
             label="Schedule a demo"
