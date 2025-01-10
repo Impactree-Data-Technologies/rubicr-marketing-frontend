@@ -275,39 +275,84 @@ const EnhancedHomePage: React.FC = () => {
 
   // Enhanced Hero Section
 
-  const Hero = () => (
-    <section className="relative min-h-screen flex items-center">
-      <div className="absolute inset-0 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute w-full h-full object-cover"
+  const Hero = () => {
+    const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  
+    useEffect(() => {
+      const video = document.getElementById('hero-video');
+      if (video) {
+        video.addEventListener('loadeddata', () => setIsVideoLoaded(true));
+      }
+      return () => {
+        if (video) {
+          video.removeEventListener('loadeddata', () => setIsVideoLoaded(true));
+        }
+      };
+    }, []);
+  
+    return (
+      <section className="relative min-h-screen flex items-center">
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Fallback image that shows immediately */}
+          <Image
+            src="/forest.jpg"
+            alt="Background"
+            className="absolute w-full h-full object-cover"
+            priority
+            width={1920}
+            height={1080}
+            style={{
+              opacity: isVideoLoaded ? 0 : 1,
+              transition: 'opacity 0.5s ease-in-out'
+            }}
+          />
+          
+          {/* Lazy loaded video */}
+          <video
+            id="hero-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="absolute w-full h-full object-cover"
+            style={{
+              opacity: isVideoLoaded ? 1 : 0,
+              transition: 'opacity 0.5s ease-in-out'
+            }}
+          >
+            <source 
+              src="/bgvideo2.mp4" 
+              type="video/mp4" 
+            />
+          </video>
+  
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+        </div>
+  
+        <div 
+          className="relative z-10 container mx-auto px-6 text-center animate-fade-in"
         >
-          <source src="/bgvideo2.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
-      </div>
-
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 container mx-auto px-6 text-center"
-      >
-        <h1 className="text-5xl md:text-6xl font-bold mb-8 text-white">{pageData.home?.title}</h1>
-        <p className="text-xl md:text-2xl mb-6 text-gray-200 max-w-3xl mx-auto">{pageData.home?.description}</p>
-        <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">{pageData.home?.subdescription}</p>
-        <Button 
-          label="Schedule a demo" 
-          background="#FFCD1B" 
-          color="black" 
-          href="/contact-us"
-          className="transform hover:scale-105 transition-transform duration-300"
-        />
-      </motion.div>
-    </section>
-  );
+          <h1 className="text-5xl md:text-6xl font-bold mb-8 text-white">
+            Go Beyond Reporting
+          </h1>
+          <p className="text-xl md:text-2xl mb-6 text-gray-200 max-w-3xl mx-auto">
+            Improve your Business Outcomes through Sustainability initiatives
+          </p>
+          <p className="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
+            The world's leading AI-powered ESG platform
+          </p>
+          <Button
+            label="Schedule a demo"
+            background="#FFCD1B"
+            color="black"
+            href="/contact-us"
+            className="transform hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </section>
+    );
+  };
 
  
 
