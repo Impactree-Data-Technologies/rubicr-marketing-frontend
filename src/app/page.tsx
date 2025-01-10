@@ -3,24 +3,26 @@ import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ChevronRight, ChevronLeft,ArrowRight, Circle,Quote , Star, Shield, Zap } from 'lucide-react';
-import { cache } from 'react';
 import dynamic from 'next/dynamic';
-
-import { useMediaQuery } from 'react-responsive';
-import axios from 'axios';
 
 // Keep existing dynamic imports
 const Navbar = dynamic(() => import("./Components/navbar"), {
-  loading: () => <div className="h-16 bg-white" />
+  ssr:true,
+  loading: () =>  <div className="h-16 bg-white animate-pulse" />
 });
 const Footer = dynamic(() => import("./Components/footer"), {
-  loading: () => <div className="h-20 bg-gray-100" />
+  ssr:true,
+  loading: () =>  <div className="h-16 bg-white animate-pulse" />
 });
 
-const Button = dynamic(() => import("./Components/button"));
+const Button = dynamic(() => import("./Components/button"),{
+  ssr : true
+});
 
 
-const Feedback = dynamic(() => import("./Components/feedback"));
+const Feedback = dynamic(() => import("./Components/feedback") ,{
+  ssr : true
+});
 
 
 
@@ -301,6 +303,7 @@ const EnhancedHomePage: React.FC = () => {
             priority
             width={1920}
             height={1080}
+            quality={75} 
             style={{
               opacity: isVideoLoaded ? 0 : 1,
               transition: 'opacity 0.5s ease-in-out'
@@ -436,6 +439,8 @@ const EnhancedHomePage: React.FC = () => {
                           fill
                           className="object-contain transition-all duration-300"
                           loading="lazy"
+                          quality={75} // Adjust quality
+                          priority={false}
                         />
                       </div>
                       <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-200 group-hover:ring-indigo-100" />
@@ -691,6 +696,7 @@ const EnhancedHomePage: React.FC = () => {
             </div>
   
             <video
+              preload="none"
               className="w-full rounded-xl shadow-lg aspect-video object-cover"
               controls
               src={VIDEO_PATH}
@@ -838,6 +844,8 @@ const EnhancedHomePage: React.FC = () => {
           src={url}
           width={800}
           height={800}
+          quality={75} // Adjust quality
+          
           alt={showRubric ? "With Rubicr" : "Without Rubicr"}
           className="max-w-full h-auto rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-105"
         />
