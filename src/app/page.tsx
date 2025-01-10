@@ -295,7 +295,7 @@ const EnhancedHomePage: React.FC = () => {
         <div className="absolute inset-0 overflow-hidden">
           {/* Fallback image that shows immediately */}
           <Image
-            src="/forest.jpg"
+            src="/forest3.jpg"
             alt="Background"
             className="absolute w-full h-full object-cover"
             priority
