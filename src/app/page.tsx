@@ -1,283 +1,136 @@
 "use client"
+
 import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { ChevronRight, ChevronLeft,ArrowRight, Circle,Quote , Star, Shield, Zap } from 'lucide-react';
+import { ChevronRight, ChevronLeft, ArrowRight, Circle, Quote, Star, Shield, Zap } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-// Keep existing dynamic imports
+// Dynamic imports
 const Navbar = dynamic(() => import("./Components/navbar"), {
-  ssr:true,
-  loading: () =>  <div className="h-16 bg-white animate-pulse" />
+  ssr: false,
+  loading: () => <div className="h-16 bg-white animate-pulse" />
 });
+
 const Footer = dynamic(() => import("./Components/footer"), {
-  ssr:true,
-  loading: () =>  <div className="h-16 bg-white animate-pulse" />
+  ssr: false,
+  loading: () => <div className="h-16 bg-white animate-pulse" />
 });
 
-const Button = dynamic(() => import("./Components/button"),{
-  ssr : true
+const Button = dynamic(() => import("./Components/button"), {
+  ssr: false
 });
 
-
-const Feedback = dynamic(() => import("./Components/feedback") ,{
-  ssr : true
+const Feedback = dynamic(() => import("./Components/feedback"), {
+  ssr: false
 });
 
-
-
-
-
-// Font configuration
-
-
-
-
-interface HomeData {
-  title: string;
-  description: string;
-  subdescription: string;
-}
-
-interface Logo {
-  attributes: {
-    url: string;
-    name: string;
-  };
-}
-
-interface LogoData {
-  title: string;
-  description: string;
-  logos: Logo[];
-}
-
-interface UsCard {
-  id: number;
-  link: string;
-  heading: string;
-  description: string;
-}
-
-interface WhyUsData {
-  heading: string;
-  description: string;
-  us_card: UsCard[];
-}
-
-interface CaseCard {
-  heading: string;
-  description: string;
-  link: {
-    data: {
-      attributes: {
-        url: string;
-      };
-    };
-  };
-}
-
-interface UseCaseData {
-  heading: string;
-  case_card: CaseCard[];
-}
-
-interface RubicrCard {
-  id: number;
-  heading: string;
-  description: string;
-}
-
-interface WhyRubicrData {
-  title: string;
-  description: string;
-  card: RubicrCard[];
-}
-
-interface ImageTogglerData {
-  with_rubicr: {
-    data: {
-      attributes: {
-        url: string;
-      };
-    };
-  };
-  without_rubicr: {
-    data: {
-      attributes: {
-        url: string;
-      };
-    };
-  };
-}
-
-interface Logo {
-  data: any[];
-}
-
-interface WhyUs {
-  us_card: any[];
-}
-
-interface UseCase {
-  heading: string;
-  case_card: Array<{
-    heading: string;
-    description: string;
-    link: {
+// Static Data
+const staticData = {
+  logos: {
+    title: "Join the Movement",
+    description: "Trusted By a Growing Network of Companies Globally",
+    logos: [
+      { attributes: { url: "/Autoline images.jpg", name: "Company 1" } },
+      { attributes: { url: "/dnavin.png", name: "Company 2" } },
+      { attributes: { url: "/fine.png", name: "Company 3" } },
+      { attributes: { url: "/samarth-logo-300-x-120.webp", name: "Company 4" } },
+      { attributes: { url: "/acgc.png", name: "Company 5" } },
+      { attributes: { url: "/tvs_image.jpg", name: "Company 6" } }
+    ]
+  },
+  whyUs: {
+    heading: "How Sustainability Initiatives Can Enhance Business Performance",
+    us_card: [
+      {
+        id: 1,
+        link: "📈",
+        heading: "Supply Chain Transparency",
+        description: "Tracking suppliers' environmental impact with sustainability tools ensures adherence to sustainability goals, reduces risks, and fosters responsible sourcing throughout the supply chain"
+      },
+      {
+        id: 2,
+        link: "💰",
+        heading: "Operational Efficiency",
+        description: "Leveraging sustainability software to monitor energy consumption enables cost reductions. Similarly, businesses can minimise waste and cut expenses by utilizing real-time data for smarter resource management"
+      },
+      {
+        id: 3,
+        link: "⚙️",
+        heading: "Product Innovation",
+        description: "Developing eco-friendly products allows businesses in sectors such as fashion and consumer goods to differentiate themselves by meeting the growing demand for sustainable options"
+      },
+      {
+        id: 4,
+        link: "🚀",
+        heading: "Regulatory Compliance",
+        description: "Sustainability software helps businesses stay ahead of evolving global regulations. For example, automotive companies can use it to comply with emissions standards, avoiding penalties while ensuring operational continuity"
+      }
+    ]
+  },
+  useCase: {
+    heading: "Use Cases",
+    case_card: [
+      {
+        heading: "Sustainability Reporting",
+        description: "Be in total control of your ESG reporting needs. helps you track all the required ESG indicators.  RubiCr supports all major global frameworks, thereby giving you the power to choose the frameworks most relevant to your business.  Collect data from multiple teams, track indicators and create a single view for all your ESG reports",
+        link: { data: { attributes: { url: "/videos/demo1.mp4" } } }
+      },
+      {
+        heading: "Performance Management",
+        description: "Make ESG reporting a part of the Regular performance or MIS monitoring.  Track standard or custom indicators relevant to your business that enable you to make better decisions.  Integrate with key financial and non-financial indicators to know the health of your organisation,",
+        link: { data: { attributes: { url: "/videos/demo2.mp4" } } }
+      },
+      {
+        heading: "Emission Tracking",
+        description: "Ground up emissions tracking platform that helps you accurately track both the absolute emissions and the drivers for scope-1/2/3 emissions.  Track leading and lagging indicators like energy, fuels equipment wise and link it to scope-1 and 2 indicators to track performance  Integrate support with external databases for spent based approach to calculate Scope-3 emissions.",
+        link: { data: { attributes: { url: "/videos/demo3.mp4" } } }
+      }
+    ]
+  },
+  whyRubicr: {
+    title: "Why Choose Rubicr",
+    description: "We understand that ESG data can be manual and unstructured. Our Sustainable Intelligence engine ensures you get the right data and insights to grow your business sustainably.",
+    card: [
+      {
+        id: 1,
+        heading: "End-to-End Lifecycle Solutions",
+        description: "We offer a complete end-to-end lifecycle solution for ESG management. From initial assessment to reporting and beyond, our integrated approach ensures seamless sustainability performance management."
+      },
+      {
+        id: 2,
+        heading: "Extensive Experience",
+        description: "With nearly 80 clients across diverse industries, our experience is both broad and deep. We understand unique challenges and tailor solutions to meet specific needs effectively."
+      },
+      {
+        id: 3,
+        heading: "Demonstration of Value",
+        description: "We provide a holistic approach encompassing the entire value chain of the market. Our clarity and depth of expertise empower clients to achieve sustainability goals efficiently and effectively."
+      }
+    ]
+  },
+  imageToggler: {
+    with_rubicr: {
       data: {
         attributes: {
-          url: string;
-        };
-      };
-    };
-  }>;
-}
-
-interface PageData {
-  home: any;
-  logos: {
-    title: string;
-    description: string;
-    logos: any[];
-  };
-  whyUs: WhyUs | null;
-  useCase: UseCase | null;
-  imageToggler: any;
-}
-
-
-
-interface FeedbackItem {
-  quote: string;
-  name: string;
-  title?: string;
-  image: string | null;
-}
-
-interface ImageAttributes {
-  url: string;
-}
-
-interface ImageData {
-  data?: {
-    attributes?: ImageAttributes;
-  };
-}
-
-interface Card {
-  id: number;
-  heading: string;
-  description: string;
-}
-
-interface WhyRubicrData {
-  title: string;
-  description: string;
-  card: Card[];
-}
-
-interface ApiResponse {
-  data: Array<{
-    attributes: {
-      quote: string;
-      name: string;
-      title: string;
-      image?: {
-        data?: {
-          attributes?: {
-            url: string;
-          };
-        };
-      };
-    };
-  }>;
-}
-
-// Component Props types
-interface ErrorDisplayProps {
-  message: string;
-}
-
-interface ImageToggleClientProps {
-  withRubicrUrl: string;
-  withoutRubicrUrl: string;
-}
-
-interface MediaAttributes {
-  url: string;
-  // Add other media attributes if needed
-}
-
-interface MediaData {
-  data: {
-    attributes: MediaAttributes;
-  };
-}
-
-
+          url: "/MacBook Pro 16_ - 4 (2).jpg"
+        }
+      }
+    },
+    without_rubicr: {
+      data: {
+        attributes: {
+          url: "/MacBook Pro 16_ - 7 (1).jpg"
+        }
+      }
+    }
+  }
+};
 
 const EnhancedHomePage: React.FC = () => {
-
-
-   // Add new state for Why Us and Use Case sections
-   const [activeWhyUsIndex, setActiveWhyUsIndex] = useState(0);
-  
-
-   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  // Keep existing state and data fetching logic
-  const [pageData, setPageData] = useState<PageData>({
-    home: null,
-    logos: { title: '', description: '', logos: [] },
-    whyUs: null,
-    useCase: null,
-    imageToggler: null
-  });
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        setIsLoading(true);
-        if (!process.env.NEXT_PUBLIC_API_URL) throw new Error('API URL is not configured');
-
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/home?populate=*,Logo.logo,use_case.case_card.link,why_us.us_card`
-        );
-
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        const data = await response.json();
-
-        setPageData({
-          home: data.data.attributes,
-          logos: {
-            title: data.data.attributes.Logo?.logo_title || '',
-            description: data.data.attributes.Logo?.logo_description || '',
-            logos: data.data.attributes.Logo?.logo?.data || []
-          },
-          whyUs: data.data.attributes.why_us?.[0] || null,
-          useCase: data.data.attributes.use_case,
-          imageToggler: data.data.attributes.image_toggler
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error instanceof Error ? error.message : 'An error occurred');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
- 
-
-  // Enhanced Hero Section
-
+  // Hero Section
   const Hero = () => {
+    const [mounted, setMounted] = useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   
     useEffect(() => {
@@ -295,22 +148,20 @@ const EnhancedHomePage: React.FC = () => {
     return (
       <section className="relative min-h-screen flex items-center">
         <div className="absolute inset-0 overflow-hidden">
-          {/* Fallback image that shows immediately */}
           <Image
-            src="/forest3.jpg"
+             src="/forest3.jpg"
             alt="Background"
             className="absolute w-full h-full object-cover"
             priority
             width={1920}
             height={1080}
-            quality={75} 
+            quality={75}
             style={{
               opacity: isVideoLoaded ? 0 : 1,
               transition: 'opacity 0.5s ease-in-out'
             }}
           />
           
-          {/* Lazy loaded video */}
           <video
             id="hero-video"
             autoPlay
@@ -324,18 +175,13 @@ const EnhancedHomePage: React.FC = () => {
               transition: 'opacity 0.5s ease-in-out'
             }}
           >
-            <source 
-              src="/bgvideo21.mp4" 
-              type="video/mp4" 
-            />
+            <source src="/videos/bgvideo21.mp4" type="video/mp4" />
           </video>
   
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         </div>
   
-        <div 
-          className="relative z-10 container mx-auto px-6 text-center animate-fade-in"
-        >
+        <div className="relative z-10 container mx-auto px-6 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-8 text-white">
             Go Beyond Reporting
           </h1>
@@ -357,12 +203,7 @@ const EnhancedHomePage: React.FC = () => {
     );
   };
 
- 
-
-
-  // Enhanced Logo Section
-
-  
+  // Logo Section
   const LogoSection = () => {
     const containerVariants = {
       hidden: { opacity: 0 },
@@ -387,8 +228,11 @@ const EnhancedHomePage: React.FC = () => {
       }
     };
   
-    // Create enough duplicates to ensure smooth infinite scroll
-    const duplicatedLogos = [...pageData.logos.logos, ...pageData.logos.logos, ...pageData.logos.logos];
+    const duplicatedLogos = [
+      ...staticData.logos.logos,
+      ...staticData.logos.logos,
+      ...staticData.logos.logos
+    ];
   
     return (
       <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
@@ -404,11 +248,11 @@ const EnhancedHomePage: React.FC = () => {
               variants={headerVariants}
               className="text-center mb-16"
             >
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-sans">
-                {pageData.logos.title}
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                {staticData.logos.title}
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto font-sans leading-relaxed">
-                {pageData.logos.description}
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                {staticData.logos.description}
               </p>
             </motion.div>
   
@@ -434,16 +278,14 @@ const EnhancedHomePage: React.FC = () => {
                     <div className="relative p-3 md:p-6 bg-white rounded-xl border border-gray-100 backdrop-blur-sm hover:shadow-lg transition-all duration-300 w-32 h-16 md:w-48 md:h-24 flex items-center justify-center">
                       <div className="relative w-full h-full">
                         <Image
-                          src={`${process.env.NEXT_PUBLIC_API_URL}${logo.attributes.url}`}
+                          src={logo.attributes.url}
                           alt={logo.attributes.name}
                           fill
                           className="object-contain transition-all duration-300"
                           loading="lazy"
-                          quality={75} // Adjust quality
-                          priority={false}
+                          quality={75}
                         />
                       </div>
-                      <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-200 group-hover:ring-indigo-100" />
                     </div>
                   </div>
                 ))}
@@ -451,60 +293,37 @@ const EnhancedHomePage: React.FC = () => {
             </div>
           </motion.div>
         </div>
-  
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
-        <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
-        <div className="absolute bottom-0 left-1/2 w-32 h-32 bg-pink-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
       </section>
     );
   };
-  
 
- 
-  // Enhanced Why Us Section
-
-  
-  const WhyUs: React.FC = () => {
-    const [whyUsData, setWhyUsData] = useState<WhyUsData | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [currentGroup, setCurrentGroup] = useState<number>(0);
+  // Why Us Section
+  const WhyUs = () => {
+    const [currentGroup, setCurrentGroup] = useState(0);
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  
-    // Minimum swipe distance for detection (in pixels)
     const minSwipeDistance = 50;
+    
+    const whyUsData = staticData.whyUs;
+    const totalCards = whyUsData.us_card.length;
+    const cardsPerView = typeof window !== 'undefined' && window.innerWidth >= 768 ? 3 : 1;
   
-    const getWhyUsData = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/api/home?populate=why_us.us_card`, {
-          next: { revalidate: 3600 },
-        });
-        
-        if (!response.ok) throw new Error('Failed to fetch data');
-        
-        const data = await response.json();
-        return data.data?.attributes?.why_us?.[0] || null;
-      } catch (err) {
-        console.error('Error fetching WhyUs data:', err);
-        return null;
-      }
+    const handleNext = () => {
+      setCurrentGroup((prev) => (prev + 1) % totalCards);
     };
   
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const data = await getWhyUsData();
-          setWhyUsData(data);
-          setLoading(false);
-        } catch (err) {
-          setError(err instanceof Error ? err.message : String(err));
-          setLoading(false);
-        }
-      };
-      fetchData();
-    }, []);
+    const handlePrev = () => {
+      setCurrentGroup((prev) => (prev - 1 + totalCards) % totalCards);
+    };
+  
+    const getVisibleCards = () => {
+      const cards = [];
+      for (let i = 0; i < cardsPerView; i++) {
+        const index = (currentGroup + i) % totalCards;
+        cards.push(whyUsData.us_card[index]);
+      }
+      return cards;
+    };
   
     const onTouchStart = (e: React.TouchEvent) => {
       setTouchEnd(null);
@@ -529,45 +348,20 @@ const EnhancedHomePage: React.FC = () => {
       }
     };
   
-    if (loading) return <div className="text-center py-16">Loading...</div>;
-    if (error) return <div className="text-center py-16 text-red-600">Error: {error}</div>;
-    if (!whyUsData) return <div className="text-center py-16">No data available</div>;
-  
-    const totalCards = whyUsData.us_card.length;
-    const cardsPerView = window.innerWidth >= 768 ? 3 : 1;
-  
-    const handleNext = () => {
-      setCurrentGroup((prev) => (prev + 1) % totalCards);
-    };
-  
-    const handlePrev = () => {
-      setCurrentGroup((prev) => (prev - 1 + totalCards) % totalCards);
-    };
-  
-    const getVisibleCards = () => {
-      const cards = [];
-      for (let i = 0; i < cardsPerView; i++) {
-        const index = (currentGroup + i) % totalCards;
-        cards.push(whyUsData.us_card[index]);
-      }
-      return cards;
-    };
-  
     const visibleCards = getVisibleCards();
   
     return (
       <div className="w-full max-w-6xl mx-auto px-4 md:px-8 py-8">
         <div className="text-center mb-8 md:mb-12">
-           <h1 className="text-2xl md:text-3xl font-bold text-blue-600 mb-3 md:mb-4">
+          <h1 className="text-2xl md:text-3xl font-bold text-blue-600 mb-3 md:mb-4">
             {whyUsData.heading}
           </h1>
-          <p className="text-gray-600 max-w-3xl mx-auto mb-6 md:mb-8 text-sm md:text-base">
+          {/* <p className="text-gray-600 max-w-3xl mx-auto mb-6 md:mb-8 text-sm md:text-base">
             {whyUsData.description}
-          </p>
+          </p> */}
         </div>
   
         <div className="relative">
-          {/* Navigation arrows - visible only on desktop */}
           <div className="hidden md:flex absolute inset-y-0 -left-8 -right-8 items-center justify-between z-10">
             <button 
               onClick={handlePrev}
@@ -586,7 +380,6 @@ const EnhancedHomePage: React.FC = () => {
             </button>
           </div>
   
-          {/* Cards Container with touch events */}
           <div 
             className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"
             onTouchStart={onTouchStart}
@@ -613,14 +406,13 @@ const EnhancedHomePage: React.FC = () => {
             ))}
           </div>
   
-          {/* Navigation Dots */}
           <div className="flex justify-center mt-6 md:mt-8 space-x-2">
             {whyUsData.us_card.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentGroup(idx)}
                 className={`w-2 h-2 rounded-full transition-colors ${
-                  idx === currentGroup ? 'bg-blue-600' : 'bg-gray-300'
+                  idx === currentGroup ? 'bg-blue-600': 'bg-gray-300'
                 }`}
                 aria-label={`Go to group ${idx + 1}`}
               />
@@ -630,33 +422,24 @@ const EnhancedHomePage: React.FC = () => {
       </div>
     );
   };
-  
 
-  
-
-
-  // Enhanced Use Cases Section
- 
-  const VIDEO_PATH = '/demo.mp4';
-
+  // Use Cases Section
   const UseCases = () => {
     const [activeUseCaseIndex, setActiveUseCaseIndex] = useState(0);
-  
-    if (!pageData?.useCase?.case_card?.length) return null;
-  
-    const activeCase = pageData.useCase.case_card[activeUseCaseIndex];
+    const VIDEO_PATH = '/demo.mp4';
+    const activeCase = staticData.useCase.case_card[activeUseCaseIndex];
   
     return (
       <section className="py-10 md:py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 font-sans">
-              {pageData.useCase.heading}
+              {staticData.useCase.heading}
             </h2>
           </div>
   
           <div className="flex flex-col md:flex-row md:justify-center mb-8 md:mb-12 space-y-2 md:space-y-0 md:space-x-4">
-            {pageData.useCase.case_card.map((useCase, idx) => (
+            {staticData.useCase.case_card.map((useCase, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveUseCaseIndex(idx)}
@@ -700,7 +483,7 @@ const EnhancedHomePage: React.FC = () => {
               className="w-full rounded-xl shadow-lg aspect-video object-cover"
               controls
               src={VIDEO_PATH}
-              poster="/rubcr thumbnail.jpg" // Add this line to set the video thumbnail
+              poster="/rubcr thumbnail.jpg"
             >
               Your browser does not support the video tag.
             </video>
@@ -710,100 +493,67 @@ const EnhancedHomePage: React.FC = () => {
     );
   };
 
-
-  // Enhanced Why Rubicr Section
-
-  const WhyRubicr: React.FC = () => {
-    const [data, setData] = useState<WhyRubicrData | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<Error | null>(null);
-
-
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/home?populate=whyrubicr.card`);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        const jsonData = await response.json();
-        if (!jsonData.data?.attributes?.whyrubicr?.[0]) {
-          throw new Error('Invalid data structure received from API');
-        }
-        
-        setData(jsonData.data.attributes.whyrubicr[0]);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('An error occurred'));
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
- 
-  if (!data) return null;
-
-  return (
-    <section className="py-8 sm:py-12 md:py-16 lg:py-20 px-4 bg-gradient-to-b from-purple-50 to-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12 lg:mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent px-4">
-            {data.title}
-          </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-            {data.description}
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-4">
-          {data.card.map((cardData, index) => (
-            <motion.div
-              key={cardData.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-white p-6 sm:p-8 shadow-md hover:shadow-xl transition-all duration-300"
-            >
-              <div 
-                className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-purple-100 to-blue-100 rounded-bl-full opacity-20 transform group-hover:scale-110 transition-transform duration-300" 
-              />
-              
-              <div className="relative z-10">
-                <div className="mb-4 sm:mb-6">
-                  {index % 3 === 0 && <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-purple-500" />}
-                  {index % 3 === 1 && <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500" />}
-                  {index % 3 === 2 && <Star className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500" />}
+  // Why Rubicr Section
+  const WhyRubicr = () => {
+    const data = staticData.whyRubicr;
+  
+    return (
+      <section className="py-8 sm:py-12 md:py-16 lg:py-20 px-4 bg-gradient-to-b from-purple-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-8 sm:mb-12 lg:mb-16"
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent px-4">
+              {data.title}
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+              {data.description}
+            </p>
+          </motion.div>
+  
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-2 sm:px-4">
+            {data.card.map((cardData, index) => (
+              <motion.div
+                key={cardData.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-white p-6 sm:p-8 shadow-md hover:shadow-xl transition-all duration-300"
+              >
+                <div 
+                  className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-purple-100 to-blue-100 rounded-bl-full opacity-20 transform group-hover:scale-110 transition-transform duration-300" 
+                />
+                
+                <div className="relative z-10">
+                  <div className="mb-4 sm:mb-6">
+                    {index % 3 === 0 && <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-purple-500" />}
+                    {index % 3 === 1 && <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-500" />}
+                    {index % 3 === 2 && <Star className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500" />}
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
+                    {cardData.heading}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-600">
+                    {cardData.description}
+                  </p>
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
-                  {cardData.heading}
-                </h3>
-                <p className="text-sm sm:text-base text-gray-600">
-                  {cardData.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  );
-};
+      </section>
+    );
+  };
 
-
- 
-
-
-   // Enhanced Image Toggle Section
-   const ImageToggleClient: React.FC<ImageToggleClientProps> = ({ withRubicrUrl, withoutRubicrUrl }) => {
+  // Image Toggle Section
+  const ImageToggleClient = () => {
     const [showRubric, setShowRubric] = useState(true);
     const videoRef = useRef<HTMLVideoElement | null>(null);
+    const imageData = staticData.imageToggler;
 
     const handleSelection = (isRubric: boolean) => {
       setShowRubric(isRubric);
@@ -818,7 +568,10 @@ const EnhancedHomePage: React.FC = () => {
     }, [showRubric]);
 
     const renderMedia = () => {
-      const url = showRubric ? withRubicrUrl : withoutRubicrUrl;
+      const url = showRubric 
+        ? imageData.with_rubicr.data.attributes.url 
+        : imageData.without_rubicr.data.attributes.url;
+      
       const isVideo = url.toLowerCase().endsWith('.mov') || url.toLowerCase().endsWith('.mp4');
 
       if (isVideo) {
@@ -844,8 +597,7 @@ const EnhancedHomePage: React.FC = () => {
           src={url}
           width={800}
           height={800}
-          quality={75} // Adjust quality
-          
+          quality={75}
           alt={showRubric ? "With Rubicr" : "Without Rubicr"}
           className="max-w-full h-auto rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-105"
         />
@@ -910,43 +662,7 @@ const EnhancedHomePage: React.FC = () => {
     );
   };
 
-  // Fetch image toggle data
-  const ImageToggleServer: React.FC = () => {
-    const [imageData, setImageData] = useState<ImageTogglerData | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-
-    useEffect(() => {
-      const fetchImageData = async () => {
-        try {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/home?populate[0]=image_toggler.with_rubicr&populate[1]=image_toggler.without_rubicr`
-          );
-          
-          if (!response.ok) throw new Error('Failed to fetch image data');
-          
-          const data = await response.json();
-          setImageData(data.data.attributes.image_toggler);
-        } catch (err) {
-          setError(err instanceof Error ? err : new Error('An unknown error occurred'));
-        }
-      };
-
-      fetchImageData();
-    }, []);
-
-   
-    if (!imageData) return null
-
-    return (
-      <ImageToggleClient
-        withRubicrUrl={`${process.env.NEXT_PUBLIC_API_URL}${imageData.with_rubicr.data.attributes.url}`}
-        withoutRubicrUrl={`${process.env.NEXT_PUBLIC_API_URL}${imageData.without_rubicr.data.attributes.url}`}
-      />
-    );
-  };
-
-
-
+  // Our Reach Section
   const OurReach = () => {
     const countries = [
       { name: 'Saudi Arabia', flag: '/saudi.jpg' },
@@ -957,37 +673,39 @@ const EnhancedHomePage: React.FC = () => {
       { name: 'Belgium', flag: '/belgium.png' }
     ];
   
-    
-  
     return (
       <section className="py-12 bg-black text-white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300">
-          Our Global Reach
-        </h2>
-       
-        <div className="flex justify-center mb-20">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12">
-            {countries.map((country, index) => (
-              <div key={index} className="flex flex-col items-center group">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden mb-4 border-4 border-transparent group-hover:border-blue-400 transition-all duration-300 transform group-hover:scale-110">
-                  <Image src={country.flag} alt={country.name} width={96} height={96} className="object-cover" />
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-16 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300">
+            Our Global Reach
+          </h2>
+         
+          <div className="flex justify-center mb-20">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12">
+              {countries.map((country, index) => (
+                <div key={index} className="flex flex-col items-center group">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden mb-4 border-4 border-transparent group-hover:border-blue-400 transition-all duration-300 transform group-hover:scale-110">
+                    <Image 
+                      src={country.flag} 
+                      alt={country.name} 
+                      width={96} 
+                      height={96} 
+                      className="object-cover" 
+                    />
+                  </div>
+                  <span className="text-sm sm:text-base md:text-lg font-semibold group-hover:text-blue-400 transition-colors duration-300 text-center">
+                    {country.name}
+                  </span>
                 </div>
-                <span className="text-sm sm:text-base md:text-lg font-semibold group-hover:text-blue-400 transition-colors duration-300 text-center">
-                  {country.name}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-       
-      </div>
-    </section>
+      </section>
     );
   };
 
-
-  // Keep existing return statement structure with updated components
+  // Main Return
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar className="fixed top-0 left-0 right-0 z-50" />
@@ -998,11 +716,9 @@ const EnhancedHomePage: React.FC = () => {
         <UseCases />
         <WhyRubicr />
         <Feedback />
-        <ImageToggleServer />
-        
+        <ImageToggleClient />
         <OurReach />
         
-        {/* Keep existing CTA section */}
         <div className="py-10">
           <section className="bg-gradient-to-r from-yellow-500 to-yellow-700 py-20 mx-8 md:mx-20 rounded-3xl mb-20 shadow-2xl">
             <div className="max-w-screen-xl mx-auto px-4 text-center">
