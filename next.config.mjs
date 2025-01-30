@@ -2,25 +2,11 @@
 const isLocalhost = process.env.NODE_ENV === 'development';
 const nextConfig = {
     images: {
-        domains: ['localhost', 'rubicr.ai', 'www.rubicr.ai'],
+        domains: ['localhost'],
         unoptimized: true,
     },
+    // Remove basePath and env configurations
     trailingSlash: true,
-    async redirects() {
-        return [
-            {
-                source: '/:path*',
-                has: [
-                    {
-                        type: 'host',
-                        value: 'www.rubicr.ai',
-                    },
-                ],
-                destination: 'https://rubicr.ai/:path*',
-                permanent: true,
-            },
-        ];
-    },
 };
 
 export default nextConfig;
