@@ -1,75 +1,69 @@
-import { cache } from 'react';
-import React, { Suspense, useState, useRef, useEffect } from 'react';
-import Image from "next/image";
+"use client"
+import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
-// Interfaces for type safety
-interface ImageAttributes {
-  url: string;
-}
-
-interface ImageData {
-  data: {
-    attributes: ImageAttributes;
+interface ImageTogglerData {
+  with_rubicr: {
+    data: {
+      attributes: {
+        url: string;
+      };
+    };
   };
-}
-
-interface ImageToggler {
-  with_rubicr: ImageData;
-  without_rubicr: ImageData;
-}
-
-interface ApiResponse {
-  data: {
-    attributes: {
-      image_toggler: ImageToggler;
+  without_rubicr: {
+    data: {
+      attributes: {
+        url: string;
+      };
     };
   };
 }
 
-// Cached data fetching function
-const getImageData = cache(async () => {
-  try {
-    const response = await fetch(
-      `${BASE_URL}/api/home?populate[0]=image_toggler.with_rubicr&populate[1]=image_toggler.without_rubicr`, 
-      { 
-        cache: 'force-cache',
-        next: { revalidate: 3600 } // Revalidate every hour
+const ImageToggle = () => {
+  const [imageData, setImageData] = useState<ImageTogglerData | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [showRubric, setShowRubric] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const fetchImageData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/home?populate[0]=image_toggler.with_rubicr&populate[1]=image_toggler.without_rubicr`
+        );
+        
+        if (!response.ok) throw new Error('Failed to fetch image data');
+        
+        const data = await response.json();
+        setImageData(data.data.attributes.image_toggler);
+      } catch (err) {
+        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
       }
-    );
+    };
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch data');
+    fetchImageData();
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.error("Error playing video:", error);
+      });
     }
-
-    const responseData: ApiResponse = await response.json();
-    return responseData.data.attributes.image_toggler;
-  } catch (error) {
-    console.error('Error fetching image data:', error);
-    throw error;
-  }
-});
-
-// Client-side component
-function ImageToggleClient({ withRubicrUrl, withoutRubicrUrl }: { withRubicrUrl: string; withoutRubicrUrl: string }) {
-  const [showRubric, setShowRubric] = useState<boolean>(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  }, [showRubric]);
 
   const handleSelection = (isRubric: boolean) => {
     setShowRubric(isRubric);
   };
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(error => {
-        console.error("Error attempting to play the video:", error);
-      });
-    }
-  }, [showRubric]);
-
   const renderMedia = () => {
-    const url = showRubric ? withRubicrUrl : withoutRubicrUrl;
+    if (!imageData) return null;
+
+    const url = showRubric 
+      ? `${process.env.NEXT_PUBLIC_API_URL}${imageData.with_rubicr.data.attributes.url}`
+      : `${process.env.NEXT_PUBLIC_API_URL}${imageData.without_rubicr.data.attributes.url}`;
+    
     const isVideo = url.toLowerCase().endsWith('.mov') || url.toLowerCase().endsWith('.mp4');
 
     if (isVideo) {
@@ -83,82 +77,83 @@ function ImageToggleClient({ withRubicrUrl, withoutRubicrUrl }: { withRubicrUrl:
           muted
           playsInline
           autoPlay
-          className="max-w-full h-auto rounded-lg shadow-lg transform transition duration-500 hover:scale-105"
+          className="max-w-full h-auto rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-105"
         >
-          Your browser does not support the video tag.
+          Your browser does not support video playback.
         </video>
       );
-    } else {
-      return (
-        <Image
-          src={url}
-          width={800}
-          height={800}
-          alt={showRubric ? "Media with Rubicr" : "Media without Rubicr"}
-          className="max-w-full h-auto rounded-lg shadow-lg transform transition duration-500 hover:scale-105"
-        />
-      );
     }
-  };
 
-  return (
-    <>
-      <div className="flex justify-center mb-6">
-        <div className="relative flex items-center w-64 h-10 p-1 bg-gray-300 rounded-full">
-          <div
-            className={`absolute top-0 bottom-0 left-0 h-full w-1/2 rounded-full transition-transform duration-300 ${showRubric ? 'bg-yellow-300 transform translate-x-0' : 'bg-yellow-300 transform translate-x-full'}`}
-          ></div>
-          <div className="flex w-full z-10">
-            <span
-              className={`w-1/2 text-center cursor-pointer ${showRubric ? 'text-white' : 'text-gray-700'}`}
-              onClick={() => handleSelection(true)}
-            >
-              With Rubicr
-            </span>
-            <span
-              className={`w-1/2 text-center cursor-pointer ${!showRubric ? 'text-white' : 'text-gray-700'}`}
-              onClick={() => handleSelection(false)}
-            >
-              Without Rubicr
-            </span>
-          </div>
-        </div>
-      </div>
-      
-      <div className="flex justify-center mb-8">
-        {renderMedia()}
-      </div>
-    </>
-  );
-}
-
-// Async component with built-in error handling
-async function ImageContent() {
-  try {
-    const data = await getImageData();
     return (
-      <ImageToggleClient
-        withRubicrUrl={`${BASE_URL}${data.with_rubicr.data.attributes.url}`}
-        withoutRubicrUrl={`${BASE_URL}${data.without_rubicr.data.attributes.url}`}
+      <Image
+        src={url}
+        width={800}
+        height={800}
+        quality={75}
+        alt={showRubric ? "With Rubicr" : "Without Rubicr"}
+        className="max-w-full h-auto rounded-2xl shadow-xl transform transition-all duration-500 hover:scale-105"
       />
     );
-  } catch (error) {
-    return <div>Error loading images</div>;
-  }
-}
+  };
 
-// Server-side component
-export default function ImageToggleServer() {
+  if (!imageData) return null;
+
   return (
-    <div className="bg-yellow-100 py-16 px-4 md:px-8 min-h-screen flex items-center justify-center">
-      <div className="bg-black rounded-2xl shadow-2xl p-8 max-w-screen-lg w-full">
-        <h2 className="text-4xl font-extrabold mb-6 text-center text-white">
-          How Rubicr Simplifies Your ESG Journey
-        </h2>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ImageContent />
-        </Suspense>
+    <section className="bg-black py-20">
+      <div className="container mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl font-bold text-white mb-6">
+            How Rubicr Simplifies Your ESG Journey
+          </h2>
+        </motion.div>
+
+        <div className="flex justify-center mb-8">
+          <div className="relative flex items-center w-64 h-12 p-1 bg-gray-800 rounded-full">
+            <motion.div
+              initial={false}
+              animate={{
+                x: showRubric ? 0 : '100%'
+              }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              className="absolute w-1/2 h-full bg-yellow-400 rounded-full"
+            />
+            <div className="relative z-10 flex w-full text-sm">
+              <button
+                onClick={() => handleSelection(true)}
+                className={`w-1/2 transition-colors duration-200 ${
+                  showRubric ? 'text-black' : 'text-white'
+                }`}
+              >
+                With Rubicr
+              </button>
+              <button
+                onClick={() => handleSelection(false)}
+                className={`w-1/2 transition-colors duration-200 ${
+                  !showRubric ? 'text-black' : 'text-white'
+                }`}
+              >
+                Without Rubicr
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex justify-center"
+        >
+          {renderMedia()}
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
-}
+};
+
+export default ImageToggle;

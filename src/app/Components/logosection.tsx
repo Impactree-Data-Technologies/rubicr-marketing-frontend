@@ -1,7 +1,7 @@
-// components/LogoSection.tsx
+"use client"
 import React from 'react';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface Logo {
   attributes: {
@@ -52,10 +52,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
-          <motion.div
-            variants={headerVariants}
-            className="text-center mb-16"
-          >
+          <motion.div variants={headerVariants} className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-sans">
               {title}
             </h2>
@@ -79,10 +76,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
               }}
             >
               {duplicatedLogos.map((logo, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 group relative"
-                >
+                <div key={index} className="flex-shrink-0 group relative">
                   <div className="relative p-3 md:p-6 bg-white rounded-xl border border-gray-100 backdrop-blur-sm hover:shadow-lg transition-all duration-300 w-32 h-16 md:w-48 md:h-24 flex items-center justify-center">
                     <div className="relative w-full h-full">
                       <Image
@@ -91,6 +85,7 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
                         fill
                         className="object-contain transition-all duration-300"
                         loading="lazy"
+                        quality={75}
                       />
                     </div>
                     <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-200 group-hover:ring-indigo-100" />
@@ -102,7 +97,6 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
         </motion.div>
       </div>
 
-      {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
       <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
       <div className="absolute bottom-0 left-1/2 w-32 h-32 bg-pink-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
