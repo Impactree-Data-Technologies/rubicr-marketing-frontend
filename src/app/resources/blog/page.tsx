@@ -19,6 +19,8 @@ interface Post {
 
 const categories = [
   "ALL",
+  "ESG Insights & Analysis",
+  "Social Impact & Corporate Responsibility"
 ] as const;
 
 type Category = typeof categories[number];

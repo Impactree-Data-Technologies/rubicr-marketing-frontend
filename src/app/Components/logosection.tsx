@@ -1,22 +1,11 @@
-// components/LogoSection.tsx
-import React from 'react';
-import Image from 'next/image';
+// components/LogoSection.js
+"use client"
+
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { staticData } from '../../data/static-data';
 
-interface Logo {
-  attributes: {
-    url: string;
-    name: string;
-  };
-}
-
-interface LogoSectionProps {
-  title: string;
-  description: string;
-  logos: Logo[];
-}
-
-const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) => {
+const LogoSection = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -40,7 +29,11 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
     }
   };
 
-  const duplicatedLogos = [...logos, ...logos, ...logos];
+  const duplicatedLogos = [
+    ...staticData.logos.logos,
+    ...staticData.logos.logos,
+    ...staticData.logos.logos
+  ];
 
   return (
     <section className="py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
@@ -56,11 +49,11 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
             variants={headerVariants}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 font-sans">
-              {title}
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              {staticData.logos.title}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-sans leading-relaxed">
-              {description}
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {staticData.logos.description}
             </p>
           </motion.div>
 
@@ -86,14 +79,14 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
                   <div className="relative p-3 md:p-6 bg-white rounded-xl border border-gray-100 backdrop-blur-sm hover:shadow-lg transition-all duration-300 w-32 h-16 md:w-48 md:h-24 flex items-center justify-center">
                     <div className="relative w-full h-full">
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_API_URL}${logo.attributes.url}`}
+                        src={logo.attributes.url}
                         alt={logo.attributes.name}
                         fill
                         className="object-contain transition-all duration-300"
                         loading="lazy"
+                        quality={75}
                       />
                     </div>
-                    <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-200 group-hover:ring-indigo-100" />
                   </div>
                 </div>
               ))}
@@ -101,11 +94,6 @@ const LogoSection: React.FC<LogoSectionProps> = ({ title, description, logos }) 
           </div>
         </motion.div>
       </div>
-
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob" />
-      <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000" />
-      <div className="absolute bottom-0 left-1/2 w-32 h-32 bg-pink-50 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000" />
     </section>
   );
 };
