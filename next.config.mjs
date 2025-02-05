@@ -6,6 +6,7 @@ const nextConfig = {
         unoptimized: true,
     },
     trailingSlash: true,
+    reactStrictMode : true,
     async redirects() {
         return [
             {
