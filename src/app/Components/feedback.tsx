@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect, useCallback, TouchEvent } from 'react';
 import { ChevronRight, ChevronLeft, Quote, Star } from 'lucide-react';
 import Image from 'next/image';

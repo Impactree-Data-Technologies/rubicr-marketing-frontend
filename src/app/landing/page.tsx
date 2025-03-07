@@ -89,13 +89,13 @@ const LandingPage: React.FC = () => {
         
         {/* Left Content Side */}
         <div className="w-full lg:w-1/2 p-6 lg:p-12 flex items-center mt-8 relative">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-          <div className="absolute top-0 right-0 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute top-0 left-0 w-72 h-72 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+          <div className="absolute top-0 right-0 w-72 h-72 bg-bg-amber-500-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
           <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
           
           <div className="max-w-lg mx-auto relative">
             <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
-              Drive Sustainability & Profitability <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">with Rubicr</span>
+              Drive Sustainability & Profitability <span className="bg-clip-text text-transparent bg-amber-500">with Rubicr</span>
             </h1>
             
             <p className="text-lg text-slate-300 mb-8">
@@ -145,7 +145,7 @@ const LandingPage: React.FC = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border ${errors.firstName ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-white placeholder-slate-400`}
+                    className={`w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border ${errors.firstName ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all text-white placeholder-slate-400`}
                     placeholder="First name"
                   />
                   {errors.firstName && <p className="text-sm text-rose-400 mt-1">{errors.firstName}</p>}
@@ -158,7 +158,7 @@ const LandingPage: React.FC = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border ${errors.lastName ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-white placeholder-slate-400`}
+                    className={`w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border ${errors.lastName ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all text-white placeholder-slate-400`}
                     placeholder="Last name"
                   />
                   {errors.lastName && <p className="text-sm text-rose-400 mt-1">{errors.lastName}</p>}
@@ -172,7 +172,7 @@ const LandingPage: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border ${errors.email ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-white placeholder-slate-400`}
+                  className={`w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border ${errors.email ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all text-white placeholder-slate-400`}
                   placeholder="Business email"
                 />
                 {errors.email && <p className="text-sm text-rose-400 mt-1">{errors.email}</p>}
@@ -180,7 +180,7 @@ const LandingPage: React.FC = () => {
 
               <div>
                 <div className="flex">
-                  <select className="px-3 py-3 rounded-l-lg border border-r-0 border-slate-500/30 bg-white/10 backdrop-blur-sm text-white text-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all">
+                  <select className="px-3 py-3 rounded-l-lg border border-r-0 border-slate-500/30 bg-white/10 backdrop-blur-sm text-white text-sm focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all">
                     <option>+91</option>
                   </select>
                   <input
@@ -189,7 +189,7 @@ const LandingPage: React.FC = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className={`flex-1 px-4 py-3 rounded-r-lg bg-white/10 backdrop-blur-sm border ${errors.phone ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all text-white placeholder-slate-400`}
+                    className={`flex-1 px-4 py-3 rounded-r-lg bg-white/10 backdrop-blur-sm border ${errors.phone ? 'border-rose-500/50' : 'border-slate-500/30'} focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all text-white placeholder-slate-400`}
                     placeholder="Phone number"
                   />
                 </div>
@@ -198,7 +198,7 @@ const LandingPage: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-3 rounded-lg hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-800 font-semibold transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-indigo-500/25"
+                className="w-full bg-amber-500 text-white py-3 rounded-lg hover:from-amber-500 hover:to-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-slate-800 font-semibold transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-amber-500/25"
               >
                 Send Message
               </button>
@@ -213,14 +213,14 @@ const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-white mb-12">
-              Why Choose Our <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">ESG Solutions</span>?
+              Why Choose Our <span className="bg-clip-text text-transparent bg-amber-500">ESG Solutions</span>?
             </h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Box 1 */}
-            <div className="group bg-white/5 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-700/50 hover:border-indigo-500/30">
-              <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
+            <div className="group bg-white/5 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-700/50 hover:border-amber-500/30">
+              <div className="h-12 w-12 rounded-lg bg-amber-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
@@ -234,8 +234,8 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Box 2 */}
-            <div className="group bg-white/5 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-700/50 hover:border-indigo-500/30">
-              <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
+            <div className="group bg-white/5 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-700/50 hover:border-amber-500/30">
+              <div className="h-12 w-12 rounded-lg bg-amber-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h1m0 4h1m0 4h1m-7 4h7" />
                 </svg>
@@ -249,8 +249,8 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Box 3 */}
-            <div className="group bg-white/5 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-700/50 hover:border-indigo-500/30">
-           <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
+            <div className="group bg-white/5 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-slate-700/50 hover:border-amber-500/30">
+           <div className="h-12 w-12 rounded-lg  bg-amber-500 flex items-center justify-center mb-6 group-hover:scale-110 transition-all">
                 <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
