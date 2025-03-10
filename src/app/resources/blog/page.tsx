@@ -17,6 +17,13 @@ interface Post {
   image: string;
 }
 
+interface ResearchPaper {
+  title: string;
+  authors: string;
+  pdfUrl: string;
+  thumbnailUrl: string;
+}
+
 const categories = [
   "ALL",
   "ESG Insights & Analysis",
@@ -32,6 +39,14 @@ const LatestPost: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category>("ALL");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const postsPerPage = 6;
+
+  // Research paper data
+  const researchPaper: ResearchPaper = {
+    title: "Demystifying Carbon Markets",
+    authors: "Vivek Shankaranarayanan & Ashlesha Kshirsagar",
+    pdfUrl: "/Demystifying Carbon Markets.pdf", 
+    thumbnailUrl: "/carbon1.jpeg" 
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -78,6 +93,11 @@ const LatestPost: React.FC = () => {
         behavior: 'smooth'
       });
     }
+  };
+
+  // Handle PDF click
+  const openPdf = () => {
+    window.open(researchPaper.pdfUrl, '_blank');
   };
 
   if (loading) return (
@@ -160,6 +180,63 @@ const LatestPost: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      {/* Research Paper Section - Placed after the latest post */}
+      <section className="p-6 md:p-12 lg:px-24 lg:py-16 bg-white">
+  <div className="max-w-screen-xl mx-auto">
+    <div className="flex flex-col md:flex-row bg-gradient-to-r from-[#ff6600] to-[#ff8533] rounded-2xl shadow-xl overflow-hidden transform transition-transform hover:scale-[1.01] duration-300">
+      <div className="w-full md:w-2/3 p-8 md:p-12 text-white">
+        <div className="space-y-6">
+          <span className="inline-block bg-white text-[#ff6600] text-xs px-4 py-2 rounded-full uppercase tracking-wider font-semibold">
+            Research Paper
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold leading-tight">
+            {researchPaper.title}
+          </h2>
+          <p className="text-lg opacity-90">
+            A comprehensive analysis of carbon market mechanisms, challenges, and opportunities
+          </p>
+          <div className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+              <span className="text-[#ff6600] text-lg font-bold">A</span>
+            </div>
+            <p className="text-sm md:text-base">{researchPaper.authors}</p>
+          </div>
+          <button 
+            onClick={openPdf}
+            className="mt-4 bg-white text-[#ff6600] px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all inline-flex items-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Read Paper
+          </button>
+        </div>
+      </div>
+      <div className="w-full md:w-1/3 relative h-64 md:h-auto">
+        <div className="absolute inset-0 flex items-center justify-center cursor-pointer" onClick={openPdf}>
+          <div className="relative w-48 h-64 shadow-2xl transform rotate-3 transition-transform group-hover:rotate-0 duration-300">
+            <Image
+              src={researchPaper.thumbnailUrl}
+              alt="Research paper thumbnail"
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-20 rounded-lg flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+              <div className="bg-white p-3 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#ff6600]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Blog Posts Grid Section */}
       <section className="bg-[#fdf6f0] p-6 md:p-12 lg:p-24">
